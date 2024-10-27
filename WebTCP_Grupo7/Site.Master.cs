@@ -11,6 +11,20 @@ namespace WebTCP_Grupo7
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+
+                loginLink.Visible = false;
+                signUpLink.Visible = false;
+                logoutLink.Visible = true;
+
+            }
+            else
+            {
+                loginLink.Visible = true;
+                signUpLink.Visible = true;
+                logoutLink.Visible = false;
+            }
 
         }
     }

@@ -17,5 +17,8 @@ namespace Dominio
         public string Direccion { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+
+        public List<Comentarios> Comentarios { get; set; }
+        public List<Likes> Likes { get; set; }
     }
 }

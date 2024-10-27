@@ -20,7 +20,8 @@ namespace Dominio
         public string Tipo { get; set; }
         public string Descripcion { get; set; }
 
-     public List<Comentarios> Comentarios { get; set; }
+        public List<Comentarios> Comentarios { get; set; }
+        public List<Likes> Likes { get; set; }
 
 
     }

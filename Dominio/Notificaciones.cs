@@ -14,8 +14,6 @@ namespace Dominio
         public DateTime FechaNotificacion { get; set; }
         public bool EsLeida { get; set; }
 
-    
-
         public Ususario Usuario { get; set; }
 
     }

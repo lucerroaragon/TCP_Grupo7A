@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    internal class Like
+    public class Likes
     {
+        public int IdLike { get; set; }
+        public int IdUsuario { get; set; }
+        public int IdPuntoReciclaje { get; set; }
+
+
+        public PuntosReciclaje PuntosReciclaje { get; set; }
+        public Ususario Ususario { get; set; }  
     }
 }
