@@ -103,6 +103,7 @@
     <Content Include="Contact.aspx" />
     <Content Include="Content\globalStyles.css" />
     <Content Include="Default.aspx" />
+    <Content Include="DetalleCentro.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="img\logo.jpeg" />
@@ -160,6 +161,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DetalleCentro.aspx.cs">
+      <DependentUpon>DetalleCentro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DetalleCentro.aspx.designer.cs">
+      <DependentUpon>DetalleCentro.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
