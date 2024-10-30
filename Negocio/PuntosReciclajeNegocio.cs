@@ -19,17 +19,8 @@ namespace Negocio
 
             try
             {
-                datos.setearProcedimiento("storedListarPuntosReciclaje");
-                //    /*
-                //     * "Stored Procedure"
-                //        create procedure storedListarArticulo as
-                //        Select A.Id IdArticulo, A.Codigo, A.Nombre, M.Descripcion Marca, M.id IdMarca, C.Descripcion Categoria,
-                //        C.Id IdCategoria, A.Precio, A.Descripcion, I.ImagenUrl
-                //        from ARTICULOS A
-                //        INNER JOIN MARCAS M ON A.IdMarca = M.Id
-                //        INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id
-                //        LEFT JOIN IMAGENES I ON A.Id = I.IdArticulo
-                //    */
+                datos.setearProcedimiento("sp_PuntoReciclaje");
+               
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -45,26 +36,26 @@ namespace Negocio
                             IdPuntoReciclaje = idPuntoReciclaje,
                             Nombre = (string)datos.Lector["Nombre"],
                             Direccion = (string)datos.Lector["Direccion"],
-                            Horario = (string)datos.Lector["Horario"],
+                            Horario = datos.Lector["Horario"].ToString(),
                             Telefono = (string)datos.Lector["Telefono"],
-                            Imagen = (string)datos.Lector["Imagen"],
-                            Latitud = (string)datos.Lector["Latitud"],
-                            Longitud = (string)datos.Lector["Longitud"],
-                            Tipo = (string)datos.Lector["Tipo"],
-                            Descripcion = (string)datos.Lector["Descripcion"],
-                            Comentarios = new List<Comentarios>(),
-                            Likes = new List<Likes>(),
+                            //Imagen = (string)datos.Lector["Imagen"],
+                            //Latitud = (string)datos.Lector["Latitud"],
+                            //Longitud = (string)datos.Lector["Longitud"],
+                            //Tipo = (string)datos.Lector["Tipo"],
+                            //Descripcion = (string)datos.Lector["Descripcion"],
+                            //Comentarios = new List<Comentarios>(),
+                            //Likes = new List<Likes>(),
                             Imagenes = new List<string>()
                         };
 
                         lista.Add(aux);
                     }
 
-                    if (!(datos.Lector["ImagenUrl"] is DBNull))
-                    {
-                        string imageUrl = (string)datos.Lector["ImagenUrl"];
-                        aux.Imagenes.Add(imageUrl);
-                    }
+                    //if (!(datos.Lector["Imagenes"] is DBNull))
+                    //{
+                    //    string imagenes = (string)datos.Lector["Imagenes"];
+                    //    aux.Imagenes.Add(imagenes);
+                    //}
                 }
 
                 return lista;
