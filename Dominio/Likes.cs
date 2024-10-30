@@ -14,6 +14,6 @@ namespace Dominio
 
 
         public PuntosReciclaje PuntosReciclaje { get; set; }
-        public Ususario Ususario { get; set; }  
+        public Usuario Ususario { get; set; }  
     }
 }

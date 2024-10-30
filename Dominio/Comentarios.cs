@@ -15,6 +15,6 @@ namespace Dominio
         public DateTime FechaCometario { get; set; }
 
         public PuntosReciclaje PuntosReciclaje { get; set; }
-        public Ususario Ususario { get; set; }
+        public Usuario Ususario { get; set; }
     }
 }

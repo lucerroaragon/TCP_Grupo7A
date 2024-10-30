@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Negocio;
 
 namespace WebTCP_Grupo7
 {
@@ -11,20 +12,28 @@ namespace WebTCP_Grupo7
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (HttpContext.Current.User.Identity.IsAuthenticated)
+            if (!(Page is InicioSesion || Page is _Default || Page is Mision || Page is RegistrarUsuario))
             {
-
-                loginLink.Visible = false;
-                signUpLink.Visible = false;
-                logoutLink.Visible = true;
-
+                if (!Seguridad.ValidarUsuario(Session["Usuario"]))
+                {
+                    Response.Redirect("InicioSesion.aspx");
+                }
+            
             }
-            else
-            {
-                loginLink.Visible = true;
-                signUpLink.Visible = true;
-                logoutLink.Visible = false;
-            }
+            //if (HttpContext.Current.User.Identity.IsAuthenticated)
+            //{
+
+            //    iniciarsesionLink.Visible = false;
+            //    registarseLink.Visible = false;
+            //    cerrarsesionLink.Visible = true;
+
+            //}
+            //else
+            //{
+            //    iniciarsesionLink.Visible = true;
+            //    registarseLink.Visible = true;
+            //    cerrarsesionLink.Visible = false;
+            //}
 
         }
     }
