@@ -45,7 +45,7 @@
     <Compile Include="Likes.cs" />
     <Compile Include="Notificaciones.cs" />
     <Compile Include="Reportes.cs" />
-    <Compile Include="Ususario.cs" />
+    <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PuntosReciclaje.cs" />
   </ItemGroup>
