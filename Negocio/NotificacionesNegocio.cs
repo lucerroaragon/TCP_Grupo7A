@@ -10,7 +10,7 @@ namespace Negocio
 {
     public class NotificacionesNegocio
     {
-        // Listar todas las notificaciones de un usuario
+
         public List<Notificaciones> ListarPorUsuario(int usuarioId)
         {
             List<Notificaciones> lista = new List<Notificaciones>();

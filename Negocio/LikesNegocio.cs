@@ -11,7 +11,7 @@ namespace Negocio
 {
     public class LikesNegocio
     {
-        // Listar todos los likes de un punto de reciclaje
+
         public List<Likes> ListarPorPuntoReciclaje(int idPuntoReciclaje)
         {
             List<Likes> lista = new List<Likes>();
@@ -89,7 +89,7 @@ namespace Negocio
                 datos.setearParametro("@IdPuntoReciclaje", idPuntoReciclaje);
 
                 int count = (int)datos.ejecutarEscalar();
-                return count > 0; // Retorna true si ya existe un "me gusta"
+                return count > 0;
             }
             catch (Exception ex)
             {

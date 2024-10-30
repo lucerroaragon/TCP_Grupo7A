@@ -9,7 +9,7 @@ namespace Negocio
 {
     public class ComentariosNegocio
     {
-        // Listar todos los comentarios
+ 
         public List<Comentarios> Listar()
         {
             List<Comentarios> lista = new List<Comentarios>();
@@ -29,8 +29,8 @@ namespace Negocio
                         IdPuntoReciclaje = (int)datos.Lector["IdPuntoReciclaje"],
                         Contenido = (string)datos.Lector["Comentario"],
                         FechaCometario = (DateTime)datos.Lector["Fecha"],
-                        PuntosReciclaje = new PuntosReciclaje { IdPuntoReciclaje = (int)datos.Lector["IdPuntoReciclaje"] }, // Relación básica
-                        Ususario = new Usuario { idUsuario = (int)datos.Lector["IdUsuario"] } // Relación básica
+                        PuntosReciclaje = new PuntosReciclaje { IdPuntoReciclaje = (int)datos.Lector["IdPuntoReciclaje"] }, 
+                        Ususario = new Usuario { idUsuario = (int)datos.Lector["IdUsuario"] } 
                     };
 
                     lista.Add(comentario);
@@ -60,7 +60,7 @@ namespace Negocio
                 datos.setearParametro("@IdUsuario", comentario.IdUsuario);
                 datos.setearParametro("@Comentario", comentario.Contenido);
                 datos.setearParametro("@Fecha", comentario.FechaCometario);
-                datos.setearParametro("@Estado", 1); // Estado activo por defecto
+                datos.setearParametro("@Estado", 1); 
 
                 datos.ejecutarAccion();
             }
