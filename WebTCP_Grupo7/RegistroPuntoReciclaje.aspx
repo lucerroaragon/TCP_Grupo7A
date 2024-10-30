@@ -6,7 +6,7 @@
         <p class="text-center mb-5">Ingrese los datos del punto de reciclaje:</p>
 
         <div runat="server">
-            <div class="row  justify-content-center">
+            <div class="row  justify-content-left">
 
                 <!-- Nombre del punto -->
                 <div class="col-md-6 col-lg-7 fw-bold ">
@@ -37,7 +37,14 @@
                     <asp:RequiredFieldValidator ErrorMessage="Dirección requerida" ControlToValidate="txtDireccion" runat="server" CssClass="text-danger" />
                 </div>
 
-                <!-- Ciudad --> 
+                <!-- Provincia -->
+                <div class="col-md-6 col-lg-7 fw-bold">
+                    <label for="txtProvincia" class="form-label">Provincia</label>
+                    <asp:TextBox runat="server" ClientIDMode="Static" ID="txtProvincia" class="form-control" placeholder="ciudad" />
+                    <asp:RequiredFieldValidator ErrorMessage="Provincia requerida" ControlToValidate="txtCiudad" runat="server" CssClass="text-danger" />
+                </div>
+
+                <!-- Ciudad -->
                 <div class="col-md-6 col-lg-7 fw-bold">
                     <label for="txtCiudad" class="form-label">Ciudad</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" ID="txtCiudad" class="form-control" placeholder="ciudad" />
