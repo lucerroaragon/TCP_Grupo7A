@@ -1,0 +1,28 @@
+﻿:root {
+    /* Paleta de colores */
+    --primary-color: #4CAF50;
+    --secondary-color: #2C3E50;
+    --bg-color: #F4F4F9;
+    --text-color: #333333;
+    --font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    overflow-x: hidden;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
