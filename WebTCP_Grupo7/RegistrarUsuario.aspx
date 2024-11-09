@@ -8,54 +8,57 @@
                 <p class="form-description">Por favor, completa los datos para registrarte.</p>
             </div>
 
+            <!-- Fila con dos columnas -->
             <div class="row justify-content-center">
-                 <div class="col-md-3">
-                        <label for="txtNombreUsuario" class="form-label">Nombre de usuario</label>
-                        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombreUsuario" class="form-control" placeholder="nombre usuario" />
+                <div class="col-md-6">
+                    <label for="txtNombreUsuario" class="form-label">Nombre de usuario</label>
+                    <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombreUsuario" class="form-control" placeholder="nombre usuario" />
                     <asp:RequiredFieldValidator ErrorMessage="Nombre de usuario requerido" ControlToValidate="txtNombreUsuario" runat="server" CssClass="text-danger" />
-                    </div>
-                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
                     <label for="txtNombre" class="form-label">Nombre</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombre" class="form-control" placeholder="nombre" />
                     <asp:RequiredFieldValidator ErrorMessage="Nombre requerido" ControlToValidate="txtNombre" runat="server" CssClass="text-danger" />
                 </div>
-                <div class="col-md-3">
+            </div>
+
+            <!-- Fila con dos columnas -->
+            <div class="row justify-content-center">
+                <div class="col-md-6">
                     <label for="txtApellido" class="form-label">Apellido</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" ID="txtApellido" class="form-control" placeholder="apellido" />
                     <asp:RequiredFieldValidator ErrorMessage="Apellido requerido" ControlToValidate="txtApellido" runat="server" CssClass="text-danger" />
                 </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label for="txtEmail" class="form-label">Email</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" ID="txtEmail" class="form-control" placeholder="email" />
                     <asp:RequiredFieldValidator ErrorMessage="Email requerido" ControlToValidate="txtEmail" runat="server" CssClass="text-danger" />
                     <asp:RegularExpressionValidator ErrorMessage="Formato de email inválido" ControlToValidate="txtEmail" ValidationExpression="^[^\s@]+@[^\s@]+\.[^\s@]+$" runat="server" CssClass="text-danger" />
                 </div>
+            </div>
 
-                <div class="col-md-3">
+            <!-- Fila con dos columnas -->
+            <div class="row justify-content-center">
+                <div class="col-md-6">
                     <label for="txtPassword" class="form-label">Contraseña</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" ID="txtPassword" class="form-control" placeholder="Contraseña" TextMode="Password" />
                     <asp:RequiredFieldValidator ErrorMessage="Contraseña requerida" ControlToValidate="txtPassword" runat="server" CssClass="text-danger" />
                     <asp:CompareValidator ErrorMessage="Las contraseñas no coinciden" ControlToValidate="txtPassword" ControlToCompare="txtConfirmPassword" Operator="Equal" runat="server" CssClass="text-danger" />
                 </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label for="txtConfirmPassword" class="form-label">Confirmar Contraseña</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" ID="txtConfirmPassword" class="form-control" placeholder="Confirmar Contraseña" TextMode="Password" />
                     <asp:RequiredFieldValidator ErrorMessage="Confirmar Contraseña requerida" ControlToValidate="txtConfirmPassword" runat="server" CssClass="text-danger" />
                 </div>
             </div>
 
+            <!-- Botones de acción -->
             <div class="row justify-content-center">
-                <div class="col-md-1">
+                <div class="col-md-6 text-center">
                     <asp:Button Text="Registrarse" CssClass="btn btn-primary" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
                 </div>
-                <div class="col-md-1">
-                    <asp:Button Text="Cancelar" CssClass="btn btn-primary" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
+                <div class="col-md-6 text-center">
+                    <asp:Button Text="Cancelar" CssClass="btn btn-secondary" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
                 </div>
             </div>
         </div>

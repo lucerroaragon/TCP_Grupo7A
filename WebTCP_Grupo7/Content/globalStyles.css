@@ -27,7 +27,8 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
-    font-size: 24px; /* Títulos de 24px */
+    font-size: 20px; /* Títulos de 20px */
+    font-weight:bold;
 }
 
 /* Botones */
@@ -197,17 +198,24 @@ header {
 }
 
 .form-label {
-    font-weight: bold;
-    color: #333;
+    color: var( --text-color);
+    font-size: 18px;
+}
+
+p{
+    color: var( --text-color);
+    font-size: 14px;
 }
 
 .form-control {
     border-radius: 5px;
     border: 1px solid #ccc;
-    padding: 10px   15px;
+    padding: 10px 15px;
     font-size: 16px;
-    width: 100%;
+    width: 80%; /* Cambiar el 100% por un valor más pequeño */
+    max-width: 300px; /* Limitar el ancho máximo */
 }
+
 
     .form-control:focus {
         border-color: #007bff;
