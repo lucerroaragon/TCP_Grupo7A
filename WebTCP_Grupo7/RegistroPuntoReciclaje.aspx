@@ -90,9 +90,18 @@
         <!-- Botones -->
         <div class="col-12 text-center mt-3 ">
             <asp:Button Text="Registrar" CssClass="btn btn-primary" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
-            <asp:Button Text="Cancelar" CssClass="btn btn-secondary ms-2" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
+            <asp:Button Text="Cancelar" CssClass="btn btn-secondary ms-2" OnClientClick="return confirmarCancelacion();" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
         </div>
 
     </div>
 
+    <!-- Mensaje de confirmación -->
+    <asp:Label runat="server" ID="lblMessage" CssClass="text-success mt-3" Visible="false"></asp:Label>
+
+    <!-- Script de confirmación -->
+    <script type="text/javascript">
+        function confirmarCancelacion() {
+            return confirm("¿Estás seguro de que deseas cancelar? Todos los cambios no guardados se perderán.");
+        }
+    </script>
 </asp:Content>
