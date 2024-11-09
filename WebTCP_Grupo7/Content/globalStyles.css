@@ -72,8 +72,7 @@ button, .btn {
 
     .card-value .card-title {
         font-size: 18px;
-        font-weight: bold;
-        color: var(--secondary-color);
+        color: var(--primary-color);
     }
 
     .card-value .card-body p {
@@ -98,14 +97,14 @@ button, .btn {
 
 /* Estilo de la sección de "Nosotros" */
 .display-4 {
-    font-size: 40px;
+    font-size: 20px;
     color: var(--secondary-color);
     margin-bottom: 20px;
+    font-weight:bold;
 }
 
 .lead {
-    font-size: 20px;
-    font-weight: 300;
+    font-size: 18px;
     color: var(--text-color);
 }
 
