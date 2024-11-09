@@ -20,6 +20,16 @@
                 <div class="text-center" style="margin-top: 10px;">
                     <asp:Button ID="btnIngresar" runat="server" Text="Iniciar Sesión" OnClick="btnIngresar_Click" CssClass="btn btn-primary" />
                 </div>
+
+                <!-- Enlace de Olvidé Contraseña -->
+                <div class="text-center mt-3">
+                    <a href="RecuperarContrasena.aspx" class="text-muted">¿Olvidaste tu contraseña?</a>
+                </div>
+                
+                <!-- Enlace de Registro para Usuarios no registrados -->
+                <div class="text-center mt-2">
+                    <p>¿No estás registrado? <a href="RegistrarUsuario.aspx" class="text-muted">Crea una cuenta</a></p>
+                </div>
             </div>
         </div>
     </div>
