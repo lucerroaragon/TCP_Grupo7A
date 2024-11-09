@@ -9,8 +9,9 @@
 
             <!-- Botón Call-to-Action -->
             <section class="cta" style="text-align: center; margin-top: 40px;">
-                <a href="Default.aspx" class="btn-cta" style="background-color: #4CAF50; color: white; padding: 15px 30px; text-decoration: none; font-size: 18px; border-radius: 5px;">Ver Centros de Reciclaje</a>
-            </section>
+    <a href="Default.aspx" class="btn-cta">Ver Centros de Reciclaje</a>
+</section>
         </section>
     </main>
 </asp:Content>
+
