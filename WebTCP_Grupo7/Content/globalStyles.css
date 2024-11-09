@@ -24,5 +24,163 @@ a {
     text-decoration: none;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    color: #000000;
+    font-size: 24px; /* Títulos de 24px */
+}
 
+/* Botones */
+button, .btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
+    button:hover, .btn:hover {
+        background-color: #45a049; /* Color más oscuro para el hover */
+    }
+
+/* Tarjetas de Valores */
+.card-value {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agregado para dar más profundidad */
+    transition: box-shadow 0.3s ease;
+}
+
+    .card-value:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Hover para resaltar las cards */
+    }
+
+    .card-value .card-body {
+        padding: 20px;
+    }
+
+    .card-value .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--secondary-color);
+    }
+
+    .card-value .card-body p {
+        font-size: 14px;
+        color: var(--text-color);
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Limita el texto a 3 líneas */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+/* Estructura general de la página */
+.container {
+    padding: 0 15px;
+}
+
+.row {
+    margin-bottom: 30px;
+}
+
+/* Estilo de la sección de "Nosotros" */
+.display-4 {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--text-color);
+}
+
+/* Imágenes */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Espaciado y márgenes */
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.my-5 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Estilo del header */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 0;
+}
+
+    header h1 {
+        font-size: 30px;
+        margin: 0;
+    }
+
+/* Banner */
+.banner {
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: 0;
+    padding: 0;
+}
+
+.description {
+    font-size: 1.25rem;
+    margin-top: 20px;
+    padding: 0;
+}
+
+/* Botón Call-to-Action */
+.cta {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn-cta {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+    .btn-cta:hover {
+        background-color: #0056b3;
+    }
