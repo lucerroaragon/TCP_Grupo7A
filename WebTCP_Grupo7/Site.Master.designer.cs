@@ -15,33 +15,6 @@ namespace WebTCP_Grupo7
     {
 
         /// <summary>
-        /// Control loginLink.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl loginLink;
-
-        /// <summary>
-        /// Control signUpLink.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl signUpLink;
-
-        /// <summary>
-        /// Control logoutLink.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl logoutLink;
-
-        /// <summary>
         /// Control btnLogoutSmall.
         /// </summary>
         /// <remarks>
