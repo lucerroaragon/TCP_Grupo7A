@@ -27,17 +27,11 @@
             </Scripts>
         </asp:ScriptManager>
 
-
-
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #0d9488;">
             <div class="container-fluid">
-                <div class="d-flex justify-content-center align-items-center">
-                       <a href="Home.aspx">
-                    <img src="/img/logo1.jpg" alt="Alternate Text" class="rounded-circle m-2" width="50" height="50" />
-                    
-                </div>
-
- 
+                <a class="navbar-brand" href="Home.aspx">
+                    <img src="/img/logo1.jpg" alt="Logo" class="rounded-circle m-2" width="50" height="50" />
+                </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -45,90 +39,69 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/Default.aspx">Puntos de reciclado </a>
+                            <a class="nav-link active" aria-current="page" href="/Default.aspx">Puntos de reciclado</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Mision.aspx">Sobre DaleRecicila</a>
+                            <a class="nav-link" href="/Mision.aspx">Sobre DaleRecicla</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" href="/Contact.aspx" tabindex="-1" aria-disabled="true">Contacto</a>
+                            <a class="nav-link" href="/Contact.aspx">Contacto</a>
                         </li>
-                        <%if (Negocio.Seguridad.ValidarUsuario(Session["Usuario"])) {  %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/RegistroPuntoReciclaje.aspx" tabindex="-1" aria-disabled="true">Agregar P. Reciclaje</a>
-                        </li>
-                        <%} %>
-                        <ul class="navbar-nav">
-                            <%if (!Negocio.Seguridad.ValidarUsuario(Session["Usuario"]))
-                                {  %>
-                            <li class="nav-item" runat="server" id="loginLink">
-                                <!-- Botón para pantallas pequeñas -->
-                                <button type="button" class="nav-link btn btn-light d-flex align-items-center d-sm-none" onclick="location.href='/InicioSesion.aspx'">
-                                    <i class="bi bi-lock-fill" style="margin-right: 10px"></i>Iniciar sesión
-                                </button>
-                                <!-- Botón para pantallas grandes -->
-                                <button type="button" class="nav-link btn btn-outline-light d-none d-sm-flex align-items-center" onclick="location.href='/InicioSesion.aspx'">
-                                    <i class="bi bi-lock-fill" style="margin-right: 10px"></i>Iniciar sesión
-                                </button>
-                            </li>
-                            <li class="nav-item" runat="server" id="signUpLink">
-                                <!-- Botón para pantallas pequeñas -->
-                                <button type="button" class="nav-link btn btn-light d-flex align-items-center d-sm-none" onclick="location.href='/RegistrarUsuario.aspx'">
-                                    <i class="bi bi-person-plus-fill" style="margin-right: 10px"></i>Registrate
-                                </button>
-                                <!-- Botón para pantallas grandes -->
-                                <button type="button" class="nav-link btn btn-outline-light d-none d-sm-flex align-items-center" onclick="location.href='/RegistrarUsuario.aspx'">
-                                    <i class="bi bi-person-plus-fill" style="margin-right: 10px"></i>Registrate
-                                </button>
-                            </li>
-                            <%}
-                            else
+                        <% if (Negocio.Seguridad.ValidarUsuario(Session["Usuario"]))
                             { %>
-                            <li class="nav-item" runat="server" id="logoutLink">
-                                <!-- Botón para pantallas pequeñas -->
-                                <asp:LinkButton ID="btnLogoutSmall" runat="server" CssClass="nav-link btn btn-light d-flex align-items-center d-sm-none" Text="Cerrar sesión" CommandName="Logout">
-                                <i class="bi bi-box-arrow-right" style="margin-right: 10px"></i>Cerrar Sesión
-                                </asp:LinkButton>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/RegistroPuntoReciclaje.aspx">Agregar P. Reciclaje</a>
+                        </li>
+                        <% } %>
 
-                                <!-- Botón para pantallas grandes -->
-                                <asp:LinkButton ID="btnLogoutLarge" runat="server" CssClass="nav-link btn btn-outline-light d-none d-sm-flex align-items-center" Text="Cerrar sesión" CommandName="Logout">
-                                <i class="bi bi-box-arrow-right" style="margin-right: 10px"></i>Cerrar Sesión
-                                </asp:LinkButton>
-                            </li>
-                            <%} %>
-                        </ul>
-
-
-
+                        <% if (!Negocio.Seguridad.ValidarUsuario(Session["Usuario"]))
+                            { %>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link btn btn-light d-flex align-items-center d-sm-none" onclick="location.href='/InicioSesion.aspx'">
+                                <i class="bi bi-lock-fill me-2"></i>Iniciar sesión
+                            </button>
+                            <button type="button" class="nav-link btn btn-outline-light d-none d-sm-flex align-items-center" onclick="location.href='/InicioSesion.aspx'">
+                                <i class="bi bi-lock-fill me-2"></i>Iniciar sesión
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link btn btn-light d-flex align-items-center d-sm-none" onclick="location.href='/RegistrarUsuario.aspx'">
+                                <i class="bi bi-person-plus-fill me-2"></i>Registrate
+                            </button>
+                            <button type="button" class="nav-link btn btn-outline-light d-none d-sm-flex align-items-center" onclick="location.href='/RegistrarUsuario.aspx'">
+                                <i class="bi bi-person-plus-fill me-2"></i>Registrate
+                            </button>
+                        </li>
+                        <% }
+                        else
+                        { %>
+                        <li class="nav-item">
+                            <asp:LinkButton ID="btnLogoutSmall" runat="server" CssClass="nav-link btn btn-light d-flex align-items-center d-sm-none" CommandName="Logout">
+                                <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                            </asp:LinkButton>
+                            <asp:LinkButton ID="btnLogoutLarge" runat="server" CssClass="nav-link btn btn-outline-light d-none d-sm-flex align-items-center" CommandName="Logout">
+                                <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                            </asp:LinkButton>
+                        </li>
+                        <% } %>
                     </ul>
                 </div>
             </div>
         </nav>
 
-
-
         <div class="container-fluid body-content">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-            </asp:ContentPlaceHolder>
-
-
-
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
         </div>
+
         <!-- Footer -->
         <footer class="pt-4 mt-5" style="background-color: #0d9488;">
             <div class="container">
                 <div class="row">
-                    <!-- Sección de información de la empresa -->
-                    <div class="col-md-5 mb-3 mr-4">
+                    <div class="col-md-5 mb-3">
                         <h5 class="fw-bold">DaleRecicla</h5>
                         <p>¡Pequeñas acciones, grandes cambios!</p>
-
                     </div>
-
-                    <!-- Sección de enlaces rápidos -->
                     <div class="col-md-4 mb-4">
                         <h5 class="fw-bold">Enlaces rápidos</h5>
                         <ul class="list-unstyled">
@@ -138,35 +111,29 @@
                             <li><a href="#" class="text-black">Contacto</a></li>
                         </ul>
                     </div>
-
-                    <!-- Sección de contacto y redes sociales -->
                     <div class="col-md-3 mb-4">
                         <h5 class="fw-bold">Contáctanos</h5>
                         <ul class="list-unstyled">
-                            <li><i class="bi bi-geo-alt-fill" style="margin-right: 20px;"></i>Dirección: Calle Falsa 123</li>
-                            <li><i class="bi bi-telephone-fill" style="margin-right: 20px;"></i>Teléfono: +123 456 789</li>
-                            <li><i class="bi bi-envelope-fill" style="margin-right: 20px;"></i>Correo: info@DaleRecicla.com</li>
+                            <li><i class="bi bi-geo-alt-fill me-3"></i>Dirección: Calle Falsa 123</li>
+                            <li><i class="bi bi-telephone-fill me-3"></i>Teléfono: +123 456 789</li>
+                            <li><i class="bi bi-envelope-fill me-3"></i>Correo: info@DaleRecicla.com</li>
                         </ul>
-                        <div class="mt-3 text-center" style="margin-right: 50px">
+                        <div class="mt-3 text-center">
                             <a href="#" class="text-black m-2"><i class="bi bi-facebook"></i></a>
                             <a href="#" class="text-black m-2"><i class="bi bi-twitter"></i></a>
                             <a href="#" class="text-black m-2"><i class="bi bi-instagram"></i></a>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            <div class="text-center py-3" style="background-color: rgb(255, 255, 255,0.2)">
+            <div class="text-center py-3" style="background-color: rgba(255, 255, 255, 0.2);">
                 &copy; 2023 DaleRec - Todos los derechos reservados.
             </div>
         </footer>
-
-
-
-        <!-- Footer -->
+        <!-- End Footer -->
 
     </form>
+
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>

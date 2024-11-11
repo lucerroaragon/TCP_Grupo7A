@@ -25,32 +25,34 @@ a {
     text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/*h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
-    font-size: 20px; /* Títulos de 20px */
-    font-weight:bold;
-}
+    font-size: 20px;*/ /* Títulos de 20px */
+/*font-weight:bold;
+}*/
 
-/* Botones */
 button, .btn {
     background-color: var(--primary-color);
     color: white;
-    border: none;
+    border: 1px solid var(--primary-color); /* Define el borde en el estado normal */
     padding: 10px 20px;
-    border-radius: 8px;
+    margin-right: 10px;
+    margin-left: 10px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave solo para color */
+    box-sizing: border-box; /* Asegura que el padding y borde se incluyan en el tamaño total */
 }
 
     button:hover, .btn:hover {
-        background-color: var( --bg-color); /* Color más oscuro para el hover */
+        background-color: var(--bg-color); /* Color más oscuro para el hover */
         color: black;
-        border: 2px solid var(--primary-color); /* Borde de color en hover */
+        border: 1px solid var(--primary-color); /* Mantén el borde igual para evitar movimientos */
     }
 
+
 /* Tarjetas de Valores */
-.card-value {
+/*.card-value {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -59,13 +61,13 @@ button, .btn {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agregado para dar más profundidad */
-    transition: box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/ /* Agregado para dar más profundidad */
+/*transition: box-shadow 0.3s ease;
 }
 
     .card-value:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Hover para resaltar las cards */
-    }
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);*/ /* Hover para resaltar las cards */
+/*}
 
     .card-value .card-body {
         padding: 20px;
@@ -81,23 +83,23 @@ button, .btn {
         color: var(--text-color);
         line-height: 1.5;
         display: -webkit-box;
-        -webkit-line-clamp: 3; /* Limita el texto a 3 líneas */
-        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;*/ /* Limita el texto a 3 líneas */
+/*-webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
-    }
+    }*/
 
 /* Estructura general de la página */
-.container {
+/*.container {
     padding: 0 15px;
 }
 
 .row {
     margin-bottom: 30px;
-}
+}*/
 
 /* Estilo de la sección de "Nosotros" */
-.display-4 {
+/*.display-4 {
     font-size: 20px;
     color: var(--secondary-color);
     margin-bottom: 20px;
@@ -107,17 +109,17 @@ button, .btn {
 .lead {
     font-size: 18px;
     color: var(--text-color);
-}
+}*/
 
 /* Imágenes */
-.img-fluid {
+/*.img-fluid {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-}
+}*/
 
 /* Espaciado y márgenes */
-.mb-4 {
+/*.mb-4 {
     margin-bottom: 1.5rem;
 }
 
@@ -128,10 +130,10 @@ button, .btn {
 
 .text-center {
     text-align: center;
-}
+}*/
 
 /* Estilo del header */
-header {
+/*header {
     background-color: var(--primary-color);
     color: white;
     padding: 15px 0;
@@ -140,10 +142,10 @@ header {
     header h1 {
         font-size: 30px;
         margin: 0;
-    }
+    }*/
 
 /* Banner */
-.banner {
+/*.banner {
     background-size: cover;
     background-position: center;
     text-align: center;
@@ -166,10 +168,10 @@ header {
     font-size: 1.25rem;
     margin-top: 20px;
     padding: 0;
-}
+}*/
 
 /* Botón Call-to-Action */
-.cta {
+/*.cta {
     text-align: center;
     margin-top: 40px;
 }
@@ -212,9 +214,9 @@ p{
     border: 1px solid #ccc;
     padding: 10px 15px;
     font-size: 16px;
-    width: 80%; /* Cambiar el 100% por un valor más pequeño */
-    max-width: 300px; /* Limitar el ancho máximo */
-}
+    width: 80%;*/ /* Cambiar el 100% por un valor más pequeño */
+/*max-width: 300px;*/ /* Limitar el ancho máximo */
+/*}
 
 
     .form-control:focus {
@@ -227,30 +229,30 @@ p{
     color: #dc3545;
     font-size: 14px;
     margin-bottom: 10px;
-}
+}*/
 
 /*LANDING CONTACTO */
 
 /* Clase para títulos principales */
-.title1-main {
+/*.title1-main {
     font-size: 20px;
     color: var(--secondary-color);
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight:bold;
-}
+}*/
 
 /* Clase para subtítulos */
-.subtitle-main {
+/*.subtitle-main {
     font-size: 18px;
     color: var(--secondary-color);
     font-weight: bold;
     margin-bottom: 1rem;
     color: #333333;
-}
+}*/
 
 /* Clase para texto estándar */
-.text-main {
+/*.text-main {
     font-size: 14px;
     color: var(--text-color);
     line-height: 1.6;
@@ -272,12 +274,12 @@ a {
     text-decoration: none;
     font-size: 18px;
     border-radius: 5px;
-    border: 2px solid transparent; /* Borde transparente por defecto */
-    transition: background-color 0.3s ease, border 0.3s ease; /* Transiciones suaves */
-}
+    border: 2px solid transparent;*/ /* Borde transparente por defecto */
+/*transition: background-color 0.3s ease, border 0.3s ease;*/ /* Transiciones suaves */
+/*}
 
     .btn-cta:hover {
-        background-color: var(--bg-color); /* Color de fondo en hover */
-        color: black; /* Color del texto en hover */
-        border: 2px solid #4CAF50; /* Borde de color en hover */
-    }
+        background-color: var(--bg-color);*/ /* Color de fondo en hover */
+/*color: black;*/ /* Color del texto en hover */
+/*border: 2px solid #4CAF50;*/ /* Borde de color en hover */
+/*}*/

@@ -52,9 +52,9 @@ namespace Negocio
                         lista.Add(aux);
                     }
 
-                    if (!(datos.Lector["NombreImagen"] is DBNull))
+                    if (!(datos.Lector["Imagen"] is DBNull))
                     {
-                        string imagenes = (string)datos.Lector["NombreImagen"];
+                        string imagenes = (string)datos.Lector["Imagen"];
                         aux.Imagenes.Add(imagenes);
                     }
                 }
