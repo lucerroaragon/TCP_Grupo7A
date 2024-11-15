@@ -95,8 +95,6 @@
 
     </div>
 
-    <!-- Mensaje de confirmación -->
-    <asp:Label runat="server" ID="lblMessage" CssClass="text-success mt-3" Visible="false"></asp:Label>
 
     <!-- Script de confirmación -->
     <script type="text/javascript">
