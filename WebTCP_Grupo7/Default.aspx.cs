@@ -87,6 +87,9 @@ namespace WebTCP_Grupo7
 
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
+            DropDownList materialSelect = (DropDownList)FindControl("materialSelect");
+            DropDownList ciudadSelect = (DropDownList)FindControl("ciudadSelect");
+            DropDownList municipioSelect = (DropDownList)FindControl("municipioSelect");
             // Obtener los valores de los filtros
             string materialSeleccionado = materialSelect.SelectedValue;
             string ciudadSeleccionada = ciudadSelect.SelectedValue;
