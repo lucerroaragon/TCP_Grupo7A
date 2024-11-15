@@ -17,13 +17,14 @@ namespace Negocio
         public AccesoDatos()
         {
             // Pedro
-            // conexion = new SqlConnection("Server=localhost,1433; Database=PUNTORECICLAJE_BD; User Id=sa; Password=17513169Marie..; TrustServerCertificate=True;");
+            //conexion = new SqlConnection("Server=localhost,1433; Database=PUNTORECICLAJE_BD; User Id=sa; Password=17513169Marie..; TrustServerCertificate=True;");
 
              //Lu
             conexion = new SqlConnection("server=.\\LABORATORIO3; database=PUNTORECICLAJE_BD; integrated security=true");
 
             // Maxi
             //conexion = new SqlConnection("server=.\\SQLExpress; database=PUNTORECICLAJE_BD; integrated security=true");
+
             comando = new SqlCommand();
         }
 

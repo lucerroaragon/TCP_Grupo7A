@@ -5,7 +5,7 @@
         <h2 class="text-center mt-5">Registro de Punto de Reciclaje</h2>
         <p class="text-center mb-5">Ingrese los datos del punto de reciclaje:</p>
 
-        <div class="row">
+        <div class="row d-flex justify-content-center align-item-center p-4 mt-3 mb-5">
             <div class="col-md-6">
                 <!-- Nombre del punto -->
                 <div class="row g-1">
