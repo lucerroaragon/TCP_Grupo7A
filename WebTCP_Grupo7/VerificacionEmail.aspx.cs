@@ -31,6 +31,7 @@ namespace WebTCP_Grupo7
                 if (datos.Lector.Read())
                 {
                     negocio.RegistrarUsuario(user);
+                    Seguridad.EliminarCodigo(int.Parse(txtCodigo.Text));
                     Response.Redirect("Default.aspx", false);
                 }
                 else
@@ -48,6 +49,12 @@ namespace WebTCP_Grupo7
             {
                 datos.cerrarConexion();
             }
+        }
+
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Response.Redirect("Default.aspx");
         }
     }
 }

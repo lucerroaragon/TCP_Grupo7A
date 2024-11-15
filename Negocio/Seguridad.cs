@@ -64,5 +64,23 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public static void EliminarCodigo(int codigo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("DELETE FROM CODIGOVERIFICACION WHERE NumCodigo = @Codigo");
+                datos.setearParametro("@Codigo", codigo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
