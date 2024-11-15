@@ -1,16 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Dominio;
-
 
 namespace Negocio
 {
     public class UsuariosNegocio
     {
+        // Método para verificar si la contraseña es segura antes de registrar un usuario
+        public bool VerificarContrasenaSegura(string contrasena)
+        {
+            return Seguridad.ContrasenaSegura(contrasena);
+        }
+
+        // Método para verificar si el email ya está registrado en la base de datos
+        public bool ValidarEmailExistente(string email)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                // Consulta SQL para verificar si el correo ya está en la base de datos
+                datos.setearConsulta("SELECT COUNT(*) FROM USUARIOS WHERE Email = @Email");
+                datos.setearParametro("@Email", email);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = (int)datos.Lector[0];
+                    return count > 0; // Si se encuentra un registro, el correo ya está en uso
+                }
+
+                return false; // Si no se encuentra ningún registro, el email es único
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion(); // Asegurarse de cerrar la conexión
+            }
+        }
+
+        // Método para listar todos los usuarios
         public List<Usuario> listar()
         {
             List<Usuario> lista = new List<Usuario>();
@@ -44,6 +75,7 @@ namespace Negocio
             }
         }
 
+        // Método para agregar un nuevo usuario
         public void agregar(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -66,6 +98,8 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        // Método para registrar un nuevo usuario
         public void RegistrarUsuario(Usuario user)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -82,7 +116,6 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -91,6 +124,7 @@ namespace Negocio
             }
         }
 
+        // Método para eliminar un usuario por su ID
         public void eliminar(int idUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -110,6 +144,7 @@ namespace Negocio
             }
         }
 
+        // Método para modificar los datos de un usuario
         public void modificar(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -133,33 +168,18 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        // Método para validar un usuario (por ejemplo, para iniciar sesión)
         public bool ValidarUsuario(Usuario usuario)
         {
             // Lógica para validar el usuario
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                //SetearProcedimiento(sp_ValidarUsuario);
-                //datos.SetearParametro("@Email", usuario.Email);
-                //datos.SetearParametro("@Password", usuario.Password);
-                //datos.SetearParametro("@Rol", usuario.Rol);
-
-                //datos.EjecutarAccion();
-                //while (datos.Lector.Read())
-                //{
-                //    //usuario.idUsuario = (int)datos.Lector["idUsuario"];
-                //    //usuario.Nombre = (string)datos.Lector["Nombre"];
-                //    //usuario.Apellido = (string)datos.Lector["Apellido"];
-                //    //usuario.Email = (string)datos.Lector["Email"];
-                //    //usuario.Password = (string)datos.Lector["Password"];
-                //    //usuario.Rol = (string)datos.Lector["Rol"];
-                return true;
-                //}
-                //return false;
+                return true; // Simulando validación por ahora
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -169,4 +189,3 @@ namespace Negocio
         }
     }
 }
-
