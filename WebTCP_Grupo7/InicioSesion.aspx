@@ -10,11 +10,23 @@
                 <div class="form-group">
                     <asp:Label ID="lblUsername" runat="server" Text="Usuario:" CssClass="form-label" />
                     <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" />
+                    <asp:RequiredFieldValidator 
+                        ID="rfvUsername" 
+                        runat="server" 
+                        ControlToValidate="txtUsername" 
+                        ErrorMessage="El usuario es obligatorio." 
+                        ForeColor="Red" />
                 </div>
                 
                 <div class="form-group">
                     <asp:Label ID="lblPassword" runat="server" Text="Contraseña:" CssClass="form-label" />
                     <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" />
+                    <asp:RequiredFieldValidator 
+                        ID="rfvPassword" 
+                        runat="server" 
+                        ControlToValidate="txtPassword" 
+                        ErrorMessage="La contraseña es obligatoria." 
+                        ForeColor="Red" />
                 </div>
                 
                 <div class="text-center" style="margin-top: 10px;">

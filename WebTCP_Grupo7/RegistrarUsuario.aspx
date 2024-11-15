@@ -35,36 +35,9 @@
                 txtEmail.classList.remove("is-valid");
                 isValid = false;
             } else {
-                // Validación de email único
-                // Hacer una solicitud al servidor para verificar si el email ya está registrado
-                fetch('/RegistrarUsuario/VerificarEmail', {
-                    method: 'POST',
-                    body: JSON.stringify({ email: txtEmail.value }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.exists) {
-                            // Si el correo ya está registrado
-                            txtEmail.classList.add("is-invalid");
-                            txtEmail.classList.remove("is-valid");
-                            lblMessage.textContent = "El correo electrónico ya está registrado.";
-                            lblMessage.style.color = 'red';
-                            isValid = false;
-                        } else {
-                            // Si el correo es válido y no está registrado
-                            txtEmail.classList.remove("is-invalid");
-                            txtEmail.classList.add("is-valid");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al verificar el email:', error);
-                        isValid = false;
-                    });
+                txtEmail.classList.remove("is-invalid");
+                txtEmail.classList.add("is-valid");
             }
-
 
             // Validación de Dirección
             const txtDireccion = document.getElementById('txtDireccion');

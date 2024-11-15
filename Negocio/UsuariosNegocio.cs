@@ -172,20 +172,39 @@ namespace Negocio
         // Método para validar un usuario (por ejemplo, para iniciar sesión)
         public bool ValidarUsuario(Usuario usuario)
         {
-            // Lógica para validar el usuario
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                return true; // Simulando validación por ahora
+                // Consulta SQL para verificar el correo electrónico y la contraseña
+                string consulta = "SELECT COUNT(*) FROM USUARIOS WHERE Email = @Email AND Password = @Password";
+
+                // Establecer la consulta
+                datos.setearConsulta(consulta);
+                datos.setearParametro("@Email", usuario.Email);
+                datos.setearParametro("@Password", usuario.Password); // Si la contraseña está hasheada, utiliza la misma función de hash aquí
+
+                // Ejecutar la consulta
+                datos.ejecutarLectura();
+
+                // Leer el resultado de la consulta
+                if (datos.Lector.Read())
+                {
+                    int count = (int)datos.Lector[0];
+                    return count > 0; // Si el resultado es mayor que 0, el usuario y la contraseña son correctos
+                }
+
+                return false; // Si no se encontró ningún resultado, la validación falla
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw ex; // Lanza la excepción en caso de error
             }
             finally
             {
-                //datos.CerrarConexion();
+                datos.cerrarConexion(); // Asegúrate de cerrar la conexión
             }
         }
+
     }
+
 }
