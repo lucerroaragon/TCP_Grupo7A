@@ -19,8 +19,11 @@ namespace WebTCP_Grupo7
             // Validación de Contraseña
             if (!Seguridad.ContrasenaSegura(txtPassword.Text))
             {
-                lblErrorMessage.Text = "La contraseña no cumple con los requisitos de seguridad. Ejemplo de requisitos de una contraseña segura: Al menos 8 caracteres / Al menos una letra mayúscula / Al menos una letra minúscula/ Al menos un número";
-                lblErrorMessage.Visible = true;
+                //lblErrorMessage.Text = "La contraseña no cumple con los requisitos de seguridad. Ejemplo de requisitos de una contraseña segura: Al menos 8 caracteres / Al menos una letra mayúscula / Al menos una letra minúscula/ Al menos un número";
+                //lblErrorMessage.Visible = true;
+
+                string script = "alert('La contraseña no cumple con los requisitos de seguridad. Ejemplo de requisitos de una contraseña segura: Al menos 8 caracteres / Al menos una letra mayúscula / Al menos una letra minúscula/ Al menos un número');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 return;
             }
 

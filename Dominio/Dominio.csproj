@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClient.cs" />
     <Compile Include="Comentarios.cs" />
     <Compile Include="Imagenes.cs" />
     <Compile Include="Likes.cs" />

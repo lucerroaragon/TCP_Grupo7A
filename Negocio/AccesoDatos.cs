@@ -18,7 +18,10 @@ namespace Negocio
         {
             // Cambiar la cadena de conexión según el entorno
             // Ejemplo: conexión con SQL Server
-            conexion = new SqlConnection("server=.\\LABORATORIO3; database=PUNTORECICLAJE_BD; integrated security=true");
+            //conexion = new SqlConnection("server=.\\LABORATORIO3; database=PUNTORECICLAJE_BD; integrated security=true");
+            conexion = new SqlConnection("Server=localhost,1433; Database=PUNTORECICLAJE_BD; User Id=sa; Password=17513169Marie..; TrustServerCertificate=True;");
+
+
             comando = new SqlCommand();
         }
 

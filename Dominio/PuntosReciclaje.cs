@@ -21,9 +21,12 @@ namespace Dominio
         public string Longitud { get; set; }
         public string Tipo { get; set; }
         public string Descripcion { get; set; }
+        public string Provincia { get; set; }
+        public string Municipio { get; set; }
         public DateTime FechaAlta { get; set; }
         public Imagenes imagen { get; set; }
         public List<string> Imagenes { get; set; }
+
 
         public List<Comentarios> Comentarios { get; set; }
         public List<Likes> Likes { get; set; }
