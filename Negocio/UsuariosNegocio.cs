@@ -6,19 +6,19 @@ namespace Negocio
 {
     public class UsuariosNegocio
     {
-        // Método para verificar si la contraseña es segura antes de registrar un usuario
+    
         public bool VerificarContrasenaSegura(string contrasena)
         {
             return Seguridad.ContrasenaSegura(contrasena);
         }
 
-        // Método para verificar si el email ya está registrado en la base de datos
+       
         public bool ValidarEmailExistente(string email)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                // Consulta SQL para verificar si el correo ya está en la base de datos
+                
                 datos.setearConsulta("SELECT COUNT(*) FROM USUARIOS WHERE Email = @Email");
                 datos.setearParametro("@Email", email);
                 datos.ejecutarLectura();
@@ -26,10 +26,10 @@ namespace Negocio
                 if (datos.Lector.Read())
                 {
                     int count = (int)datos.Lector[0];
-                    return count > 0; // Si se encuentra un registro, el correo ya está en uso
+                    return count > 0; 
                 }
 
-                return false; // Si no se encuentra ningún registro, el email es único
+                return false; 
             }
             catch (Exception ex)
             {
@@ -37,11 +37,11 @@ namespace Negocio
             }
             finally
             {
-                datos.cerrarConexion(); // Asegurarse de cerrar la conexión
+                datos.cerrarConexion(); 
             }
         }
 
-        // Método para listar todos los usuarios
+     
         public List<Usuario> listar()
         {
             List<Usuario> lista = new List<Usuario>();
@@ -75,7 +75,7 @@ namespace Negocio
             }
         }
 
-        // Método para agregar un nuevo usuario
+ 
         public void agregar(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -99,7 +99,7 @@ namespace Negocio
             }
         }
 
-        // Método para registrar un nuevo usuario
+ 
         public void RegistrarUsuario(Usuario user)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -124,7 +124,7 @@ namespace Negocio
             }
         }
 
-        // Método para eliminar un usuario por su ID
+     
         public void eliminar(int idUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -144,7 +144,7 @@ namespace Negocio
             }
         }
 
-        // Método para modificar los datos de un usuario
+     
         public void modificar(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -169,39 +169,39 @@ namespace Negocio
             }
         }
 
-        // Método para validar un usuario (por ejemplo, para iniciar sesión)
+     
         public bool ValidarUsuario(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                // Consulta SQL para verificar el correo electrónico y la contraseña
+              
                 string consulta = "SELECT COUNT(*) FROM USUARIOS WHERE Email = @Email AND Password = @Password";
 
-                // Establecer la consulta
+              
                 datos.setearConsulta(consulta);
                 datos.setearParametro("@Email", usuario.Email);
-                datos.setearParametro("@Password", usuario.Password); // Si la contraseña está hasheada, utiliza la misma función de hash aquí
+                datos.setearParametro("@Password", usuario.Password); 
 
-                // Ejecutar la consulta
+            
                 datos.ejecutarLectura();
 
-                // Leer el resultado de la consulta
+          
                 if (datos.Lector.Read())
                 {
                     int count = (int)datos.Lector[0];
-                    return count > 0; // Si el resultado es mayor que 0, el usuario y la contraseña son correctos
+                    return count > 0; 
                 }
 
-                return false; // Si no se encontró ningún resultado, la validación falla
+                return false; 
             }
             catch (Exception ex)
             {
-                throw ex; // Lanza la excepción en caso de error
+                throw ex; 
             }
             finally
             {
-                datos.cerrarConexion(); // Asegúrate de cerrar la conexión
+                datos.cerrarConexion(); 
             }
         }
 
