@@ -55,9 +55,9 @@ namespace Negocio
                         lista.Add(aux);
                     }
 
-                    if (!(datos.Lector["Imagen"] is DBNull))
+                    if (!(datos.Lector["NombreImagen"] is DBNull))
                     {
-                        string imagenes = (string)datos.Lector["Imagen"];
+                        string imagenes = (string)datos.Lector["NombreImagen"];
                         aux.Imagenes.Add(imagenes);
                     }
                 }
@@ -181,9 +181,9 @@ namespace Negocio
                         Imagenes = new List<string>()
                     };
 
-                    if (!(datos.Lector["Imagen"] is DBNull))
+                    if (!(datos.Lector["NombreImagen"] is DBNull))
                     {
-                        string imagen = (string)datos.Lector["Imagen"];
+                        string imagen = (string)datos.Lector["NombreImagen"];
                         punto.Imagenes.Add(imagen);
                     }
                 }

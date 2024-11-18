@@ -24,7 +24,7 @@ namespace Dominio
         public string Provincia { get; set; }
         public string Municipio { get; set; }
         public DateTime FechaAlta { get; set; }
-        public Imagenes imagen { get; set; }
+        public Imagenes NombreImagen { get; set; }
         public List<string> Imagenes { get; set; }
 
 
