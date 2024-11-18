@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="RegistroPuntoReciclaje.aspx.cs" Inherits="WebTCP_Grupo7.RegistroPuntoReciclaje" %>
+﻿<%@ Page Title="" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="RegistroPuntoReciclaje.aspx.cs" Inherits="WebTCP_Grupo7.RegistroPuntoReciclaje" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -11,7 +11,7 @@
                 <div class="row g-1">
                     <div class="col-md-12 fw-bold ">
                         <label for="txtNombre" class="form-label w-bold">Nombre del Punto de Reciclaje</label>
-                        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombre" class="form-control" placeholder="nombre" />
+                        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombre" class="form-control" placeholder="nombre" AutoFocus="false"/>
                         <asp:RequiredFieldValidator ErrorMessage="Nombre requerido" ControlToValidate="txtNombre" runat="server" CssClass="text-danger" />
                     </div>
                 </div>
@@ -56,28 +56,44 @@
 
                     <!-- Provincia -->
                     <div class="col-md-6 fw-bold">
-                        <label for="txtProvincia" class="form-label">Provincia</label>
-                        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtProvincia" class="form-control" placeholder="ciudad" />
-                        <asp:RequiredFieldValidator ErrorMessage="Provincia requerida" ControlToValidate="txtCiudad" runat="server" CssClass="text-danger" />
+                        <label for="ddlProvincias" class="form-label">Provincia</label>
+                        <asp:DropDownList
+                            ID="ddlProvincias"
+                            runat="server"
+                            CssClass="form-select"
+                            AutoPostBack="true"
+                            OnSelectedIndexChanged="ddlProvincias_SelectedIndexChanged">
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator
+                            ErrorMessage="Provincia requerida"
+                            ControlToValidate="ddlProvincias"
+                            runat="server"
+                            CssClass="text-danger" />
+                    </div>
+
+
+
+                    <div class="row g-1">
+                        <!-- Ciudad -->
+                        <div class="col-md-6 fw-bold">
+                            <label for="ddlMunicipios" class="form-label">Municipio</label>
+                            <asp:DropDownList
+                                ID="ddlMunicipios"
+                                runat="server"
+                                CssClass="form-select"
+                                AutoFocus="false"
+                                
+                                >
+                            </asp:DropDownList>
+                        </div>
+                        <!-- Código Postal -->
+                        <div class="col-md-6 fw-bold">
+                            <label for="txtCP" class="form-label">Código Postal</label>
+                            <asp:TextBox runat="server" ClientIDMode="Static" ID="txtCP" class="form-control" placeholder="cp" />
+                            <asp:RequiredFieldValidator ErrorMessage="Código Postal requerido" ControlToValidate="txtCP" runat="server" CssClass="text-danger" />
+                        </div>
                     </div>
                 </div>
-
-                <div class="row g-1">
-                    <!-- Ciudad -->
-                    <div class="col-md-6 fw-bold">
-                        <label for="txtCiudad" class="form-label">Ciudad</label>
-                        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtCiudad" class="form-control" placeholder="ciudad" />
-                        <asp:RequiredFieldValidator ErrorMessage="Ciudad requerida" ControlToValidate="txtCiudad" runat="server" CssClass="text-danger" />
-                    </div>
-
-                    <!-- Código Postal -->
-                    <div class="col-md-6 fw-bold">
-                        <label for="txtCP" class="form-label">Código Postal</label>
-                        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtCP" class="form-control" placeholder="cp" />
-                        <asp:RequiredFieldValidator ErrorMessage="Código Postal requerido" ControlToValidate="txtCP" runat="server" CssClass="text-danger" />
-                    </div>
-                </div>
-            </div>
 
             <!-- Imagenes -->
             <div class="col-md-4 fw-bold">

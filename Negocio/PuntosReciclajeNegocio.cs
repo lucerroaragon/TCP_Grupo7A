@@ -39,6 +39,9 @@ namespace Negocio
                             HoraApertura = datos.Lector["HoraApertura"].ToString(),
                             HoraCierre = datos.Lector["HoraCierre"].ToString(),
                             Telefono = (string)datos.Lector["Telefono"],
+                            Municipio= (string)datos.Lector["Municipio"],
+                            Provincia= (string)datos.Lector["Provincia"],
+                            
                             //Imagen = (string)datos.Lector["Imagen"],
                             //Latitud = (string)datos.Lector["Latitud"],
                             //Longitud = (string)datos.Lector["Longitud"],
@@ -52,9 +55,9 @@ namespace Negocio
                         lista.Add(aux);
                     }
 
-                    if (!(datos.Lector["NombreImagen"] is DBNull))
+                    if (!(datos.Lector["Imagen"] is DBNull))
                     {
-                        string imagenes = (string)datos.Lector["NombreImagen"];
+                        string imagenes = (string)datos.Lector["Imagen"];
                         aux.Imagenes.Add(imagenes);
                     }
                 }
@@ -86,6 +89,9 @@ namespace Negocio
                 datos.agregarParametro("@Horacierre", puntoReciclaje.HoraCierre);
                 datos.agregarParametro("@Telefono", puntoReciclaje.Telefono);
                 datos.agregarParametro("@fechaAlta", puntoReciclaje.FechaAlta);
+                datos.agregarParametro("@Provincia", puntoReciclaje.Provincia);
+                datos.agregarParametro("@Municipio", puntoReciclaje.Municipio);
+
 
                 return datos.ejecutarAccionEscalar();
             }
