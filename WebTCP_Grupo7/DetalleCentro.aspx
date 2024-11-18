@@ -1,22 +1,51 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="DetalleCentro.aspx.cs" Inherits="WebTCP_Grupo7.DetalleCentro" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-
-     <div class="container my-5">
+    <div class="container my-5">
         <h2 class="text-center mb-4">Detalles del Centro de Reciclaje</h2>
-        
-        <!-- Información del Centro de Reciclaje -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 id="centerName" runat="server">Nombre del Centro de Reciclaje</h5>
+
+        <!-- Fila que divide en dos columnas -->
+        <div class="row">
+            <!-- Columna izquierda: Información del centro -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 id="centerName" runat="server">Nombre del Centro de Reciclaje</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Dirección:</strong> <span id="centerAddress" runat="server"></span></p>
+                        <p><strong>Teléfono:</strong> <span id="centerPhone" runat="server"></span></p>
+                        <p><strong>Horario:</strong> <span id="centerHours" runat="server"></span></p>
+                        <p><strong>Descripción:</strong> <span id="centerDescription" runat="server"></span></p>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <p><strong>Dirección:</strong> <span id="centerAddress" runat="server"></span></p>
-                <p><strong>Teléfono:</strong> <span id="centerPhone" runat="server"></span></p>
-                <p><strong>Horario:</strong> <span id="centerHours" runat="server"></span></p>
-                <p><strong>Descripción:</strong> <span id="centerDescription" runat="server"></span></p>
+
+            <!-- Columna derecha: Mapa -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Ubicación en el Mapa</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- IFrame del mapa -->
+                        <asp:Literal ID="centerMap" runat="server"></asp:Literal>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="row" id="PuntoReciclajeContainer" runat="server">
+                    <!-- Los puntos de reciclaje se llenarán dinámicamente desde el servidor -->
+                </div>
+            </div>
+        </div>
+
+
+
 
         <!-- Formulario para Comentarios -->
         <h4 class="text-center mb-3">Deja un Comentario</h4>
@@ -39,5 +68,9 @@
         </asp:Repeater>
     </div>
 
+   
+
 
 </asp:Content>
+
+

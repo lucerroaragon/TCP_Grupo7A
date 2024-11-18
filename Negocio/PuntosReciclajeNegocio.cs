@@ -19,8 +19,8 @@ namespace Negocio
 
             try
             {
-               datos.setearProcedimiento("sp_PuntoReciclaje");
-               
+                datos.setearProcedimiento("sp_PuntoReciclaje");
+
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -39,9 +39,9 @@ namespace Negocio
                             HoraApertura = datos.Lector["HoraApertura"].ToString(),
                             HoraCierre = datos.Lector["HoraCierre"].ToString(),
                             Telefono = (string)datos.Lector["Telefono"],
-                            Municipio= (string)datos.Lector["Municipio"],
-                            Provincia= (string)datos.Lector["Provincia"],
-                            
+                            Municipio = (string)datos.Lector["Municipio"],
+                            Provincia = (string)datos.Lector["Provincia"],
+
                             //Imagen = (string)datos.Lector["Imagen"],
                             //Latitud = (string)datos.Lector["Latitud"],
                             //Longitud = (string)datos.Lector["Longitud"],
@@ -151,9 +151,58 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public PuntosReciclaje ObtenerPorId(int idPuntoReciclaje)
+        {
+            PuntosReciclaje punto = null;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // Configurar el procedimiento almacenado
+                datos.setearProcedimiento("sp_PuntoReciclaje_por_Id");
+                datos.setearParametro("@IdPuntoReciclaje", idPuntoReciclaje);
+
+                datos.ejecutarLectura();
+
+                // Leer el resultado
+                if (datos.Lector.Read())
+                {
+                    punto = new PuntosReciclaje
+                    {
+                        IdPuntoReciclaje = (int)datos.Lector["IdPuntoReciclaje"],
+                        Nombre = (string)datos.Lector["Nombre"],
+                        Direccion = (string)datos.Lector["Direccion"],
+                        HoraApertura = datos.Lector["HoraApertura"].ToString(),
+                        HoraCierre = datos.Lector["HoraCierre"].ToString(),
+                        Telefono = (string)datos.Lector["Telefono"],
+                        Provincia = (string)datos.Lector["Provincia"],
+                        Municipio = (string)datos.Lector["Municipio"],
+                        Imagenes = new List<string>()
+                    };
+
+                    if (!(datos.Lector["Imagen"] is DBNull))
+                    {
+                        string imagen = (string)datos.Lector["Imagen"];
+                        punto.Imagenes.Add(imagen);
+                    }
+                }
+
+                return punto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 }
 
 
 
-  
