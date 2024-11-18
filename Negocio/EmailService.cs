@@ -28,7 +28,7 @@ namespace Negocio
             email.To.Add(destinatario);
             email.Subject = asunto;
             email.IsBodyHtml = true;
-            email.Body = "<h1>¡Bienvenido a Puntos de Reciclaje!</h1><br><p>Gracias por registrarte en nuestra plataforma. A partir de ahora podrás disfrutar de todos los beneficios que tenemos para ofrecerte.</p><br><p>¡Bienvenido a la comunidad de Recicladores!</p><br>\" + \"<p>Código de verificación: \" + codigo + \"</p>\"<br><p>Saludos cordiales,</p><br><p>Equipo de Puntos de Reciclaje</p>";
+            email.Body = "<h1>¡Bienvenido a Puntos de Reciclaje!</h1><br><p>Gracias por registrarte en nuestra plataforma. A partir de ahora podrás disfrutar de todos los beneficios que tenemos para ofrecerte.</p><br><p>¡Bienvenido a la comunidad de Recicladores!</p><br>\" + \"<p>Código de verificación: " + codigo + "</p><br><p>Saludos cordiales,</p><br><p>Equipo de Puntos de Reciclaje</p>";
             //email.Body = cuerpo;
         }
 

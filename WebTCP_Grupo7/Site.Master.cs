@@ -12,7 +12,7 @@ namespace WebTCP_Grupo7
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!(Page is InicioSesion || Page is _Default || Page is Mision || Page is RegistrarUsuario || Page is Contact || Page is Home || Page is DetalleCentro || Page is VerificacionEmail))
+            if (!(Page is InicioSesion || Page is _Default || Page is Mision || Page is RegistrarUsuario || Page is Contact || Page is Home || Page is DetalleCentro || Page is VerificacionEmail || Page is PanelAdmin))
             {
                 if (!Seguridad.ValidarUsuario(Session["Usuario"]))
                 {

@@ -66,7 +66,7 @@ namespace WebTCP_Grupo7
                 negocio.RegistrarUsuario(user);
 
                 // Guardar la sesión del usuario
-                Session.Add("Usuario", user);
+                Session.Add("Usuario1", user);
 
                 // Redirigir a la página de verificación de correo
                 Response.Redirect("VerificacionEmail.aspx", false);
