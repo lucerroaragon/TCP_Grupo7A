@@ -74,7 +74,7 @@ namespace WebTCP_Grupo7
                         <div class='card-body'>
                             <h6 class='card-title'>{puntosReciclaje.Nombre}</h6>
                             <p class='card-text' style='font-size: 0.9rem;'>{puntosReciclaje.Descripcion}</p>
-                            <a href='Detallecentro.aspx?IdArticulo={puntosReciclaje.IdPuntoReciclaje}' class='btn btn-primary btn-sm'>+ Detalles</a>
+                            <a href='Detallecentro.aspx?IdPR={puntosReciclaje.IdPuntoReciclaje}' class='btn btn-primary btn-sm'>+ Detalles</a>
                         </div>
                     </div>
                 </div>";
@@ -152,7 +152,7 @@ namespace WebTCP_Grupo7
                 <div class='card-body'>
                     <h5 class='card-title'>{punto.Nombre}</h5>
                     <p class='card-text'>{punto.Descripcion}</p>
-                    <a href='Detallecentro.aspx?IdArticulo={punto.IdPuntoReciclaje}' class='btn btn-primary btn-flex'>+ Detalles</a>
+                    <a href='Detallecentro.aspx?IdPR={punto.IdPuntoReciclaje}' class='btn btn-primary btn-flex'>+ Detalles</a>
                 </div>
             </div>
         </div>";

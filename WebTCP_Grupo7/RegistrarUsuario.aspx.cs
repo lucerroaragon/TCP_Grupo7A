@@ -65,13 +65,13 @@ namespace WebTCP_Grupo7
              
                 negocio.RegistrarUsuario(user);
 
-           
-                Session.Add("Usuario", user);
+                // Guardar la sesión del usuario
+                Session.Add("Usuario1", user);
 
                
                 Response.Redirect("VerificacionEmail.aspx", false);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                
                 lblErrorMessage.Text = "Ocurrió un error al intentar registrar el usuario. Por favor, intente nuevamente.";
