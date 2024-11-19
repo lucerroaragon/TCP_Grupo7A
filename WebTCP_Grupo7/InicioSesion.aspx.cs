@@ -33,8 +33,9 @@ namespace WebTCP_Grupo7
 
                 if (credencialesValidas)
                 {
+                    Usuario user = usuariosNegocio.ObtenerUsuario(usuario);
                     // Si las credenciales son correctas, almacenar en la sesión y redirigir
-                    Session["Usuario"] = usuario;
+                    Session["Usuario"] = user;
                     Response.Redirect("Default.aspx", false);
                 }
                 else
@@ -44,7 +45,7 @@ namespace WebTCP_Grupo7
                     lblMessage.Visible = true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Manejo de excepciones
                 lblMessage.Text = "Ocurrió un error al intentar iniciar sesión. Por favor, intente nuevamente.";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Dominio;
 
@@ -49,7 +50,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT idUsuario, Nombre, Apellido, DNI, Email, Direccion, Password, Role FROM USUARIOS");
+                datos.setearConsulta("SELECT idUsuario, Nombre, Apellido, DNI, Email, Direccion, Password, Administrador FROM USUARIOS");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -61,7 +62,7 @@ namespace Negocio
                         Apellido = (string)datos.Lector["Apellido"],
                         Email = (string)datos.Lector["Email"],
                         Password = (string)datos.Lector["Password"],
-                        Rol = (string)datos.Lector["Role"]
+                        Administrador = (int)datos.Lector["Administrador"]
                     };
 
                     lista.Add(aux);
@@ -81,12 +82,11 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT INTO USUARIOS (Nombre, Apellido, Email, Direccion, Password, Role) VALUES (@Nombre, @Apellido, @Email, @Password, @Rol)");
+                datos.setearConsulta("INSERT INTO USUARIOS (Nombre, Apellido, Email, Direccion, Password) VALUES (@Nombre, @Apellido, @Email, @Password, @Rol)");
                 datos.setearParametro("@Nombre", usuario.Nombre);
                 datos.setearParametro("@Apellido", usuario.Apellido);
                 datos.setearParametro("@Email", usuario.Email);
                 datos.setearParametro("@Password", usuario.Password);
-                datos.setearParametro("@Role", usuario.Rol);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -150,13 +150,13 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE USUARIOS SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email, Password = @Password, Rol = @Rol WHERE idUsuario = @idUsuario");
+                datos.setearConsulta("UPDATE USUARIOS SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email, Password = @Password, Administrador = @Admin WHERE idUsuario = @idUsuario");
                 datos.setearParametro("@idUsuario", usuario.idUsuario);
                 datos.setearParametro("@Nombre", usuario.Nombre);
                 datos.setearParametro("@Apellido", usuario.Apellido);
                 datos.setearParametro("@Email", usuario.Email);
                 datos.setearParametro("@Password", usuario.Password);
-                datos.setearParametro("@Role", usuario.Rol);
+                datos.setearParametro("@Admin", usuario.Administrador);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -205,6 +205,42 @@ namespace Negocio
             }
         }
 
+        public Usuario ObtenerUsuario(Usuario user)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT idUsuario, Nombre, Apellido, Email, Password, Administrador FROM USUARIOS WHERE Email = @Email AND Estado = 1 ");
+                datos.setearParametro("@Email", user.Email);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Usuario aux = new Usuario
+                    {
+                        idUsuario = (int)datos.Lector["idUsuario"],
+                        Nombre = (string)datos.Lector["Nombre"],
+                        Apellido = (string)datos.Lector["Apellido"],
+                        Email = (string)datos.Lector["Email"],
+                        Password = (string)datos.Lector["Password"],
+                        Administrador = (int)datos.Lector["Administrador"]
+                    };
+
+                    return aux;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return null;
+        }
     }
 
 }

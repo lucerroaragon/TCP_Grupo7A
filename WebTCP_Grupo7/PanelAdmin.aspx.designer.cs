@@ -15,22 +15,22 @@ namespace WebTCP_Grupo7
     {
 
         /// <summary>
-        /// Control DropDownList1.
+        /// Control ddlPuntoReciclaje.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.DropDownList ddlPuntoReciclaje;
 
         /// <summary>
-        /// Control DropDownList2.
+        /// Control ddlUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
+        protected global::System.Web.UI.WebControls.DropDownList ddlUsuario;
 
         /// <summary>
         /// Control DropDownList3.
@@ -42,13 +42,13 @@ namespace WebTCP_Grupo7
         protected global::System.Web.UI.WebControls.DropDownList DropDownList3;
 
         /// <summary>
-        /// Control Button1.
+        /// Control btnFiltrar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnFiltrar;
 
         /// <summary>
         /// Control dgvPanelAdmin.

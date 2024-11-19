@@ -71,7 +71,7 @@ namespace WebTCP_Grupo7
                 // Redirigir a la página de verificación de correo
                 Response.Redirect("VerificacionEmail.aspx", false);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Manejo de excepciones
                 lblErrorMessage.Text = "Ocurrió un error al intentar registrar el usuario. Por favor, intente nuevamente.";

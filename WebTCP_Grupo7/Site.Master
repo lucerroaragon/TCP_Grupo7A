@@ -54,6 +54,12 @@
                             <a class="nav-link" href="/RegistroPuntoReciclaje.aspx">Agregar P. Reciclaje</a>
                         </li>
                         <% } %>
+                        <% if (Negocio.Seguridad.esAdmin(Session["Usuario"]))
+                            { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/PanelAdmin.aspx">Panel Admin</a>
+                        </li>
+                        <% } %>
 
                         <% if (!Negocio.Seguridad.ValidarUsuario(Session["Usuario"]))
                             { %>
@@ -74,8 +80,8 @@
                             </button>
                         </li>
                         <% }
-                        else
-                        { %>
+                            else
+                            { %>
                         <li class="nav-item">
                             <asp:LinkButton ID="btnLogoutSmall" runat="server" CssClass="nav-link btn btn-light d-flex align-items-center d-sm-none" CommandName="Logout">
                                 <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión

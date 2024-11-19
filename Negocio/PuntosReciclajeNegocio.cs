@@ -35,6 +35,7 @@ namespace Negocio
                         {
                             IdPuntoReciclaje = idPuntoReciclaje,
                             Nombre = (string)datos.Lector["Nombre"],
+                            Email = (string)datos.Lector["Email"],
                             Direccion = (string)datos.Lector["Direccion"],
                             HoraApertura = datos.Lector["HoraApertura"].ToString(),
                             HoraCierre = datos.Lector["HoraCierre"].ToString(),
@@ -181,9 +182,9 @@ namespace Negocio
                         Imagenes = new List<string>()
                     };
 
-                    if (!(datos.Lector["Imagen"] is DBNull))
+                    if (!(datos.Lector["NombreImagen"] is DBNull))
                     {
-                        string imagen = (string)datos.Lector["Imagen"];
+                        string imagen = (string)datos.Lector["NombreImagen"];
                         punto.Imagenes.Add(imagen);
                     }
                 }

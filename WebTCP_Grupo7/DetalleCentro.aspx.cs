@@ -16,15 +16,15 @@ namespace WebTCP_Grupo7
         {
             if (!IsPostBack)
             {
-                string idArticulo = Request.QueryString["IdArticulo"];
-                if (!string.IsNullOrEmpty(idArticulo))
+                string idpuntoreciclaje = Request.QueryString["IdPR"];
+                if (!string.IsNullOrEmpty(idpuntoreciclaje))
                 {
                     PuntosReciclajeNegocio negocio = new PuntosReciclajeNegocio();
-                    PuntosReciclaje centro = negocio.ObtenerPorId(int.Parse(idArticulo));
+                    PuntosReciclaje centro = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje));
 
 
                     string script = $@"
-                        console.log('ID del artículo: {idArticulo}');
+                        console.log('ID del artículo: {idpuntoreciclaje}');
                         console.log('Nombre: {centro.Nombre}');
                         console.log('Dirección: {centro.Direccion}');
                         console.log('Teléfono: {centro.Telefono}');";
