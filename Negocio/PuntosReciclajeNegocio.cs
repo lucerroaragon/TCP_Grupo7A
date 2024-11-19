@@ -115,13 +115,14 @@ namespace Negocio
                 datos.agregarParametro("@IdPuntoReciclaje", puntoReciclaje.IdPuntoReciclaje);
                 datos.agregarParametro("@Nombre", puntoReciclaje.Nombre);
                 datos.agregarParametro("@Direccion", puntoReciclaje.Direccion);
-                datos.agregarParametro("@Horario", puntoReciclaje.HoraApertura);
-                datos.agregarParametro("@Horario", puntoReciclaje.HoraCierre);
+                datos.agregarParametro("@HoraApertura", puntoReciclaje.HoraApertura);
+                datos.agregarParametro("@HoraCierre", puntoReciclaje.HoraCierre);
                 datos.agregarParametro("@Telefono", puntoReciclaje.Telefono);
-                datos.agregarParametro("@Latitud", puntoReciclaje.Latitud);
-                datos.agregarParametro("@Longitud", puntoReciclaje.Longitud);
-                datos.agregarParametro("@Tipo", puntoReciclaje.Tipo);
-                datos.agregarParametro("@Descripcion", puntoReciclaje.Descripcion);
+                datos.agregarParametro("@Email", puntoReciclaje.Email);
+                datos.agregarParametro("@Provincia", puntoReciclaje.Provincia);
+                datos.agregarParametro("@Municipio", puntoReciclaje.Municipio);
+                //datos.agregarParametro("@Tipo", puntoReciclaje.Tipo);
+                //datos.agregarParametro("@Descripcion", puntoReciclaje.Descripcion);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -174,8 +175,10 @@ namespace Negocio
                         IdPuntoReciclaje = (int)datos.Lector["IdPuntoReciclaje"],
                         Nombre = (string)datos.Lector["Nombre"],
                         Direccion = (string)datos.Lector["Direccion"],
-                        HoraApertura = datos.Lector["HoraApertura"].ToString(),
-                        HoraCierre = datos.Lector["HoraCierre"].ToString(),
+                        CodigoPostal = datos.Lector["CodigoPostal"].ToString(),
+                        Email = (string)datos.Lector["Email"],
+                        HoraApertura = ((TimeSpan)datos.Lector["HoraApertura"]).ToString(@"hh\:mm"),
+                        HoraCierre = ((TimeSpan)datos.Lector["HoraCierre"]).ToString(@"hh\:mm"),
                         Telefono = (string)datos.Lector["Telefono"],
                         Provincia = (string)datos.Lector["Provincia"],
                         Municipio = (string)datos.Lector["Municipio"],

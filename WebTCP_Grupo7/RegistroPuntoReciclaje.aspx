@@ -11,7 +11,7 @@
                 <div class="row g-1">
                     <div class="col-md-12 fw-bold ">
                         <label for="txtNombre" class="form-label w-bold">Nombre del Punto de Reciclaje</label>
-                        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombre" class="form-control" placeholder="nombre" AutoFocus="false"/>
+                        <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombre" class="form-control" placeholder="nombre" AutoFocus="false" />
                         <asp:RequiredFieldValidator ErrorMessage="Nombre requerido" ControlToValidate="txtNombre" runat="server" CssClass="text-danger" />
                     </div>
                 </div>
@@ -81,9 +81,7 @@
                                 ID="ddlMunicipios"
                                 runat="server"
                                 CssClass="form-select"
-                                AutoFocus="false"
-                                
-                                >
+                                AutoFocus="false">
                             </asp:DropDownList>
                         </div>
                         <!-- Código Postal -->
@@ -95,27 +93,34 @@
                     </div>
                 </div>
 
-            <!-- Imagenes -->
-            <div class="col-md-4 fw-bold">
-                <label class="row g-1 form-label">Imagenes</label>
-                <asp:FileUpload ID="fileUploadImagenes" runat="server" AllowMultiple="true" />
-                <asp:Image ID="txtImgenes" ImageUrl="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" runat="server" CssClass="img-fluid mb-4" />
+                <!-- Imagenes -->
+                <div class="col-md-4 fw-bold">
+                    <label class="row g-1 form-label">Imagenes</label>
+                    <asp:FileUpload ID="fileUploadImagenes" runat="server" AllowMultiple="true" />
+                    <asp:Image ID="txtImgenes" ImageUrl="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" runat="server" CssClass="img-fluid mb-4" />
+                </div>
             </div>
+
+            <!-- Botones -->
+            <div class="col-12 text-center mt-3 ">
+                <%if (Request.QueryString["IdPR"] == null)
+                    { %>
+                <asp:Button Text="Registrar" CssClass="btn btn-primary" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
+                <%}
+                    else
+                    { %>
+                     <asp:Button Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" ID="btnModificar" runat="server" />
+                    <%} %>
+                <asp:Button Text="Cancelar" CssClass="btn btn-secondary ms-2" OnClientClick="return confirmarCancelacion();" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
+            </div>
+
         </div>
 
-        <!-- Botones -->
-        <div class="col-12 text-center mt-3 ">
-            <asp:Button Text="Registrar" CssClass="btn btn-primary" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
-            <asp:Button Text="Cancelar" CssClass="btn btn-secondary ms-2" OnClientClick="return confirmarCancelacion();" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
-        </div>
 
-    </div>
-
-
-    <!-- Script de confirmación -->
-    <script type="text/javascript">
-        function confirmarCancelacion() {
-            return confirm("¿Estás seguro de que deseas cancelar? Todos los cambios no guardados se perderán.");
-        }
-    </script>
+        <!-- Script de confirmación -->
+        <script type="text/javascript">
+            function confirmarCancelacion() {
+                return confirm("¿Estás seguro de que deseas cancelar? Todos los cambios no guardados se perderán.");
+            }
+        </script>
 </asp:Content>

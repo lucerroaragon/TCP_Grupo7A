@@ -71,14 +71,11 @@
                                 <asp:BoundField HeaderText="Municipio" DataField="Municipio" />
                                 <asp:BoundField HeaderText="Localidad" DataField="Localidad" />
                                 
-                                <asp:ButtonField CommandName="Seleccionar" Text="Seleccionar" HeaderText="Ver" />
-                                
+                                <asp:ButtonField CommandName="Seleccionar" Text="Seleccionar" HeaderText="Ver" /> 
                                 <asp:ButtonField CommandName="Editar" Text="Editar" HeaderText="Editar" />
-                                <%--<asp:CommandField ShowSelectButton="True" SelectText="Seleccionar" HeaderText="Ver" />
-                                <asp:CommandField ShowSelectButton="True" SelectText="Editar" HeaderText="Editar" />--%>
                             </Columns>
-
                         </asp:GridView>
+                        <asp:Button Text="Aprobar" CssClass="btn btn-primary" ID="btnAprobar" runat="server" />
                     </div>
                 </div>
             </div>

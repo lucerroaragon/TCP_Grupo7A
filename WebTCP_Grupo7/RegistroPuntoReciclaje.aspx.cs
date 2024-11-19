@@ -22,7 +22,22 @@ namespace WebTCP_Grupo7
                 await LoadProvincias();
                 ClientScript.RegisterStartupScript(this.GetType(), "autoFocusMunicipio",
                  "document.getElementById('" + txtNombre + "').focus();", true);
-               
+
+            }
+            if (Request.QueryString["IdPR"] != null)
+            {
+                PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
+                PuntosReciclaje pReciclaje = new PuntosReciclaje();
+                pReciclaje = pReciclajeNegocio.ObtenerPorId(int.Parse(Request.QueryString["IdPR"]));
+                txtNombre.Text = pReciclaje.Nombre;
+                txtDireccion.Text = pReciclaje.Direccion;
+                txtCP.Text = pReciclaje.CodigoPostal;
+                txtHoraApertura.Text = pReciclaje.HoraApertura;
+                txtHoraCierre.Text = pReciclaje.HoraCierre;
+                txtTelefono.Text = pReciclaje.Telefono;
+                txtEmail.Text = pReciclaje.Email;
+                ddlProvincias.SelectedValue = pReciclaje.Provincia.ToString();
+                ddlMunicipios.SelectedValue = pReciclaje.Municipio.ToString();
             }
         }
 
@@ -39,12 +54,11 @@ namespace WebTCP_Grupo7
         protected void btnRegistrar_Click(object sender, EventArgs e)
         {
             AccesoDatos datos = new AccesoDatos();
+            PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
+            PuntosReciclaje pReciclaje = new PuntosReciclaje();
+            ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
             try
             {
-                PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
-                PuntosReciclaje pReciclaje = new PuntosReciclaje();
-                ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
-
                 pReciclaje.Nombre = txtNombre.Text;
                 pReciclaje.Direccion = txtDireccion.Text;
                 pReciclaje.CodigoPostal = txtCP.Text;
@@ -64,24 +78,13 @@ namespace WebTCP_Grupo7
                     {
                         string nombreArchivo = Path.GetFileName("pReciclaje-" + IdImg + "-PR-" + pReciclaje.IdPuntoReciclaje + ".jpg");
                         string rutaArchivo = Server.MapPath("~/img/imgPuntosReciclaje/");
-                        //(uploadedFile.FileName);
-
-                        //txtImgenes.
-                        //    (rutaArchivo + "pReciclaje-" + pReciclaje.IdPuntoReciclaje + ".jpg");
-
-                        // Guardar el archivo en el servidor
-
-                        //string directoryPath = Path.GetDirectoryName(rutaArchivo);
-                        //if (!Directory.Exists(directoryPath))
-                        //{
-                        //    Directory.CreateDirectory(directoryPath);
-                        //}
                         uploadedFile.SaveAs(Path.Combine(rutaArchivo, nombreArchivo));
 
                         // Guardar la ruta en la base de datos
                         IdImg = imagenesNegocio.GuardarRutaImagenes(pReciclaje.IdPuntoReciclaje, rutaArchivo, nombreArchivo);
                     }
                 }
+
                 Response.Redirect("Default.aspx", false);
             }
             catch (Exception ex)
@@ -159,8 +162,52 @@ namespace WebTCP_Grupo7
             }
         }
 
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
+            PuntosReciclaje pReciclaje = new PuntosReciclaje();
+            ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
+            try
+            {
+                pReciclaje.Nombre = txtNombre.Text;
+                pReciclaje.Direccion = txtDireccion.Text;
+                pReciclaje.CodigoPostal = txtCP.Text;
+                pReciclaje.HoraApertura = txtHoraApertura.Text;
+                pReciclaje.HoraCierre = txtHoraCierre.Text;
+                pReciclaje.Telefono = txtTelefono.Text;
+                pReciclaje.Email = txtEmail.Text;
+                pReciclaje.Provincia = ddlProvincias.SelectedItem.Text;
+                pReciclaje.Municipio = ddlMunicipios.SelectedItem.Text;
+                pReciclaje.IdPuntoReciclaje = int.Parse(Request.QueryString["IdPR"]);
+                pReciclajeNegocio.modificar(pReciclaje);
+
+                int IdImg = imagenesNegocio.obtenerUltimoIdImg();
+                if (fileUploadImagenes.HasFiles)
+                {
+                    foreach (HttpPostedFile uploadedFile in fileUploadImagenes.PostedFiles)
+                    {
+                        string nombreArchivo = Path.GetFileName("pReciclaje-" + IdImg + "-PR-" + pReciclaje.IdPuntoReciclaje + ".jpg");
+                        string rutaArchivo = Server.MapPath("~/img/imgPuntosReciclaje/");
+                        uploadedFile.SaveAs(Path.Combine(rutaArchivo, nombreArchivo));
+
+                        // Guardar la ruta en la base de datos
+                        IdImg = imagenesNegocio.GuardarRutaImagenes(pReciclaje.IdPuntoReciclaje, rutaArchivo, nombreArchivo);
+                    }
+                }
+
+                Response.Redirect("Default.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+
+            }
+        }
 
     }
-
-
 }

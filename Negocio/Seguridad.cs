@@ -24,7 +24,7 @@ namespace Negocio
         {
 
             Usuario usuario = user != null ? (Usuario)user : null;
-            if (usuario.Administrador == 1)
+            if (usuario != null && usuario.Administrador == 1)
             {
                 return true;
             }

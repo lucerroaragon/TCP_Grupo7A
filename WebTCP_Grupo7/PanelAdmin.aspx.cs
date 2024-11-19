@@ -12,6 +12,9 @@ namespace WebTCP_Grupo7
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.esAdmin(Session["Usuario"])){
+                Response.Redirect("Default.aspx", false);
+            }
             PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
             dgvPanelAdmin.DataSource = puntosReciclajeNegocio.listarTodos();
             dgvPanelAdmin.DataBind();

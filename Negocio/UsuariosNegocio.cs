@@ -224,12 +224,13 @@ namespace Negocio
                         Apellido = (string)datos.Lector["Apellido"],
                         Email = (string)datos.Lector["Email"],
                         Password = (string)datos.Lector["Password"],
-                        Administrador = (int)datos.Lector["Administrador"]
+                        Administrador = Convert.ToBoolean(datos.Lector["Administrador"]) ? 1 : 0
                     };
 
                     return aux;
                 }
             }
+
             catch (Exception)
             {
                 throw;
