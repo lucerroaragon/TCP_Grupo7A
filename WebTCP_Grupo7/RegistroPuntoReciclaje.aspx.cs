@@ -10,7 +10,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-
 namespace WebTCP_Grupo7
 {
     public partial class RegistroPuntoReciclaje : System.Web.UI.Page
@@ -20,6 +19,7 @@ namespace WebTCP_Grupo7
             if (!IsPostBack)
             {
                 await LoadProvincias();
+
                 ClientScript.RegisterStartupScript(this.GetType(), "autoFocusMunicipio",
                  "document.getElementById('" + txtNombre + "').focus();", true);
 
@@ -38,6 +38,7 @@ namespace WebTCP_Grupo7
                 txtEmail.Text = pReciclaje.Email;
                 ddlProvincias.SelectedValue = pReciclaje.Provincia.ToString();
                 ddlMunicipios.SelectedValue = pReciclaje.Municipio.ToString();
+
             }
         }
 
@@ -48,10 +49,18 @@ namespace WebTCP_Grupo7
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-
+            // Botón sin funcionalidad asignada
         }
 
         protected void btnRegistrar_Click(object sender, EventArgs e)
+        {
+            if (ValidarCampos())
+            {
+                RegistrarPuntoReciclaje();
+            }
+        }
+
+        private void RegistrarPuntoReciclaje()
         {
             AccesoDatos datos = new AccesoDatos();
             PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
@@ -59,6 +68,7 @@ namespace WebTCP_Grupo7
             ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
             try
             {
+
                 pReciclaje.Nombre = txtNombre.Text;
                 pReciclaje.Direccion = txtDireccion.Text;
                 pReciclaje.CodigoPostal = txtCP.Text;
@@ -69,27 +79,33 @@ namespace WebTCP_Grupo7
                 pReciclaje.Email = txtEmail.Text;
                 pReciclaje.Provincia = ddlProvincias.SelectedItem.Text;
                 pReciclaje.Municipio = ddlMunicipios.SelectedItem.Text;
+
+                // Guardar el punto de reciclaje
                 pReciclaje.IdPuntoReciclaje = pReciclajeNegocio.agregar(pReciclaje);
 
+                // Manejo de imágenes
                 int IdImg = imagenesNegocio.obtenerUltimoIdImg();
                 if (fileUploadImagenes.HasFiles)
                 {
                     foreach (HttpPostedFile uploadedFile in fileUploadImagenes.PostedFiles)
                     {
-                        string nombreArchivo = Path.GetFileName("pReciclaje-" + IdImg + "-PR-" + pReciclaje.IdPuntoReciclaje + ".jpg");
+                        string nombreArchivo = $"pReciclaje-{IdImg}-PR-{pReciclaje.IdPuntoReciclaje}.jpg";
                         string rutaArchivo = Server.MapPath("~/img/imgPuntosReciclaje/");
                         uploadedFile.SaveAs(Path.Combine(rutaArchivo, nombreArchivo));
-
-                        // Guardar la ruta en la base de datos
                         IdImg = imagenesNegocio.GuardarRutaImagenes(pReciclaje.IdPuntoReciclaje, rutaArchivo, nombreArchivo);
                     }
                 }
 
+
                 Response.Redirect("Default.aspx", false);
+
+                LimpiarCampos();
+                MostrarMensaje("Registro exitoso.", true);
+
             }
             catch (Exception ex)
             {
-                throw ex;
+                MostrarMensaje($"Ocurrió un error: {ex.Message}", false);
             }
             finally
             {
@@ -97,38 +113,27 @@ namespace WebTCP_Grupo7
             }
         }
 
-
         private async Task LoadProvincias()
         {
             try
             {
-
                 string url = "https://apis.datos.gob.ar/georef/api/provincias";
-
                 string response = await ApiClient.GetAsync(url);
-
-
-                ClientScript.RegisterStartupScript(this.GetType(), "log", $"console.log({JsonConvert.SerializeObject(response)});", true);
-
 
                 dynamic provincias = JsonConvert.DeserializeObject(response);
 
-
                 ddlProvincias.DataSource = provincias.provincias;
-                ddlProvincias.DataTextField = "nombre";  // El campo que quieres mostrar
-                ddlProvincias.DataValueField = "id";    // El campo que quieres usar como valor
+                ddlProvincias.DataTextField = "nombre";
+                ddlProvincias.DataValueField = "id";
                 ddlProvincias.DataBind();
 
-                // Agregar una opción inicial
                 ddlProvincias.Items.Insert(0, new ListItem("-- Seleccione Provincia --", "0"));
             }
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "log", $"console.log('Error: {ex.Message}');", true);
-
+                MostrarMensaje($"Error al cargar provincias: {ex.Message}", false);
             }
         }
-
 
         protected async void ddlProvincias_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -136,31 +141,29 @@ namespace WebTCP_Grupo7
             {
                 string provinciaId = ddlProvincias.SelectedValue;
 
-                // Solo cargar municipios si se selecciona una provincia válida
                 if (!string.IsNullOrEmpty(provinciaId) && provinciaId != "0")
                 {
-                    string url = $"https://apis.datos.gob.ar/georef/api/municipios?max=200&provincia={provinciaId}";  // URL con parámetro para obtener municipios
+                    string url = $"https://apis.datos.gob.ar/georef/api/municipios?max=200&provincia={provinciaId}";
                     string response = await ApiClient.GetAsync(url);
 
                     dynamic municipios = JsonConvert.DeserializeObject(response);
 
-                    // Llenar el DropDownList de municipios
                     ddlMunicipios.DataSource = municipios.municipios;
-                    ddlMunicipios.DataTextField = "nombre";  // Nombre del municipio (ajustar según la API)
-                    ddlMunicipios.DataValueField = "id";    // ID del municipio
+                    ddlMunicipios.DataTextField = "nombre";
+                    ddlMunicipios.DataValueField = "id";
                     ddlMunicipios.DataBind();
 
-                    // Agregar una opción por defecto
                     ddlMunicipios.Items.Insert(0, new ListItem("-- Seleccione Municipio --", "0"));
                     ClientScript.RegisterStartupScript(this.GetType(), "autoFocusMunicipio",
-                 "document.getElementById('" + ddlMunicipios.ClientID + "').focus();", true);
+                        $"document.getElementById('{ddlMunicipios.ClientID}').focus();", true);
                 }
             }
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "log", $"console.log('Error: {ex.Message}');", true);
+                MostrarMensaje($"Error al cargar municipios: {ex.Message}", false);
             }
         }
+
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
@@ -210,4 +213,36 @@ namespace WebTCP_Grupo7
         }
 
     }
+
+
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrEmpty(txtNombre.Text) || ddlProvincias.SelectedValue == "0" || ddlMunicipios.SelectedValue == "0")
+            {
+                MostrarMensaje("Por favor complete todos los campos obligatorios.", false);
+                return false;
+            }
+            return true;
+        }
+
+        private void LimpiarCampos()
+        {
+            txtNombre.Text = string.Empty;
+            txtDireccion.Text = string.Empty;
+            txtCP.Text = string.Empty;
+            txtHoraApertura.Text = string.Empty;
+            txtHoraCierre.Text = string.Empty;
+            txtTelefono.Text = string.Empty;
+            txtEmail.Text = string.Empty;
+            ddlProvincias.SelectedIndex = 0;
+            ddlMunicipios.Items.Clear();
+        }
+
+        private void MostrarMensaje(string mensaje, bool exito)
+        {
+            string script = $"alert('{mensaje}');";
+            ClientScript.RegisterStartupScript(this.GetType(), exito ? "successMessage" : "errorMessage", script, true);
+        }
+    }
 }
+

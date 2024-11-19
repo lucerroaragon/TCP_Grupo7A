@@ -5,12 +5,14 @@
         <h2 class="text-center mt-5">Registro de Punto de Reciclaje</h2>
         <p class="text-center mb-5">Ingrese los datos del punto de reciclaje:</p>
 
-        <div class="row d-flex justify-content-center align-item-center p-4 mt-3 mb-5">
+        <div class="row d-flex justify-content-center align-items-center p-4 mt-3 mb-5">
             <div class="col-md-6">
                 <!-- Nombre del punto -->
                 <div class="row g-1">
+
                     <div class="col-md-12 fw-bold ">
                         <label for="txtNombre" class="form-label w-bold">Nombre del Punto de Reciclaje</label>
+
                         <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombre" class="form-control" placeholder="nombre" AutoFocus="false" />
                         <asp:RequiredFieldValidator ErrorMessage="Nombre requerido" ControlToValidate="txtNombre" runat="server" CssClass="text-danger" />
                     </div>
@@ -19,17 +21,16 @@
                 <div class="row g-1">
                     <!-- Email -->
                     <div class="col-md-6 fw-bold">
-                        <label for="txtEmail" class="form-label">Email</label>
+                        <label for="txtEmail" class="form-label">Email (opcional)</label>
                         <asp:TextBox runat="server" ClientIDMode="Static" ID="txtEmail" class="form-control" placeholder="email" />
-                        <asp:RequiredFieldValidator ErrorMessage="Email requerido" ControlToValidate="txtEmail" runat="server" CssClass="text-danger" />
                         <asp:RegularExpressionValidator ErrorMessage="Formato de email inválido" ControlToValidate="txtEmail" ValidationExpression="^[^\s@]+@[^\s@]+\.[^\s@]+$" runat="server" CssClass="text-danger" />
                     </div>
 
                     <!-- Teléfono -->
                     <div class="col-md-6 fw-bold">
-                        <label for="txtTelefono" class="form-label">Teléfono</label>
+                        <label for="txtTelefono" class="form-label">Teléfono (opcional)</label>
                         <asp:TextBox runat="server" ClientIDMode="Static" ID="txtTelefono" class="form-control" placeholder="telefono" />
-                        <asp:RequiredFieldValidator ErrorMessage="Teléfono requerido" ControlToValidate="txtTelefono" runat="server" CssClass="text-danger" />
+                        <asp:RegularExpressionValidator ErrorMessage="El teléfono debe contener solo números y puede incluir '+' o '-'" ControlToValidate="txtTelefono" ValidationExpression="^\+?[0-9\s\-]{7,15}$" runat="server" CssClass="text-danger" />
                     </div>
                 </div>
 
@@ -45,8 +46,8 @@
                         <asp:RequiredFieldValidator ControlToValidate="txtHoraCierre" ErrorMessage="El horario es obligatorio" runat="server" CssClass="text-danger" />
                     </div>
                 </div>
-                <div class="row g-1">
 
+                <div class="row g-1">
                     <!-- Dirección -->
                     <div class="col-md-6 fw-bold">
                         <label for="txtDireccion" class="form-label">Dirección</label>
@@ -57,18 +58,19 @@
                     <!-- Provincia -->
                     <div class="col-md-6 fw-bold">
                         <label for="ddlProvincias" class="form-label">Provincia</label>
-                        <asp:DropDownList
-                            ID="ddlProvincias"
-                            runat="server"
-                            CssClass="form-select"
-                            AutoPostBack="true"
-                            OnSelectedIndexChanged="ddlProvincias_SelectedIndexChanged">
+                        <asp:DropDownList ID="ddlProvincias" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlProvincias_SelectedIndexChanged">
                         </asp:DropDownList>
-                        <asp:RequiredFieldValidator
-                            ErrorMessage="Provincia requerida"
-                            ControlToValidate="ddlProvincias"
-                            runat="server"
-                            CssClass="text-danger" />
+                        <asp:RequiredFieldValidator ErrorMessage="Provincia requerida" ControlToValidate="ddlProvincias" runat="server" CssClass="text-danger" />
+                    </div>
+                </div>
+
+                <div class="row g-1">
+                    <!-- Municipio-->
+                    <div class="col-md-6 fw-bold">
+                        <label for="ddlMunicipios" class="form-label">Municipio</label>
+                        <asp:DropDownList ID="ddlMunicipios" runat="server" CssClass="form-select">
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ErrorMessage="Municipio requerido" ControlToValidate="ddlMunicipios" runat="server" CssClass="text-danger" />
                     </div>
 
 
@@ -90,8 +92,10 @@
                             <asp:TextBox runat="server" ClientIDMode="Static" ID="txtCP" class="form-control" placeholder="cp" />
                             <asp:RequiredFieldValidator ErrorMessage="Código Postal requerido" ControlToValidate="txtCP" runat="server" CssClass="text-danger" />
                         </div>
+
                     </div>
                 </div>
+            </div>
 
                 <!-- Imagenes -->
                 <div class="col-md-4 fw-bold">
@@ -100,6 +104,7 @@
                     <asp:Image ID="txtImgenes" ImageUrl="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" runat="server" CssClass="img-fluid mb-4" />
                 </div>
             </div>
+
 
             <!-- Botones -->
             <div class="col-12 text-center mt-3 ">
@@ -123,4 +128,6 @@
                 return confirm("¿Estás seguro de que deseas cancelar? Todos los cambios no guardados se perderán.");
             }
         </script>
+
 </asp:Content>
+
