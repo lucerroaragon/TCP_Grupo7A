@@ -11,12 +11,12 @@ namespace WebTCP_Grupo7
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Opcional: cualquier código que necesites en la carga de la página
+         
         }
 
         protected void btnIngresar_Click(object sender, EventArgs e)
         {
-            // Validar si la página es válida (todas las validaciones en los controles de la página)
+          
             Page.Validate();
             if (!Page.IsValid)
                 return;  // Si no es válida, no continuar
@@ -28,29 +28,31 @@ namespace WebTCP_Grupo7
                 usuario.Email = txtUsername.Text;
                 usuario.Password = txtPassword.Text;
 
-                // Verificar las credenciales
+                
                 bool credencialesValidas = usuariosNegocio.ValidarUsuario(usuario);
 
                 if (credencialesValidas)
                 {
+
                     Usuario user = usuariosNegocio.ObtenerUsuario(usuario);
                     // Si las credenciales son correctas, almacenar en la sesión y redirigir
                     Session["Usuario"] = user;
+
                     Response.Redirect("Default.aspx", false);
                 }
                 else
                 {
-                    // Si las credenciales no son correctas, mostrar un mensaje genérico
+                  
                     lblMessage.Text = "El nombre de usuario o la contraseña son incorrectos.";
                     lblMessage.Visible = true;
                 }
             }
             catch (Exception)
             {
-                // Manejo de excepciones
+              
                 lblMessage.Text = "Ocurrió un error al intentar iniciar sesión. Por favor, intente nuevamente.";
                 lblMessage.Visible = true;
-                // Registrar el error o enviarlo al log de errores
+                
             }
         }
     }
