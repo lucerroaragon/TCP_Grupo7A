@@ -24,7 +24,7 @@ namespace WebTCP_Grupo7
                  "document.getElementById('" + txtNombre + "').focus();", true);
 
             }
-            if (Request.QueryString["IdPR"] != null)
+            if (Request.QueryString["IdPR"] != null && !IsPostBack)
             {
                 PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
                 PuntosReciclaje pReciclaje = new PuntosReciclaje();
@@ -36,10 +36,9 @@ namespace WebTCP_Grupo7
                 txtHoraCierre.Text = pReciclaje.HoraCierre;
                 txtTelefono.Text = pReciclaje.Telefono;
                 txtEmail.Text = pReciclaje.Email;
-                ddlProvincias.SelectedValue = pReciclaje.Provincia.ToString();
-                ddlMunicipios.SelectedValue = pReciclaje.Municipio.ToString();
-                ddlLocalidad.SelectedValue = pReciclaje.Localidad.ToString();
-
+                ddlProvincias.Items.Insert(0, pReciclaje.Provincia.ToString());
+                ddlMunicipios.Items.Insert(0, new ListItem(pReciclaje.Municipio.ToString(), "0"));
+                ddlLocalidad.Items.Insert(0, pReciclaje.Localidad.ToString());
             }
         }
 
@@ -230,6 +229,7 @@ namespace WebTCP_Grupo7
                 pReciclaje.Email = txtEmail.Text;
                 pReciclaje.Provincia = ddlProvincias.SelectedItem.Text;
                 pReciclaje.Municipio = ddlMunicipios.SelectedItem.Text;
+                pReciclaje.Localidad = ddlLocalidad.SelectedItem.Text;
                 pReciclaje.IdPuntoReciclaje = int.Parse(Request.QueryString["IdPR"]);
                 pReciclajeNegocio.modificar(pReciclaje);
 

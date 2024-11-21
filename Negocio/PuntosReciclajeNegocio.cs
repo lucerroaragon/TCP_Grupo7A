@@ -121,7 +121,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearProcedimiento("storedModificarPuntoReciclaje");
+                datos.setearProcedimiento("sp_ModificarPuntoReciclaje");
                 datos.agregarParametro("@IdPuntoReciclaje", puntoReciclaje.IdPuntoReciclaje);
                 datos.agregarParametro("@Nombre", puntoReciclaje.Nombre);
                 datos.agregarParametro("@Direccion", puntoReciclaje.Direccion);
@@ -131,6 +131,8 @@ namespace Negocio
                 datos.agregarParametro("@Email", puntoReciclaje.Email);
                 datos.agregarParametro("@Provincia", puntoReciclaje.Provincia);
                 datos.agregarParametro("@Municipio", puntoReciclaje.Municipio);
+                datos.agregarParametro("@Localidad", puntoReciclaje.Localidad);
+                datos.agregarParametro("@CodigoPostal", puntoReciclaje.CodigoPostal);
                 //datos.agregarParametro("@Tipo", puntoReciclaje.Tipo);
                 //datos.agregarParametro("@Descripcion", puntoReciclaje.Descripcion);
                 datos.ejecutarAccion();
@@ -199,6 +201,7 @@ namespace Negocio
                         Telefono = (string)datos.Lector["Telefono"],
                         Provincia = (string)datos.Lector["Provincia"],
                         Municipio = (string)datos.Lector["Municipio"],
+                        Localidad = (string)datos.Lector["Localidad"],
                         Imagenes = new List<string>()
                     };
 
