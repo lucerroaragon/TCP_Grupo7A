@@ -12,14 +12,22 @@ namespace Negocio
 {
     public class PuntosReciclajeNegocio
     {
-        public List<PuntosReciclaje> listarTodos()
+        public List<PuntosReciclaje> listarTodos(string estado = "")
         {
             List<PuntosReciclaje> lista = new List<PuntosReciclaje>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearProcedimiento("sp_PuntoReciclaje");
+                if(estado == "")
+                {
+                    datos.setearProcedimiento("sp_PuntoReciclaje");
+                }
+                else
+                {
+                    datos.setearProcedimiento("sp_PuntoReciclaje_por_Estado");
+                    datos.agregarParametro("@Estado", estado);
+                }
 
                 datos.ejecutarLectura();
 
@@ -42,6 +50,7 @@ namespace Negocio
                             Telefono = (string)datos.Lector["Telefono"],
                             Municipio = (string)datos.Lector["Municipio"],
                             Provincia = (string)datos.Lector["Provincia"],
+                            Localidad = (string)datos.Lector["Localidad"],
 
                             //Imagen = (string)datos.Lector["Imagen"],
                             //Latitud = (string)datos.Lector["Latitud"],
@@ -92,6 +101,7 @@ namespace Negocio
                 datos.agregarParametro("@fechaAlta", puntoReciclaje.FechaAlta);
                 datos.agregarParametro("@Provincia", puntoReciclaje.Provincia);
                 datos.agregarParametro("@Municipio", puntoReciclaje.Municipio);
+                datos.agregarParametro("@Localidad", puntoReciclaje.Localidad);
 
 
                 return datos.ejecutarAccionEscalar();
@@ -154,7 +164,7 @@ namespace Negocio
             }
         }
 
-        public PuntosReciclaje ObtenerPorId(int idPuntoReciclaje)
+        public PuntosReciclaje ObtenerPorId(int idPuntoReciclaje, string estado = "")
         {
             PuntosReciclaje punto = null;
             AccesoDatos datos = new AccesoDatos();
@@ -164,6 +174,13 @@ namespace Negocio
                 // Configurar el procedimiento almacenado
                 datos.setearProcedimiento("sp_PuntoReciclaje_por_Id");
                 datos.setearParametro("@IdPuntoReciclaje", idPuntoReciclaje);
+                if (estado == "") { 
+                    datos.setearParametro("@Estado", 1);
+                }
+                else
+                {
+                    datos.setearParametro("@Estado", estado);
+                }
 
                 datos.ejecutarLectura();
 
@@ -204,7 +221,24 @@ namespace Negocio
             }
         }
 
-
+        public void Aprobar(int id)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                accesoDatos.setearProcedimiento("sp_AprobarPuntoReciclaje");
+                accesoDatos.agregarParametro("@IdPuntoReciclaje", id);
+                accesoDatos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
     }
 }
 

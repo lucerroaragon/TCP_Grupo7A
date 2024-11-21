@@ -20,8 +20,18 @@ namespace WebTCP_Grupo7
                 if (!string.IsNullOrEmpty(idpuntoreciclaje))
                 {
                     PuntosReciclajeNegocio negocio = new PuntosReciclajeNegocio();
-                    PuntosReciclaje centro = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje));
+                    PuntosReciclaje aux;
+                    if (Session["estado"] != null)
+                    {
+                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), (string)Session["estado"]);
+                        Session.Remove("estado");
+                    }
+                    else
+                    {
+                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje));
+                    }
 
+                    PuntosReciclaje centro = aux;
 
                     string script = $@"
                         console.log('ID del artículo: {idpuntoreciclaje}');

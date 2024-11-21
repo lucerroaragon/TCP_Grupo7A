@@ -38,9 +38,11 @@ namespace WebTCP_Grupo7
                 txtEmail.Text = pReciclaje.Email;
                 ddlProvincias.SelectedValue = pReciclaje.Provincia.ToString();
                 ddlMunicipios.SelectedValue = pReciclaje.Municipio.ToString();
+                ddlLocalidad.SelectedValue = pReciclaje.Localidad.ToString();
 
             }
         }
+
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -79,6 +81,7 @@ namespace WebTCP_Grupo7
                 pReciclaje.Email = txtEmail.Text;
                 pReciclaje.Provincia = ddlProvincias.SelectedItem.Text;
                 pReciclaje.Municipio = ddlMunicipios.SelectedItem.Text;
+                pReciclaje.Localidad = ddlLocalidad.SelectedItem.Text;
 
                 // Guardar el punto de reciclaje
                 pReciclaje.IdPuntoReciclaje = pReciclajeNegocio.agregar(pReciclaje);
@@ -97,11 +100,11 @@ namespace WebTCP_Grupo7
                 }
 
 
-                Response.Redirect("Default.aspx", false);
 
                 LimpiarCampos();
                 MostrarMensaje("Registro exitoso.", true);
 
+                Response.Redirect("Default.aspx", false);
             }
             catch (Exception ex)
             {
@@ -122,7 +125,11 @@ namespace WebTCP_Grupo7
 
                 dynamic provincias = JsonConvert.DeserializeObject(response);
 
-                ddlProvincias.DataSource = provincias.provincias;
+                var listaProvincias = ((IEnumerable<dynamic>)provincias.provincias)
+                    .OrderBy(p => (string)p.nombre) // Acceso seguro a la propiedad dinámica
+                    .ToList();
+
+                ddlProvincias.DataSource = listaProvincias;
                 ddlProvincias.DataTextField = "nombre";
                 ddlProvincias.DataValueField = "id";
                 ddlProvincias.DataBind();
@@ -148,12 +155,20 @@ namespace WebTCP_Grupo7
 
                     dynamic municipios = JsonConvert.DeserializeObject(response);
 
-                    ddlMunicipios.DataSource = municipios.municipios;
+                    // Ordenar y convertir a lista
+                    var listaMunicipios = ((IEnumerable<dynamic>)municipios.municipios)
+                        .Select(m => new { id = (string)m.id, nombre = ((string)m.nombre).Trim() })
+                        .OrderBy(m => m.nombre, StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+
+                    // Cargar en el DropDownList
+                    ddlMunicipios.Items.Clear();
+                    ddlMunicipios.DataSource = listaMunicipios;
                     ddlMunicipios.DataTextField = "nombre";
                     ddlMunicipios.DataValueField = "id";
                     ddlMunicipios.DataBind();
-
                     ddlMunicipios.Items.Insert(0, new ListItem("-- Seleccione Municipio --", "0"));
+
                     ClientScript.RegisterStartupScript(this.GetType(), "autoFocusMunicipio",
                         $"document.getElementById('{ddlMunicipios.ClientID}').focus();", true);
                 }
@@ -161,6 +176,39 @@ namespace WebTCP_Grupo7
             catch (Exception ex)
             {
                 MostrarMensaje($"Error al cargar municipios: {ex.Message}", false);
+            }
+        }
+        protected async void ddlMunicipios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string municipioId = ddlMunicipios.SelectedValue;
+
+                if (!string.IsNullOrEmpty(municipioId) && municipioId != "0")
+                {
+                    string url = $"https://apis.datos.gob.ar/georef/api/localidades?max=200&municipio={municipioId}";
+                    string response = await ApiClient.GetAsync(url);
+
+                    dynamic localidades = JsonConvert.DeserializeObject(response);
+
+                    // Ordenar y convertir a lista
+                    var listaLocalidades = ((IEnumerable<dynamic>)localidades.localidades)
+                        .Select(l => new { id = (string)l.id, nombre = ((string)l.nombre).Trim() })
+                        .OrderBy(l => l.nombre, StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+
+                    // Cargar en el DropDownList
+                    ddlLocalidad.Items.Clear();
+                    ddlLocalidad.DataSource = listaLocalidades;
+                    ddlLocalidad.DataTextField = "nombre";
+                    ddlLocalidad.DataValueField = "id";
+                    ddlLocalidad.DataBind();
+                    ddlLocalidad.Items.Insert(0, new ListItem("-- Seleccione Localidad --", "0"));
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje($"Error al cargar localidades: {ex.Message}", false);
             }
         }
 
@@ -212,9 +260,6 @@ namespace WebTCP_Grupo7
             }
         }
 
-    }
-
-
         private bool ValidarCampos()
         {
             if (string.IsNullOrEmpty(txtNombre.Text) || ddlProvincias.SelectedValue == "0" || ddlMunicipios.SelectedValue == "0")
@@ -243,6 +288,7 @@ namespace WebTCP_Grupo7
             string script = $"alert('{mensaje}');";
             ClientScript.RegisterStartupScript(this.GetType(), exito ? "successMessage" : "errorMessage", script, true);
         }
+
     }
 }
 
