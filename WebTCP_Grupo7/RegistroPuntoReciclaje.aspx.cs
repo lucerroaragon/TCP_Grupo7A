@@ -19,10 +19,29 @@ namespace WebTCP_Grupo7
             if (!IsPostBack)
             {
                 await LoadProvincias();
-                ClientScript.RegisterStartupScript(this.GetType(), "autoFocusNombre",
-                    $"document.getElementById('{txtNombre.ClientID}').focus();", true);
+
+                ClientScript.RegisterStartupScript(this.GetType(), "autoFocusMunicipio",
+                 "document.getElementById('" + txtNombre + "').focus();", true);
+
+            }
+            if (Request.QueryString["IdPR"] != null && !IsPostBack)
+            {
+                PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
+                PuntosReciclaje pReciclaje = new PuntosReciclaje();
+                pReciclaje = pReciclajeNegocio.ObtenerPorId(int.Parse(Request.QueryString["IdPR"]));
+                txtNombre.Text = pReciclaje.Nombre;
+                txtDireccion.Text = pReciclaje.Direccion;
+                txtCP.Text = pReciclaje.CodigoPostal;
+                txtHoraApertura.Text = pReciclaje.HoraApertura;
+                txtHoraCierre.Text = pReciclaje.HoraCierre;
+                txtTelefono.Text = pReciclaje.Telefono;
+                txtEmail.Text = pReciclaje.Email;
+                ddlProvincias.Items.Insert(0, pReciclaje.Provincia.ToString());
+                ddlMunicipios.Items.Insert(0, new ListItem(pReciclaje.Municipio.ToString(), "0"));
+                ddlLocalidad.Items.Insert(0, pReciclaje.Localidad.ToString());
             }
         }
+
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -45,13 +64,12 @@ namespace WebTCP_Grupo7
         private void RegistrarPuntoReciclaje()
         {
             AccesoDatos datos = new AccesoDatos();
+            PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
+            PuntosReciclaje pReciclaje = new PuntosReciclaje();
+            ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
             try
             {
-                PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
-                PuntosReciclaje pReciclaje = new PuntosReciclaje();
-                ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
 
-                // Asignación de valores
                 pReciclaje.Nombre = txtNombre.Text;
                 pReciclaje.Direccion = txtDireccion.Text;
                 pReciclaje.CodigoPostal = txtCP.Text;
@@ -62,6 +80,7 @@ namespace WebTCP_Grupo7
                 pReciclaje.Email = txtEmail.Text;
                 pReciclaje.Provincia = ddlProvincias.SelectedItem.Text;
                 pReciclaje.Municipio = ddlMunicipios.SelectedItem.Text;
+                pReciclaje.Localidad = ddlLocalidad.SelectedItem.Text;
 
                 // Guardar el punto de reciclaje
                 pReciclaje.IdPuntoReciclaje = pReciclajeNegocio.agregar(pReciclaje);
@@ -79,8 +98,12 @@ namespace WebTCP_Grupo7
                     }
                 }
 
+
+
                 LimpiarCampos();
                 MostrarMensaje("Registro exitoso.", true);
+
+                Response.Redirect("Default.aspx", false);
             }
             catch (Exception ex)
             {
@@ -101,7 +124,11 @@ namespace WebTCP_Grupo7
 
                 dynamic provincias = JsonConvert.DeserializeObject(response);
 
-                ddlProvincias.DataSource = provincias.provincias;
+                var listaProvincias = ((IEnumerable<dynamic>)provincias.provincias)
+                    .OrderBy(p => (string)p.nombre) // Acceso seguro a la propiedad dinámica
+                    .ToList();
+
+                ddlProvincias.DataSource = listaProvincias;
                 ddlProvincias.DataTextField = "nombre";
                 ddlProvincias.DataValueField = "id";
                 ddlProvincias.DataBind();
@@ -127,12 +154,20 @@ namespace WebTCP_Grupo7
 
                     dynamic municipios = JsonConvert.DeserializeObject(response);
 
-                    ddlMunicipios.DataSource = municipios.municipios;
+                    // Ordenar y convertir a lista
+                    var listaMunicipios = ((IEnumerable<dynamic>)municipios.municipios)
+                        .Select(m => new { id = (string)m.id, nombre = ((string)m.nombre).Trim() })
+                        .OrderBy(m => m.nombre, StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+
+                    // Cargar en el DropDownList
+                    ddlMunicipios.Items.Clear();
+                    ddlMunicipios.DataSource = listaMunicipios;
                     ddlMunicipios.DataTextField = "nombre";
                     ddlMunicipios.DataValueField = "id";
                     ddlMunicipios.DataBind();
-
                     ddlMunicipios.Items.Insert(0, new ListItem("-- Seleccione Municipio --", "0"));
+
                     ClientScript.RegisterStartupScript(this.GetType(), "autoFocusMunicipio",
                         $"document.getElementById('{ddlMunicipios.ClientID}').focus();", true);
                 }
@@ -140,6 +175,88 @@ namespace WebTCP_Grupo7
             catch (Exception ex)
             {
                 MostrarMensaje($"Error al cargar municipios: {ex.Message}", false);
+            }
+        }
+        protected async void ddlMunicipios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string municipioId = ddlMunicipios.SelectedValue;
+
+                if (!string.IsNullOrEmpty(municipioId) && municipioId != "0")
+                {
+                    string url = $"https://apis.datos.gob.ar/georef/api/localidades?max=200&municipio={municipioId}";
+                    string response = await ApiClient.GetAsync(url);
+
+                    dynamic localidades = JsonConvert.DeserializeObject(response);
+
+                    // Ordenar y convertir a lista
+                    var listaLocalidades = ((IEnumerable<dynamic>)localidades.localidades)
+                        .Select(l => new { id = (string)l.id, nombre = ((string)l.nombre).Trim() })
+                        .OrderBy(l => l.nombre, StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+
+                    // Cargar en el DropDownList
+                    ddlLocalidad.Items.Clear();
+                    ddlLocalidad.DataSource = listaLocalidades;
+                    ddlLocalidad.DataTextField = "nombre";
+                    ddlLocalidad.DataValueField = "id";
+                    ddlLocalidad.DataBind();
+                    ddlLocalidad.Items.Insert(0, new ListItem("-- Seleccione Localidad --", "0"));
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje($"Error al cargar localidades: {ex.Message}", false);
+            }
+        }
+
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
+            PuntosReciclaje pReciclaje = new PuntosReciclaje();
+            ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
+            try
+            {
+                pReciclaje.Nombre = txtNombre.Text;
+                pReciclaje.Direccion = txtDireccion.Text;
+                pReciclaje.CodigoPostal = txtCP.Text;
+                pReciclaje.HoraApertura = txtHoraApertura.Text;
+                pReciclaje.HoraCierre = txtHoraCierre.Text;
+                pReciclaje.Telefono = txtTelefono.Text;
+                pReciclaje.Email = txtEmail.Text;
+                pReciclaje.Provincia = ddlProvincias.SelectedItem.Text;
+                pReciclaje.Municipio = ddlMunicipios.SelectedItem.Text;
+                pReciclaje.Localidad = ddlLocalidad.SelectedItem.Text;
+                pReciclaje.IdPuntoReciclaje = int.Parse(Request.QueryString["IdPR"]);
+                pReciclajeNegocio.modificar(pReciclaje);
+
+                int IdImg = imagenesNegocio.obtenerUltimoIdImg();
+                if (fileUploadImagenes.HasFiles)
+                {
+                    foreach (HttpPostedFile uploadedFile in fileUploadImagenes.PostedFiles)
+                    {
+                        string nombreArchivo = Path.GetFileName("pReciclaje-" + IdImg + "-PR-" + pReciclaje.IdPuntoReciclaje + ".jpg");
+                        string rutaArchivo = Server.MapPath("~/img/imgPuntosReciclaje/");
+                        uploadedFile.SaveAs(Path.Combine(rutaArchivo, nombreArchivo));
+
+                        // Guardar la ruta en la base de datos
+                        IdImg = imagenesNegocio.GuardarRutaImagenes(pReciclaje.IdPuntoReciclaje, rutaArchivo, nombreArchivo);
+                    }
+                }
+
+                Response.Redirect("Default.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+
             }
         }
 
@@ -171,5 +288,7 @@ namespace WebTCP_Grupo7
             string script = $"alert('{mensaje}');";
             ClientScript.RegisterStartupScript(this.GetType(), exito ? "successMessage" : "errorMessage", script, true);
         }
+
     }
 }
+

@@ -22,8 +22,9 @@ namespace Negocio
         }
         public static bool esAdmin(object user)
         {
+
             Usuario usuario = user != null ? (Usuario)user : null;
-            if (usuario != null && usuario.Rol == "admin")
+            if (usuario != null && usuario.Administrador == 1)
             {
                 return true;
             }

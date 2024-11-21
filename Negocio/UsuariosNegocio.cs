@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Dominio;
 
@@ -42,14 +43,23 @@ namespace Negocio
         }
 
      
-        public List<Usuario> listar()
+        public List<Usuario> listar(string estado = "")
         {
             List<Usuario> lista = new List<Usuario>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("SELECT idUsuario, Nombre, Apellido, DNI, Email, Direccion, Password, Role FROM USUARIOS");
+                if(estado != "")
+                {
+                    datos.setearConsulta("SELECT idUsuario, Nombre, Apellido, Email, Password, Administrador, FechaAlta FROM USUARIOS WHERE Estado = @estado");
+                    datos.setearParametro("@estado", estado);
+                }
+                else
+                {
+                    datos.setearConsulta("SELECT idUsuario, Nombre, Apellido, Email, Password, Administrador, FechaAlta FROM USUARIOS");
+                }
+                
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -61,7 +71,8 @@ namespace Negocio
                         Apellido = (string)datos.Lector["Apellido"],
                         Email = (string)datos.Lector["Email"],
                         Password = (string)datos.Lector["Password"],
-                        Rol = (string)datos.Lector["Role"]
+                        FechaAlta = ((DateTime)datos.Lector["FechaAlta"]).Date,
+                        Administrador = Convert.ToBoolean(datos.Lector["Administrador"]) ? 1 : 0
                     };
 
                     lista.Add(aux);
@@ -73,6 +84,10 @@ namespace Negocio
             {
                 throw ex;
             }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
  
@@ -81,12 +96,11 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT INTO USUARIOS (Nombre, Apellido, Email, Direccion, Password, Role) VALUES (@Nombre, @Apellido, @Email, @Password, @Rol)");
+                datos.setearConsulta("INSERT INTO USUARIOS (Nombre, Apellido, Email, Password) VALUES (@Nombre, @Apellido, @Email, @Password)");
                 datos.setearParametro("@Nombre", usuario.Nombre);
                 datos.setearParametro("@Apellido", usuario.Apellido);
                 datos.setearParametro("@Email", usuario.Email);
                 datos.setearParametro("@Password", usuario.Password);
-                datos.setearParametro("@Role", usuario.Rol);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -105,12 +119,13 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT INTO USUARIOS (Nombre, Apellido, Email, Password) VALUES (@Nombre, @Apellido, @Email, @Password)");
+                datos.setearConsulta("INSERT INTO USUARIOS (Nombre, Apellido, Email, Password, FechaAlta) VALUES (@Nombre, @Apellido, @Email, @Password, @FechaAlta)");
 
                 datos.setearParametro("@Nombre", user.Nombre);
                 datos.setearParametro("@Apellido", user.Apellido);
                 datos.setearParametro("@Email", user.Email);
                 datos.setearParametro("@Password", user.Password);
+                datos.setearParametro("@FechaAlta", user.FechaAlta);
 
                 datos.ejecutarAccion();
             }
@@ -120,7 +135,7 @@ namespace Negocio
             }
             finally
             {
-                //datos.cerrarConexion();
+                datos.cerrarConexion();
             }
         }
 
@@ -150,13 +165,12 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE USUARIOS SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email, Password = @Password, Rol = @Rol WHERE idUsuario = @idUsuario");
+                datos.setearConsulta("UPDATE USUARIOS SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email WHERE idUsuario = @idUsuario");
                 datos.setearParametro("@idUsuario", usuario.idUsuario);
                 datos.setearParametro("@Nombre", usuario.Nombre);
                 datos.setearParametro("@Apellido", usuario.Apellido);
                 datos.setearParametro("@Email", usuario.Email);
-                datos.setearParametro("@Password", usuario.Password);
-                datos.setearParametro("@Role", usuario.Rol);
+
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -205,6 +219,76 @@ namespace Negocio
             }
         }
 
+        public Usuario ObtenerUsuario(Usuario user)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT idUsuario, Nombre, Apellido, Email, Password, Administrador FROM USUARIOS WHERE Email = @Email AND Estado = 1 ");
+                datos.setearParametro("@Email", user.Email);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Usuario aux = new Usuario
+                    {
+                        idUsuario = (int)datos.Lector["idUsuario"],
+                        Nombre = (string)datos.Lector["Nombre"],
+                        Apellido = (string)datos.Lector["Apellido"],
+                        Email = (string)datos.Lector["Email"],
+                        Password = (string)datos.Lector["Password"],
+                        Administrador = Convert.ToBoolean(datos.Lector["Administrador"]) ? 1 : 0
+                    };
+
+                    return aux;
+                }
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return null;
+        }
+        public Usuario ObtenerUsuario_id(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT Nombre, Apellido, Email, Password FROM USUARIOS WHERE idusuario = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Usuario aux = new Usuario
+                    {
+                        Nombre = (string)datos.Lector["Nombre"],
+                        Apellido = (string)datos.Lector["Apellido"],
+                        Email = (string)datos.Lector["Email"],
+                    };
+
+                    return aux;
+                }
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+            return null;
+        }
     }
 
 }

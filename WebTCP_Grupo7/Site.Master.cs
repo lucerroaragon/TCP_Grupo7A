@@ -18,6 +18,7 @@ namespace WebTCP_Grupo7
                 {
                     Response.Redirect("InicioSesion.aspx");
                 }
+                
             }
 
             // Asignar el evento Command a los botones al cargar la página

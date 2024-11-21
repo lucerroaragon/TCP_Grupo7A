@@ -20,7 +20,6 @@ namespace WebTCP_Grupo7
         {
             AccesoDatos datos = new AccesoDatos();
             UsuariosNegocio negocio = new UsuariosNegocio();
-            Usuario user = (Usuario)Session["Usuario"];
             try
             {
                 datos.setearConsulta("SELECT numcodigo FROM CODIGOVERIFICACION WHERE numcodigo = @Codigo");
@@ -30,9 +29,10 @@ namespace WebTCP_Grupo7
 
                 if (datos.Lector.Read())
                 {
+                    Usuario user = (Usuario)Session["Usuario1"];
                     negocio.RegistrarUsuario(user);
                     Seguridad.EliminarCodigo(int.Parse(txtCodigo.Text));
-                    Response.Redirect("Default.aspx", false);
+                    Response.Redirect("InicioSesion.aspx", false);
                 }
                 else
                 {
@@ -47,6 +47,7 @@ namespace WebTCP_Grupo7
             }
             finally
             {
+                Session.Clear();
                 datos.cerrarConexion();
             }
         }

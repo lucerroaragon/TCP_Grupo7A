@@ -12,14 +12,22 @@ namespace Negocio
 {
     public class PuntosReciclajeNegocio
     {
-        public List<PuntosReciclaje> listarTodos()
+        public List<PuntosReciclaje> listarTodos(string estado = "")
         {
             List<PuntosReciclaje> lista = new List<PuntosReciclaje>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearProcedimiento("sp_PuntoReciclaje");
+                if(estado == "")
+                {
+                    datos.setearProcedimiento("sp_PuntoReciclaje");
+                }
+                else
+                {
+                    datos.setearProcedimiento("sp_PuntoReciclaje_por_Estado");
+                    datos.agregarParametro("@Estado", estado);
+                }
 
                 datos.ejecutarLectura();
 
@@ -35,12 +43,14 @@ namespace Negocio
                         {
                             IdPuntoReciclaje = idPuntoReciclaje,
                             Nombre = (string)datos.Lector["Nombre"],
+                            Email = (string)datos.Lector["Email"],
                             Direccion = (string)datos.Lector["Direccion"],
                             HoraApertura = datos.Lector["HoraApertura"].ToString(),
                             HoraCierre = datos.Lector["HoraCierre"].ToString(),
                             Telefono = (string)datos.Lector["Telefono"],
                             Municipio = (string)datos.Lector["Municipio"],
                             Provincia = (string)datos.Lector["Provincia"],
+                            Localidad = (string)datos.Lector["Localidad"],
 
                             //Imagen = (string)datos.Lector["Imagen"],
                             //Latitud = (string)datos.Lector["Latitud"],
@@ -91,6 +101,7 @@ namespace Negocio
                 datos.agregarParametro("@fechaAlta", puntoReciclaje.FechaAlta);
                 datos.agregarParametro("@Provincia", puntoReciclaje.Provincia);
                 datos.agregarParametro("@Municipio", puntoReciclaje.Municipio);
+                datos.agregarParametro("@Localidad", puntoReciclaje.Localidad);
 
 
                 return datos.ejecutarAccionEscalar();
@@ -110,17 +121,20 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearProcedimiento("storedModificarPuntoReciclaje");
+                datos.setearProcedimiento("sp_ModificarPuntoReciclaje");
                 datos.agregarParametro("@IdPuntoReciclaje", puntoReciclaje.IdPuntoReciclaje);
                 datos.agregarParametro("@Nombre", puntoReciclaje.Nombre);
                 datos.agregarParametro("@Direccion", puntoReciclaje.Direccion);
-                datos.agregarParametro("@Horario", puntoReciclaje.HoraApertura);
-                datos.agregarParametro("@Horario", puntoReciclaje.HoraCierre);
+                datos.agregarParametro("@HoraApertura", puntoReciclaje.HoraApertura);
+                datos.agregarParametro("@HoraCierre", puntoReciclaje.HoraCierre);
                 datos.agregarParametro("@Telefono", puntoReciclaje.Telefono);
-                datos.agregarParametro("@Latitud", puntoReciclaje.Latitud);
-                datos.agregarParametro("@Longitud", puntoReciclaje.Longitud);
-                datos.agregarParametro("@Tipo", puntoReciclaje.Tipo);
-                datos.agregarParametro("@Descripcion", puntoReciclaje.Descripcion);
+                datos.agregarParametro("@Email", puntoReciclaje.Email);
+                datos.agregarParametro("@Provincia", puntoReciclaje.Provincia);
+                datos.agregarParametro("@Municipio", puntoReciclaje.Municipio);
+                datos.agregarParametro("@Localidad", puntoReciclaje.Localidad);
+                datos.agregarParametro("@CodigoPostal", puntoReciclaje.CodigoPostal);
+                //datos.agregarParametro("@Tipo", puntoReciclaje.Tipo);
+                //datos.agregarParametro("@Descripcion", puntoReciclaje.Descripcion);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -152,7 +166,7 @@ namespace Negocio
             }
         }
 
-        public PuntosReciclaje ObtenerPorId(int idPuntoReciclaje)
+        public PuntosReciclaje ObtenerPorId(int idPuntoReciclaje, string estado = "")
         {
             PuntosReciclaje punto = null;
             AccesoDatos datos = new AccesoDatos();
@@ -162,6 +176,13 @@ namespace Negocio
                 // Configurar el procedimiento almacenado
                 datos.setearProcedimiento("sp_PuntoReciclaje_por_Id");
                 datos.setearParametro("@IdPuntoReciclaje", idPuntoReciclaje);
+                if (estado == "") { 
+                    datos.setearParametro("@Estado", 1);
+                }
+                else
+                {
+                    datos.setearParametro("@Estado", estado);
+                }
 
                 datos.ejecutarLectura();
 
@@ -173,11 +194,14 @@ namespace Negocio
                         IdPuntoReciclaje = (int)datos.Lector["IdPuntoReciclaje"],
                         Nombre = (string)datos.Lector["Nombre"],
                         Direccion = (string)datos.Lector["Direccion"],
-                        HoraApertura = datos.Lector["HoraApertura"].ToString(),
-                        HoraCierre = datos.Lector["HoraCierre"].ToString(),
+                        CodigoPostal = datos.Lector["CodigoPostal"].ToString(),
+                        Email = (string)datos.Lector["Email"],
+                        HoraApertura = ((TimeSpan)datos.Lector["HoraApertura"]).ToString(@"hh\:mm"),
+                        HoraCierre = ((TimeSpan)datos.Lector["HoraCierre"]).ToString(@"hh\:mm"),
                         Telefono = (string)datos.Lector["Telefono"],
                         Provincia = (string)datos.Lector["Provincia"],
                         Municipio = (string)datos.Lector["Municipio"],
+                        Localidad = (string)datos.Lector["Localidad"],
                         Imagenes = new List<string>()
                     };
 
@@ -200,7 +224,24 @@ namespace Negocio
             }
         }
 
-
+        public void Aprobar(int id)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                accesoDatos.setearProcedimiento("sp_AprobarPuntoReciclaje");
+                accesoDatos.agregarParametro("@IdPuntoReciclaje", id);
+                accesoDatos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
     }
 }
 

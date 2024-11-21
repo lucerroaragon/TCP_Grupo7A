@@ -9,12 +9,19 @@
             <div class="col-md-6">
                 <!-- Nombre del punto -->
                 <div class="row g-1">
+<<<<<<< HEAD
                     <div class="col-md-12 fw-bold">
 <<<<<<< main
                         <label for="txtNombre" class="form-label">Nombre del Punto de Reciclaje</label>
 =======
                         <label for="txtNombre" class="form-label w-bold">Nombre del Punto de Reciclaje</label>
 >>>>>>> local
+=======
+
+                    <div class="col-md-12 fw-bold ">
+                        <label for="txtNombre" class="form-label w-bold">Nombre del Punto de Reciclaje</label>
+
+>>>>>>> 6ff918544414cf909a391a024c9e2ae2b23e4927
                         <asp:TextBox runat="server" ClientIDMode="Static" ID="txtNombre" class="form-control" placeholder="nombre" AutoFocus="false" />
                         <asp:RequiredFieldValidator ErrorMessage="Nombre requerido" ControlToValidate="txtNombre" runat="server" CssClass="text-danger" ValidationGroup="registro" />
                     </div>
@@ -56,7 +63,52 @@
                     </div>
                 </div>
 
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <div class="row g-1">
+                            <!-- Dirección -->
+                            <div class="col-md-6 fw-bold">
+                                <label for="txtDireccion" class="form-label">Dirección</label>
+                                <asp:TextBox runat="server" ClientIDMode="Static" ID="txtDireccion" class="form-control" placeholder="Calle y altura" />
+                                <asp:RequiredFieldValidator ErrorMessage="Dirección requerida" ControlToValidate="txtDireccion" runat="server" CssClass="text-danger" />
+                            </div>
+
+                            <!-- Provincia -->
+                            <div class="col-md-6 fw-bold">
+                                <label for="ddlProvincias" class="form-label">Provincia</label>
+                                <asp:DropDownList ID="ddlProvincias" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlProvincias_SelectedIndexChanged">
+                                </asp:DropDownList>
+                                <asp:RequiredFieldValidator ErrorMessage="Provincia requerida" ControlToValidate="ddlProvincias" runat="server" CssClass="text-danger" />
+                            </div>
+                        </div>
+
+                        <div class="row g-1">
+                            <!-- Municipio-->
+                            <div class="col-md-6 fw-bold">
+                                <label for="ddlMunicipios" class="form-label">Municipio</label>
+                                <asp:DropDownList ID="ddlMunicipios" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlMunicipios_SelectedIndexChanged">
+                                </asp:DropDownList>
+                                <asp:RequiredFieldValidator ErrorMessage="Municipio requerida" ControlToValidate="ddlMunicipios" runat="server" CssClass="text-danger" />
+                            </div>
+
+                            <!-- Localidad -->
+                            <div class="col-md-6 fw-bold">
+                                <label for="ddlLocalidad" class="form-label">Localidad</label>
+                                <asp:DropDownList
+                                    ID="ddlLocalidad"
+                                    runat="server"
+                                    CssClass="form-select"
+                                    AutoFocus="false">
+                                </asp:DropDownList>
+                                <asp:RequiredFieldValidator ErrorMessage="Localidad requerida" ControlToValidate="ddlLocalidad" runat="server" CssClass="text-danger" />
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+
+                <!-- Código Postal -->
                 <div class="row g-1">
+<<<<<<< HEAD
                     <!-- Dirección -->
                     <div class="col-md-6 fw-bold">
                         <label for="txtDireccion" class="form-label">Dirección</label>
@@ -112,6 +164,8 @@
                     </div>
 
                     <!-- Código Postal -->
+=======
+>>>>>>> 6ff918544414cf909a391a024c9e2ae2b23e4927
                     <div class="col-md-6 fw-bold">
                         <label for="txtCP" class="form-label">Código Postal</label>
                         <asp:TextBox runat="server" ClientIDMode="Static" ID="txtCP" class="form-control" placeholder="cp" />
@@ -120,7 +174,11 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
 <<<<<<< main
+=======
+
+>>>>>>> 6ff918544414cf909a391a024c9e2ae2b23e4927
             <!-- Imagenes -->
             <div class="col-md-4 fw-bold">
                 <label class="row g-1 form-label">Imagenes</label>
@@ -140,13 +198,28 @@
                 <asp:Button Text="Cancelar" CssClass="btn btn-secondary ms-2" OnClientClick="return confirmarCancelacion();" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
 >>>>>>> local
             </div>
-        </div>
 
+<<<<<<< HEAD
 <<<<<<< main
         <!-- Botones -->
         <div class="col-12 text-center mt-3">
             <asp:Button Text="Registrar" CssClass="btn btn-primary" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
             <asp:Button Text="Cancelar" CssClass="btn btn-secondary ms-2" OnClientClick="return confirmarCancelacion();" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
+=======
+
+            <!-- Botones -->
+            <div class="col-12 text-center mt-3 ">
+                <%if (Request.QueryString["IdPR"] == null)
+                    { %>
+                <asp:Button Text="Registrar" CssClass="btn btn-primary" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
+                <%}
+                    else
+                    { %>
+                <asp:Button Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" ID="btnModificar" runat="server" />
+                <%} %>
+                <asp:Button Text="Cancelar" CssClass="btn btn-secondary ms-2" OnClientClick="return confirmarCancelacion();" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
+            </div>
+>>>>>>> 6ff918544414cf909a391a024c9e2ae2b23e4927
         </div>
     </div>
 
@@ -156,6 +229,7 @@
             return confirm("¿Estás seguro de que deseas cancelar? Todos los cambios no guardados se perderán.");
         }
     </script>
+<<<<<<< HEAD
 =======
         <!-- Mostrar los mensajes de error de validación -->
         <asp:ValidationSummary runat="server" CssClass="text-danger" ValidationGroup="registro" />
@@ -168,5 +242,8 @@
         </script>
     </div>
 >>>>>>> local
+=======
+
+>>>>>>> 6ff918544414cf909a391a024c9e2ae2b23e4927
 </asp:Content>
 

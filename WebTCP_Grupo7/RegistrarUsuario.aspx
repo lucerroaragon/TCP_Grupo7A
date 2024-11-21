@@ -38,50 +38,25 @@
                 txtEmail.classList.remove("is-invalid");
                 txtEmail.classList.add("is-valid");
             }
-
-            // Validación de Dirección
-            const txtDireccion = document.getElementById('txtDireccion');
-            if (txtDireccion.value.trim() === "") {
-                txtDireccion.classList.add("is-invalid");
-                txtDireccion.classList.remove("is-valid");
-                isValid = false;
-            } else {
-                txtDireccion.classList.remove("is-invalid");
-                txtDireccion.classList.add("is-valid");
+            // Validación de Contraseña (solo si es visible)
+            const txtPassword = document.getElementById('<%= txtPassword.ClientID %>');
+            const txtConfirmPassword = document.getElementById('<%= txtConfirmPassword.ClientID %>');
+            if (txtPassword.offsetParent !== null) {
+                if (txtPassword.value.trim() === "" || txtPassword.value !== txtConfirmPassword.value) {
+                    txtPassword.classList.add("is-invalid");
+                    txtConfirmPassword.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    txtPassword.classList.remove("is-invalid");
+                    txtConfirmPassword.classList.remove("is-invalid");
+                }
             }
-
-            // Validación de Ciudad
-            const txtCiudad = document.getElementById('txtCiudad');
-            if (txtCiudad.value.trim() === "") {
-                txtCiudad.classList.add("is-invalid");
-                txtCiudad.classList.remove("is-valid");
-                isValid = false;
-            } else {
-                txtCiudad.classList.remove("is-invalid");
-                txtCiudad.classList.add("is-valid");
-            }
-
-            // Validación de Código Postal
-            const txtCP = document.getElementById('txtCP');
-            if (isNaN(txtCP.value) || txtCP.value.trim() === "") {
-                txtCP.classList.add("is-invalid");
-                txtCP.classList.remove("is-valid");
-                isValid = false;
-            } else {
-                txtCP.classList.remove("is-invalid");
-                txtCP.classList.add("is-valid");
-            }
-            if (isValid) {
-                // Mostrar el modal si la validación es exitosa
-                let modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-                modal.show();
-
-                // Evita el envío inmediato del formulario
-                return false;
-            }
+      
+            
             // Retornar si es válido o no
             return isValid;
         }
+
     </script>
 
     <div class="container" style="margin-top: 50px;">
@@ -118,18 +93,18 @@
 
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <label for="txtPassword" class="form-label">Contraseña</label>
-                    <asp:TextBox runat="server" ClientIDMode="Static" ID="txtPassword" class="form-control" placeholder="Contraseña" TextMode="Password" />
-                    <asp:RequiredFieldValidator ErrorMessage="Contraseña requerida" ControlToValidate="txtPassword" runat="server" CssClass="text-danger" />
-                    <asp:CompareValidator ErrorMessage="Las contraseñas no coinciden" ControlToValidate="txtPassword" ControlToCompare="txtConfirmPassword" Operator="Equal" runat="server" CssClass="text-danger" />
+                    <label id="lblPassword" for="txtPassword" class="form-label" runat="server">Contraseña</label>
+                    <asp:TextBox runat="server" ID="txtPassword" class="form-control" placeholder="Contraseña" TextMode="Password"/>
+                    <asp:RequiredFieldValidator ID="rfvPassword" ErrorMessage="Contraseña requerida" ControlToValidate="txtPassword" runat="server" CssClass="text-danger" />
                 </div>
                 <div class="col-md-6">
-                    <label for="txtConfirmPassword" class="form-label">Confirmar Contraseña</label>
+                    <label id="ldlConfirmPassword" for="txtConfirmPassword" class="form-label" runat="server">Confirmar Contraseña</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" ID="txtConfirmPassword" class="form-control" placeholder="Confirmar Contraseña" TextMode="Password" />
-                    <asp:RequiredFieldValidator ErrorMessage="Confirmar Contraseña requerida" ControlToValidate="txtConfirmPassword" runat="server" CssClass="text-danger" />
+                    <asp:RequiredFieldValidator ID="rfvConfirmPassword" ErrorMessage="Confirmar Contraseña requerida" ControlToValidate="txtConfirmPassword" runat="server" CssClass="text-danger" />
+                    <asp:CompareValidator ErrorMessage="Las contraseñas no coinciden" ControlToValidate="txtPassword" ControlToCompare="txtConfirmPassword" Operator="Equal" runat="server" CssClass="text-danger" />
                 </div>
-            </div>
-            <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+
+                <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -142,20 +117,23 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary" id="confirmSubmit">Confirmar</button>
+                            <button type="button" class="btn btn-primary" id="btnConfirmar">Confirmar</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
             <!-- Botones de acción -->
             <div class="row justify-content-center">
                 <div class="col-md-6 text-center">
-                    <asp:Button Text="Registrarse" CssClass="btn btn-primary" OnClientClick="return validar(); " OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
+                    <asp:Button Text="Registrarse" CssClass="btn btn-primary" OnClientClick="return validar();" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" Visible="true" />
+                    <asp:Button Text="Modificar" CssClass="btn btn-primary" OnClientClick="return validar();" OnClick="btnModificar_Click" ID="btnModificar" runat="server" Visible="false" />
                 </div>
                 <div class="col-md-6 text-center">
                     <asp:Button Text="Cancelar" CssClass="btn btn-secondary" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
                 </div>
-            </div>
+          </div>
+
 
             <asp:Label ID="lblErrorMessage" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
 
