@@ -8,26 +8,14 @@
                 <div class="card shadow-sm p-4 sticky-top" style="top: 120px; background-color: #f8f9fa;">
                     <h5 class="fw-bold">Filtrar Centros de Reciclaje</h5>
 
-                    <!-- Filtros por Material -->
-                    <div class="form-group mt-3">
-                        <label for="materialSelect" class="form-label">Material:</label>
-                        <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-select">
-                            <asp:ListItem Text="-" Value="default"></asp:ListItem>
-                            <asp:ListItem Text="Plástico" Value="Plástico"></asp:ListItem>
-                            <asp:ListItem Text="Vidrio" Value="Vidrio"></asp:ListItem>
-                            <asp:ListItem Text="Papel" Value="Papel"></asp:ListItem>
-                            <asp:ListItem Text="Metales" Value="Metales"></asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
+
+
 
                     <!-- Filtros por Ciudad -->
                     <div class="form-group mt-3">
-                        <label for="ciudadSelect" class="form-label">Ciudad:</label>
+                        <label for="ciudadSelect" class="form-label">Provincia:</label>
                         <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-select">
-                            <asp:ListItem Text="-" Value="default"></asp:ListItem>
-                            <asp:ListItem Text="Ciudad A" Value="CiudadA"></asp:ListItem>
-                            <asp:ListItem Text="Ciudad B" Value="CiudadB"></asp:ListItem>
-                            <asp:ListItem Text="Ciudad C" Value="CiudadC"></asp:ListItem>
+                            <asp:ListItem Text="-" Value="default"></asp:ListItem>                            
                         </asp:DropDownList>
                     </div>
 
@@ -35,12 +23,18 @@
                     <div class="form-group mt-3">
                         <label for="municipioSelect" class="form-label">Municipio:</label>
                         <asp:DropDownList ID="DropDownList3" runat="server" CssClass="form-select">
-                            <asp:ListItem Text="-" Value="default"></asp:ListItem>
-                            <asp:ListItem Text="Municipio X" Value="MunicipioX"></asp:ListItem>
-                            <asp:ListItem Text="Municipio Y" Value="MunicipioY"></asp:ListItem>
-                            <asp:ListItem Text="Municipio Z" Value="MunicipioZ"></asp:ListItem>
+                            <asp:ListItem Text="-" Value="default"></asp:ListItem>                            
                         </asp:DropDownList>
                     </div>
+
+                    <!-- Filtros por Municipio -->
+                    <div class="form-group mt-3">
+                        <label for="localidadSelect" class="form-label">Localidad:</label>
+                        <asp:DropDownList ID="DropDownList4" runat="server" CssClass="form-select">
+                            <asp:ListItem Text="-" Value="default"></asp:ListItem>                            
+                        </asp:DropDownList>
+                    </div>
+
 
                     <!-- Botón de filtro -->
                     <asp:Button ID="Button1" runat="server" Text="Aplicar Filtros" CssClass="btn btn-success mt-4 w-100" OnClick="btnFiltrar_Click" />

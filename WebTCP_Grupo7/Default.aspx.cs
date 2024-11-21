@@ -16,6 +16,8 @@ namespace WebTCP_Grupo7
             if (!IsPostBack)
             {
                 CargarPuntos();
+
+
             }
         }
         private void CargarPuntos()
@@ -23,8 +25,20 @@ namespace WebTCP_Grupo7
             PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
             List<PuntosReciclaje> puntosReciclajes = puntosReciclajeNegocio.listarTodos();
 
+
+
             foreach (var puntosReciclaje in puntosReciclajes)
             {
+                DropDownList2.Items.Clear();
+
+                DropDownList2.Items.Add(new ListItem("_", default));
+                DropDownList2.Items.Add(new ListItem(puntosReciclaje.Provincia));
+                DropDownList3.Items.Add(new ListItem(puntosReciclaje.Municipio));
+                DropDownList4.Items.Add(new ListItem(puntosReciclaje.Localidad));
+
+
+
+
                 string carouselId = $"carousel_{puntosReciclaje.IdPuntoReciclaje}";
                 string carouselHtml = $@"
                 <div id='{carouselId}' class='carousel slide' data-bs-ride='carousel'>
@@ -87,17 +101,15 @@ namespace WebTCP_Grupo7
 
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
-            DropDownList materialSelect = (DropDownList)FindControl("materialSelect");
-            DropDownList ciudadSelect = (DropDownList)FindControl("ciudadSelect");
-            DropDownList municipioSelect = (DropDownList)FindControl("municipioSelect");
-            // Obtener los valores de los filtros
-            string materialSeleccionado = materialSelect.SelectedValue;
-            string ciudadSeleccionada = ciudadSelect.SelectedValue;
-            string municipioSeleccionado = municipioSelect.SelectedValue;
-            PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
 
-            // Llamar a un método que se encargue de obtener los puntos de reciclaje filtrados
-            List<PuntosReciclaje> puntosFiltrados = ObtenerPuntosFiltrados(materialSeleccionado, ciudadSeleccionada, municipioSeleccionado);
+
+            // Obtener los valores de los filtros
+            string localidadSeleccionada = DropDownList4.SelectedValue;
+            string provinciaSeleccionada = DropDownList2.SelectedValue;
+            string municipioSeleccionado = DropDownList3.SelectedValue;
+
+            PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
+            List<PuntosReciclaje> puntosFiltrados = ObtenerPuntosFiltrados(localidadSeleccionada, provinciaSeleccionada, municipioSeleccionado);
 
             // Limpiar el contenedor antes de añadir los nuevos puntos
             PuntoReciclajeContainer.Controls.Clear();
@@ -161,36 +173,32 @@ namespace WebTCP_Grupo7
             }
         }
 
-        // Método que obtiene los puntos de reciclaje filtrados (esto es solo un ejemplo)
-        private List<PuntosReciclaje> ObtenerPuntosFiltrados(string material, string ciudad, string municipio)
-
-
+        
+        private List<PuntosReciclaje> ObtenerPuntosFiltrados(string localidad, string provincia, string municipio)
         {
-         material = "nombre";
-          municipio = "municipio";
-         ciudad = "ciudad";
-            //Aquí deberías implementar la lógica para obtener los puntos de reciclaje según los filtros
-            // Por ejemplo, podrías hacer una consulta a la base de datos filtrando por estos parámetros
-            // Este es solo un ejemplo de cómo podrías estructurar la lógica:
-
             List<PuntosReciclaje> puntosFiltrados = new List<PuntosReciclaje>();
             PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
+            var todosPuntos = puntosReciclajeNegocio.listarTodos();
 
-            //Filtra en base a los valores seleccionados
-            //(Este código es solo una ilustración y debe adaptarse a tu lógica de negocio y base de datos)
-            var todosPuntos = puntosReciclajeNegocio.listarTodos(); // Llama a tu negocio para obtener todos los puntos
-            //foreach (var punto in todosPuntos)
-            //{
-            //    if ((material == "Todos" || punto.Material == material) &&
-            //        (ciudad == "Todas" || punto.Ciudad == ciudad) &&
-            //        (municipio == "Todos" || punto.Municipio == municipio))
-            //    {
-            //        puntosFiltrados.Add(punto);
-            //    }
-            //}
-             return material == "nombre" && municipio == "municipio" && ciudad == "ciudad" ? todosPuntos : puntosFiltrados;
+            // Filtrar los puntos según las condiciones
+            foreach (var punto in todosPuntos)
+            {
+                // Filtro individual o combinado
+                bool coincideLocalidad = localidad == "Todos" || punto.Localidad == localidad;
+                bool coincideProvincia = provincia == "Todas" || punto.Provincia == provincia;
+                bool coincideMunicipio = municipio == "Todos" || punto.Municipio == municipio;
+
+                // Si coincide cualquiera de los criterios, añadir al resultado
+                if (coincideLocalidad ||
+                  coincideProvincia || coincideMunicipio)
+                {
+                    puntosFiltrados.Add(punto);
+                }
+            }
+
+            return puntosFiltrados;
         }
- 
 
     }
-}
+
+    }
