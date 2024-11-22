@@ -23,12 +23,21 @@ namespace WebTCP_Grupo7
                     PuntosReciclaje aux;
                     if (Session["estado"] != null)
                     {
-                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), (string)Session["estado"]);
-                        Session.Remove("estado");
+                        var estado = Session["estado"].ToString();
+                        if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
+                        {
+                            int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
+                            aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), estadoInt);
+                            Session.Remove("estado");
+                        }
+                        else
+                        {
+                            aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), 0);
+                        }
                     }
                     else
                     {
-                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje));
+                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), 1);
                     }
 
                     PuntosReciclaje centro = aux;

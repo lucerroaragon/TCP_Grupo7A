@@ -117,7 +117,8 @@ namespace WebTCP_Grupo7
                     // Lógica para manejar la selección
                     string idSeleccionado = row.Cells[1].Text; // Obtén el ID, por ejemplo
                     string nombreSeleccionado = row.Cells[2].Text; // Nombre
-                    Session["estado"] = "0";
+                    var estado = dgvPanelAdmin.DataKeys[rowIndex].Values["Estado"];
+                    Session["estado"] = dgvPanelAdmin.DataKeys[rowIndex].Values["Estado"];
                     Response.Redirect("DetalleCentro.aspx?IdPR=" + idSeleccionado);
                     break;
 
@@ -126,6 +127,7 @@ namespace WebTCP_Grupo7
                     string idEditar = row.Cells[1].Text; // Obtén el ID
                     Response.Redirect("RegistroPuntoReciclaje.aspx?IdPR=" + idEditar);
                     break;
+
             }
         }
 
@@ -160,7 +162,7 @@ namespace WebTCP_Grupo7
             {
                 lblMensaje.Visible = true;
                 lblMensaje.Text = "Puntos de reciclaje aprobados con éxito.";
-                CargarDatosGridView();
+                Response.Redirect("PanelAdmin.aspx", false);
             }
         }
 
@@ -169,6 +171,7 @@ namespace WebTCP_Grupo7
             PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
             dgvPanelAdmin.DataSource = puntosReciclajeNegocio.listarTodos();
             dgvPanelAdmin.DataBind();
+
         }
         private void AprobarPuntoReciclaje(int id)
         {

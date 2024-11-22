@@ -82,7 +82,7 @@
                 <!-- Contenedor para los puntos de reciclaje -->
                 <div class="row">
                     <div class="col-12">
-                        <asp:GridView ID="dgvPanelAdmin" runat="server" Visible="false" DataKeyNames="idPuntoReciclaje" OnRowCommand="dgvPanelAdmin_RowCommand" CssClass="table table-bordered border-primary" AutoGenerateColumns="False">
+                        <asp:GridView ID="dgvPanelAdmin" runat="server" Visible="false" DataKeyNames="idPuntoReciclaje,Estado" OnRowCommand="dgvPanelAdmin_RowCommand" CssClass="table table-bordered border-primary" AutoGenerateColumns="False">
                             <Columns>
                                 <asp:TemplateField HeaderText="Seleccionar">
                                     <ItemTemplate>

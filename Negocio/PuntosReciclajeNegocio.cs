@@ -51,6 +51,7 @@ namespace Negocio
                             Municipio = (string)datos.Lector["Municipio"],
                             Provincia = (string)datos.Lector["Provincia"],
                             Localidad = (string)datos.Lector["Localidad"],
+                            Estado = datos.Lector["Estado"].ToString(),
 
                             //Imagen = (string)datos.Lector["Imagen"],
                             //Latitud = (string)datos.Lector["Latitud"],
@@ -166,7 +167,7 @@ namespace Negocio
             }
         }
 
-        public PuntosReciclaje ObtenerPorId(int idPuntoReciclaje, string estado = "")
+        public PuntosReciclaje ObtenerPorId(int idPuntoReciclaje, int estado = 0)
         {
             PuntosReciclaje punto = null;
             AccesoDatos datos = new AccesoDatos();
@@ -176,13 +177,8 @@ namespace Negocio
                 // Configurar el procedimiento almacenado
                 datos.setearProcedimiento("sp_PuntoReciclaje_por_Id");
                 datos.setearParametro("@IdPuntoReciclaje", idPuntoReciclaje);
-                if (estado == "") { 
-                    datos.setearParametro("@Estado", 1);
-                }
-                else
-                {
-                    datos.setearParametro("@Estado", estado);
-                }
+                datos.setearParametro("@Estado", estado);
+
 
                 datos.ejecutarLectura();
 
