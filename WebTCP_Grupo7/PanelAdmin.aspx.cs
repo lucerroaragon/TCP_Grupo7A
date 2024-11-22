@@ -57,7 +57,7 @@ namespace WebTCP_Grupo7
                     if(dgvUsuarios.DataSource.ToString() == null)
                     {
                         lblMensaje1.Visible = true;
-                        lblMensaje1.Text = "No hay usurios dados de baja!";
+                        lblMensaje1.Text = "No hay usurios dados de baja! ";
                     }
 
                 }
