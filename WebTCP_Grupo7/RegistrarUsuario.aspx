@@ -59,7 +59,7 @@
 
     </script>
 
-    <div class="container" style="margin-top: 50px;">
+    <div class="container flex-column min-vh-100" style="margin-top: 50px;">
         <div class="row justify-content-center">
             <div class="form-header text-center">
                 <h1 class="form-title">Completa tu información</h1>

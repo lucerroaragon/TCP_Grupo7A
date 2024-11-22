@@ -51,6 +51,7 @@ namespace Negocio
                             Municipio = (string)datos.Lector["Municipio"],
                             Provincia = (string)datos.Lector["Provincia"],
                             Localidad = (string)datos.Lector["Localidad"],
+                            FechaAlta = (DateTime)datos.Lector["FechaAlta"],
                             Estado = datos.Lector["Estado"].ToString(),
 
                             //Imagen = (string)datos.Lector["Imagen"],
