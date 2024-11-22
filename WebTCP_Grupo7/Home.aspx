@@ -5,12 +5,14 @@
         <!-- Banner de bienvenida -->
         <section class="banner" style="background-image: url('img/banner1.jpg'); background-size: cover; background-position: center; text-align: center; color: white; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
             <h1 id="title" style="font-size: 3rem; font-weight: bold; margin-top: 0; padding: 0;">Centros de Reciclaje Cerca de Ti</h1>
-            <p class="description" style="font-size: 1.25rem; margin-top: 20px; padding: 0;">Descubre, valora y comparte los centros de reciclaje en tu comunidad. <br>¡Ayuda a mejorar el medio ambiente!</p>
+            <p class="description" style="font-size: 1.25rem; margin-top: 20px; padding: 0;">Descubre, valora y comparte los centros de reciclaje en tu comunidad.
+                <br>
+                ¡Ayuda a mejorar el medio ambiente!</p>
 
             <!-- Botón Call-to-Action -->
             <section class="cta" style="text-align: center; margin-top: 40px;">
-    <a href="Default.aspx" class="btn-cta">Ver Centros de Reciclaje</a>
-</section>
+                <a href="Default.aspx" class="btn btn-primary">Ver Centros de Reciclaje</a>
+            </section>
         </section>
     </main>
 </asp:Content>

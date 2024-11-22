@@ -96,7 +96,7 @@ namespace WebTCP_Grupo7
                
                 EmailService emailService = new EmailService();
                 int codigo = Seguridad.ObtenerCodVerificación();
-                emailService.armarCorreo(user.Email, "Bienvenido a Puntos de Reciclaje" + user.Nombre, codigo);
+                emailService.armarCorreo(user.Email, "Bienvenido a Puntos de Reciclaje " + user.Nombre, codigo);
                 emailService.enviarCorreo();
 
                 // Guardar la sesión del usuario

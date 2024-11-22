@@ -25,6 +25,7 @@ namespace Dominio
         public string Municipio { get; set; }
         public string Localidad { get; set; }
         public DateTime FechaAlta { get; set; }
+        public string Estado { get; set; }
         public Imagenes NombreImagen { get; set; }
         public List<string> Imagenes { get; set; }
 

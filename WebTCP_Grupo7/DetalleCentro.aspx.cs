@@ -23,12 +23,21 @@ namespace WebTCP_Grupo7
                     PuntosReciclaje aux;
                     if (Session["estado"] != null)
                     {
-                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), (string)Session["estado"]);
-                        Session.Remove("estado");
+                        var estado = Session["estado"].ToString();
+                        if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
+                        {
+                            int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
+                            aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), estadoInt);
+                            Session.Remove("estado");
+                        }
+                        else
+                        {
+                            aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), 0);
+                        }
                     }
                     else
                     {
-                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje));
+                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), 1);
                     }
 
                     PuntosReciclaje centro = aux;
@@ -53,9 +62,9 @@ namespace WebTCP_Grupo7
                     centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion) ? centro.Descripcion : "La descripcion del centro no ha sido Proporcionada";
 
                     string iframeMap = $"<iframe width='515' height='450' style='border: 1px solid #000000; border-radius: 10px; loading='lazy' allowfullscreen src='https://www.google.com/maps/embed/v1/place?key=AIzaSyAhzGZF4sH7Nad4Br-TUEP-C_49eFGnjT4&q={direccionCodificada}'></iframe>";
-                   
+
                     centerMap.Text = iframeMap;
-                    CargarPuntos();
+                    cargarCarruselDetalle();
                 }
                 else
                 {
@@ -64,12 +73,12 @@ namespace WebTCP_Grupo7
             }
         }
 
-        private void CargarPuntos()
+        private void cargarCarruselDetalle()
         {
             // Instanciamos la clase de negocio
             PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
             List<PuntosReciclaje> puntosReciclajes = puntosReciclajeNegocio.listarTodos();
-            string idArticulo = Request.QueryString["IdArticulo"];
+            string idArticulo = Request.QueryString["IdPR"];
 
             // Asegúrate de que idArticulo sea válido antes de continuar
             if (string.IsNullOrEmpty(idArticulo)) return;

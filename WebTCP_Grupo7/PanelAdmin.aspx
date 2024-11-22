@@ -1,10 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PanelAdmin.aspx.cs" Inherits="WebTCP_Grupo7.PanelAdmin" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex flex-column min-vh-100" >
         <div class="row">
             <!-- Menú lateral fijo (Sticky) -->
-            <div class="col-md-2 mb-3 mt-4">
+            <div class="col-md-2 mt-4">
                 <div class="card shadow-sm p-4 sticky-top" style="top: 120px; background-color: #f8f9fa;">
                     <h5 class="fw-bold">Filtrar Panel Admin</h5>
 
@@ -82,7 +82,7 @@
                 <!-- Contenedor para los puntos de reciclaje -->
                 <div class="row">
                     <div class="col-12">
-                        <asp:GridView ID="dgvPanelAdmin" runat="server" Visible="false" DataKeyNames="idPuntoReciclaje" OnRowCommand="dgvPanelAdmin_RowCommand" CssClass="table table-bordered border-primary" AutoGenerateColumns="False">
+                        <asp:GridView ID="dgvPanelAdmin" runat="server" Visible="false" DataKeyNames="idPuntoReciclaje,Estado" OnRowCommand="dgvPanelAdmin_RowCommand" CssClass="table table-bordered border-primary" AutoGenerateColumns="False">
                             <Columns>
                                 <asp:TemplateField HeaderText="Seleccionar">
                                     <ItemTemplate>
@@ -110,4 +110,5 @@
             </div>
         </div>
     </div>
+        </div>
 </asp:Content>

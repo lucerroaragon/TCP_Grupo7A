@@ -16,7 +16,7 @@
     <link href="~/Content/globalStyles.css" rel="stylesheet" />
 
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
@@ -101,41 +101,43 @@
         </div>
 
         <!-- Footer -->
-        <footer class="pt-4 mt-auto" style="background-color: #0d9488;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-5 mb-3">
-                        <h5 class="fw-bold">DaleRecicla</h5>
-                        <p>¡Pequeñas acciones, grandes cambios!</p>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <h5 class="fw-bold">Enlaces rápidos</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-black">Inicio</a></li>
-                            <li><a href="#" class="text-black">Servicios</a></li>
-                            <li><a href="#" class="text-black">Acerca de</a></li>
-                            <li><a href="#" class="text-black">Contacto</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <h5 class="fw-bold">Contáctanos</h5>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-geo-alt-fill me-3"></i>Dirección: Calle Falsa 123</li>
-                            <li><i class="bi bi-telephone-fill me-3"></i>Teléfono: +123 456 789</li>
-                            <li><i class="bi bi-envelope-fill me-3"></i>Correo: info@DaleRecicla.com</li>
-                        </ul>
-                        <div class="mt-3 text-center">
-                            <a href="#" class="text-black m-2"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="text-black m-2"><i class="bi bi-twitter"></i></a>
-                            <a href="#" class="text-black m-2"><i class="bi bi-instagram"></i></a>
+       
+            <footer class="pt-4 mt-auto" style="background-color: #0d9488;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5 mb-3">
+                            <h5 class="fw-bold">DaleRecicla</h5>
+                            <p>¡Pequeñas acciones, grandes cambios!</p>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <h5 class="fw-bold">Enlaces rápidos</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-black">Inicio</a></li>
+                                <li><a href="#" class="text-black">Servicios</a></li>
+                                <li><a href="#" class="text-black">Acerca de</a></li>
+                                <li><a href="#" class="text-black">Contacto</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <h5 class="fw-bold">Contáctanos</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-geo-alt-fill me-3"></i>Dirección: Calle Falsa 123</li>
+                                <li><i class="bi bi-telephone-fill me-3"></i>Teléfono: +123 456 789</li>
+                                <li><i class="bi bi-envelope-fill me-3"></i>Correo: info@DaleRecicla.com</li>
+                            </ul>
+                            <div class="mt-3 text-center">
+                                <a href="#" class="text-black m-2"><i class="bi bi-facebook"></i></a>
+                                <a href="#" class="text-black m-2"><i class="bi bi-twitter"></i></a>
+                                <a href="#" class="text-black m-2"><i class="bi bi-instagram"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-center py-3" style="background-color: rgba(255, 255, 255, 0.2);">
-                &copy; 2023 DaleRec - Todos los derechos reservados.
-            </div>
-        </footer>
+                <div class="text-center py-3" style="background-color: rgba(255, 255, 255, 0.2);">
+                    &copy; 2023 DaleRec - Todos los derechos reservados.
+                </div>
+            </footer>
+     
         <!-- End Footer -->
 
     </form>

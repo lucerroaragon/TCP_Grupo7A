@@ -39,7 +39,7 @@
                 </div>
                 
                 <!-- Enlace de Registro para Usuarios no registrados -->
-                <div class="text-center mt-2">
+                <div class="text-center mt-2 mb-5">
                     <p>¿No estás registrado? <a href="RegistrarUsuario.aspx" class="text-muted">Crea una cuenta</a></p>
                 </div>
             </div>
