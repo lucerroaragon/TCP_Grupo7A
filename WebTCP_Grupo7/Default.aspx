@@ -8,6 +8,9 @@
                 <div class="card shadow-sm p-4 sticky-top" style="top: 120px; background-color: #f8f9fa;">
                     <h5 class="fw-bold">Filtrar Centros de Reciclaje</h5>
 
+
+
+
                     <!-- Filtros por Ciudad -->
                     <div class="form-group mt-3">
                         <label for="ciudadSelect" class="form-label">Provincia:</label>

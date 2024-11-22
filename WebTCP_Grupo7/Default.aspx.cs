@@ -119,17 +119,17 @@ namespace WebTCP_Grupo7
             {
                 string carouselId = $"carousel_{punto.IdPuntoReciclaje}";
                 string carouselHtml = $@"
-                <div id='{carouselId}' class='carousel slide' data-bs-ride='carousel'>
-                <div class='carousel-inner'>";
+        <div id='{carouselId}' class='carousel slide' data-bs-ride='carousel'>
+            <div class='carousel-inner'>";
 
                 // Verifica si el punto tiene imágenes; si no, usa una imagen predeterminada
                 if (punto.Imagenes == null || punto.Imagenes.Count == 0)
                 {
                     string defaultImageUrl = ResolveUrl("~/img/imgPuntosReciclaje/default-image.jpg");
                     carouselHtml += $@"
-                    <div class='carousel-item active'>
-                    <img src='{defaultImageUrl}' class='d-block w-100 img-custom' style='height: 300px; object-fit: cover;' alt='Imagen predeterminada'>
-                    </div>";
+            <div class='carousel-item active'>
+                <img src='{defaultImageUrl}' class='d-block w-100 img-custom' style='height: 300px; object-fit: cover;' alt='Imagen predeterminada'>
+            </div>";
                 }
                 else
                 {
@@ -139,41 +139,41 @@ namespace WebTCP_Grupo7
                         string activeClass = i == 0 ? "active" : "";
 
                         carouselHtml += $@"
-                        <div class='carousel-item {activeClass}'>
-                        <img src='{imagenUrl}' class='d-block w-100 img-custom' style='height: 300px; object-fit: cover;' alt='{punto.Nombre}'>
-                        </div>";
+                <div class='carousel-item {activeClass}'>
+                    <img src='{imagenUrl}' class='d-block w-100 img-custom' style='height: 300px; object-fit: cover;' alt='{punto.Nombre}'>
+                </div>";
                     }
                 }
                 carouselHtml += @"
-                    </div>
-                    <button class='carousel-control-prev' type='button' data-bs-target='#" + carouselId + @"' data-bs-slide='prev'>
-                    <span class='carousel-control-prev-icon' aria-hidden='true'></span>
-                    <span class='visually-hidden'>Previous</span>
-                    </button>
-                    <button class='carousel-control-next' type='button' data-bs-target='#" + carouselId + @"' data-bs-slide='next'>
-                    <span class='carousel-control-next-icon' aria-hidden='true'></span>
-                    <span class='visually-hidden'>Next</span>
-                    </button>
-                    </div>";
+        </div>
+        <button class='carousel-control-prev' type='button' data-bs-target='#" + carouselId + @"' data-bs-slide='prev'>
+            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+            <span class='visually-hidden'>Previous</span>
+        </button>
+        <button class='carousel-control-next' type='button' data-bs-target='#" + carouselId + @"' data-bs-slide='next'>
+            <span class='carousel-control-next-icon' aria-hidden='true'></span>
+            <span class='visually-hidden'>Next</span>
+        </button>
+        </div>";
 
                 // Card HTML con el carrusel
                 string cardHtml = $@"
-                    <div class='col-md-4 mb-4'>
-                    <div class='card h-100'>
+        <div class='col-md-4 mb-4'>
+            <div class='card h-100'>
                 {carouselHtml}
-                    <div class='card-body'>
+                <div class='card-body'>
                     <h5 class='card-title'>{punto.Nombre}</h5>
                     <p class='card-text'>{punto.Descripcion}</p>
                     <a href='Detallecentro.aspx?IdPR={punto.IdPuntoReciclaje}' class='btn btn-primary btn-flex'>+ Detalles</a>
-                    </div>
-                    </div>
-                    </div>";
+                </div>
+            </div>
+        </div>";
 
                 PuntoReciclajeContainer.Controls.Add(new LiteralControl(cardHtml));
             }
         }
 
-
+        
         private List<PuntosReciclaje> ObtenerPuntosFiltrados(string localidad, string provincia, string municipio)
         {
             List<PuntosReciclaje> puntosFiltrados = new List<PuntosReciclaje>();
@@ -201,4 +201,4 @@ namespace WebTCP_Grupo7
 
     }
 
-}
+    }
