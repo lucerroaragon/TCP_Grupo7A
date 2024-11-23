@@ -46,7 +46,11 @@ namespace WebTCP_Grupo7
                         console.log('ID del artículo: {idpuntoreciclaje}');
                         console.log('Nombre: {centro.Nombre}');
                         console.log('Dirección: {centro.Direccion}');
-                        console.log('Teléfono: {centro.Telefono}');";
+                        console.log('Teléfono: {centro.Telefono}');
+console.log('Teléfono: {centro.Usuario.Apellido}');
+
+";
+
                     ClientScript.RegisterStartupScript(this.GetType(), "logDatosCentro", script, true);
 
                     string direccionCompleta = $"{centro.Direccion}, {centro.Municipio}, {centro.Provincia}";
@@ -60,11 +64,26 @@ namespace WebTCP_Grupo7
                     centerPhone.InnerHtml = centro.Telefono;
                     centerHours.InnerHtml = $" desde la  {centro.HoraApertura} hasta {centro.HoraCierre}";
                     centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion) ? centro.Descripcion : "La descripcion del centro no ha sido Proporcionada";
-
+                    
                     string iframeMap = $"<iframe width='515' height='450' style='border: 1px solid #000000; border-radius: 10px; loading='lazy' allowfullscreen src='https://www.google.com/maps/embed/v1/place?key=AIzaSyAhzGZF4sH7Nad4Br-TUEP-C_49eFGnjT4&q={direccionCodificada}'></iframe>";
 
                     centerMap.Text = iframeMap;
                     cargarCarruselDetalle();
+
+                    if (Session["Usuario"] != null)
+                    {
+                        var usuario = (Usuario)Session["Usuario"];
+                        int idUsuario = usuario.idUsuario;
+                        string nombreUsuario = usuario.Nombre;
+
+                        // Muestra los valores en la consola del navegador
+                        string script2 = $@"
+                                        console.log('ID Usuario: {idUsuario}');
+                                        console.log('Nombre Usuario: {nombreUsuario}');
+                                    ";
+                        ClientScript.RegisterStartupScript(this.GetType(), "log", script2, true);
+                    }
+
                 }
                 else
                 {

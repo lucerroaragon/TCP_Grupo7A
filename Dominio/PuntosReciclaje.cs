@@ -10,6 +10,7 @@ namespace Dominio
     public class PuntosReciclaje
     {
         public int IdPuntoReciclaje { get; set; }
+        public Usuario Usuario { get; set; }
         public string Nombre { get; set; }
         public string Direccion { get; set; }
         public string CodigoPostal { get; set; }

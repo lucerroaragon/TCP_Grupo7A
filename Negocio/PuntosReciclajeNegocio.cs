@@ -42,7 +42,14 @@ namespace Negocio
                         aux = new PuntosReciclaje
                         {
                             IdPuntoReciclaje = idPuntoReciclaje,
-                            Nombre = (string)datos.Lector["Nombre"],
+                            Usuario = new Usuario             
+                            {
+                                idUsuario = (int)datos.Lector["IdUsuario"],
+                                Nombre = (string)datos.Lector["NombreUsuario"],
+                                Apellido = (string)datos.Lector["ApellidoUsuario"],
+                                Email = (string)datos.Lector["EmailUsuario"],                                
+                            },
+                            Nombre = (string)datos.Lector["NombrePunto"],
                             Email = (string)datos.Lector["Email"],
                             Direccion = (string)datos.Lector["Direccion"],
                             HoraApertura = datos.Lector["HoraApertura"].ToString(),
@@ -94,6 +101,7 @@ namespace Negocio
                 datos.setearProcedimiento("sp_AgregarPuntoReciclaje");
 
                 datos.agregarParametro("@Nombre", puntoReciclaje.Nombre);
+                datos.agregarParametro("IdUsuario", puntoReciclaje.Usuario.idUsuario);
                 datos.agregarParametro("@Email", puntoReciclaje.Email);
                 datos.agregarParametro("@Direccion", puntoReciclaje.Direccion);
                 datos.agregarParametro("@CodigoPostal", puntoReciclaje.CodigoPostal);
@@ -189,6 +197,13 @@ namespace Negocio
                     punto = new PuntosReciclaje
                     {
                         IdPuntoReciclaje = (int)datos.Lector["IdPuntoReciclaje"],
+                        Usuario = new Usuario
+                        {
+                            idUsuario = (int)datos.Lector["IdUsuario"],
+                            Nombre = (string)datos.Lector["NombreUsuario"],
+                            Apellido = (string)datos.Lector["ApellidoUsuario"],
+                            Email = (string)datos.Lector["EmailUsuario"],
+                        },
                         Nombre = (string)datos.Lector["Nombre"],
                         Direccion = (string)datos.Lector["Direccion"],
                         CodigoPostal = datos.Lector["CodigoPostal"].ToString(),
