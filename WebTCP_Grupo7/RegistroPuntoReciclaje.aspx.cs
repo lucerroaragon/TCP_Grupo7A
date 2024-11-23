@@ -24,11 +24,28 @@ namespace WebTCP_Grupo7
                  "document.getElementById('" + txtNombre + "').focus();", true);
 
             }
+           
+
             if (Request.QueryString["IdPR"] != null && !IsPostBack)
             {
                 PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
                 PuntosReciclaje pReciclaje = new PuntosReciclaje();
-                pReciclaje = pReciclajeNegocio.ObtenerPorId(int.Parse(Request.QueryString["IdPR"]));
+                int estadoInt = 0;
+                if (Session["estado"] != null)
+                {
+                    var estado = Session["estado"].ToString();
+                    if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
+                    {
+                        estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
+                        Session.Remove("estado");
+                    }
+                    else
+                    {
+
+                        Session.Remove("estado");
+                    }
+                }
+                pReciclaje = pReciclajeNegocio.ObtenerPorId(int.Parse(Request.QueryString["IdPR"]), estadoInt);
                 txtNombre.Text = pReciclaje.Nombre;
                 txtDireccion.Text = pReciclaje.Direccion;
                 txtCP.Text = pReciclaje.CodigoPostal;

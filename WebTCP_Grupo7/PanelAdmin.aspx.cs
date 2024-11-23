@@ -15,13 +15,13 @@ namespace WebTCP_Grupo7
             if (!Seguridad.esAdmin(Session["Usuario"])){
                 Response.Redirect("Default.aspx", false);
             }
-            if (!IsPostBack)
-            {
-                PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
-                dgvPanelAdmin.Visible = true;
-                dgvPanelAdmin.DataSource = puntosReciclajeNegocio.listarTodos();
-                dgvPanelAdmin.DataBind();
-            }
+            //if (!IsPostBack)
+            //{
+            //    PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
+            //    dgvPanelAdmin.Visible = true;
+            //    dgvPanelAdmin.DataSource = puntosReciclajeNegocio.listarTodos();
+            //    dgvPanelAdmin.DataBind();
+            //}
             lblMensaje.Visible = false;
             lblMensaje1.Visible = false;
 
@@ -32,6 +32,7 @@ namespace WebTCP_Grupo7
             PuntosReciclajeNegocio puntoreciclajenegocio = new PuntosReciclajeNegocio();
             UsuariosNegocio usuariosNegocio = new UsuariosNegocio();
             string seleccionPrincipal = ddlSeleccionar.SelectedValue;
+
             string filtroUsuario = ddlUsuario.SelectedValue;
             string filtroPuntos = DropDownList3.SelectedValue;
 
@@ -125,6 +126,8 @@ namespace WebTCP_Grupo7
                 case "Editar":
                     // Lógica para manejar la edición
                     string idEditar = row.Cells[1].Text; // Obtén el ID
+                    estado = dgvPanelAdmin.DataKeys[rowIndex].Values["Estado"];
+                    Session["estado"] = dgvPanelAdmin.DataKeys[rowIndex].Values["Estado"];
                     Response.Redirect("RegistroPuntoReciclaje.aspx?IdPR=" + idEditar);
                     break;
 
