@@ -96,12 +96,9 @@ namespace Negocio
         public int agregar(PuntosReciclaje puntoReciclaje)
         {
             AccesoDatos datos = new AccesoDatos();
-            try
-            {
+            try {
                 datos.setearProcedimiento("sp_AgregarPuntoReciclaje");
-
-                datos.agregarParametro("@Nombre", puntoReciclaje.Nombre);
-                datos.agregarParametro("IdUsuario", puntoReciclaje.Usuario.idUsuario);
+                datos.agregarParametro("@Nombre", puntoReciclaje.Nombre);               
                 datos.agregarParametro("@Email", puntoReciclaje.Email);
                 datos.agregarParametro("@Direccion", puntoReciclaje.Direccion);
                 datos.agregarParametro("@CodigoPostal", puntoReciclaje.CodigoPostal);
@@ -112,7 +109,7 @@ namespace Negocio
                 datos.agregarParametro("@Provincia", puntoReciclaje.Provincia);
                 datos.agregarParametro("@Municipio", puntoReciclaje.Municipio);
                 datos.agregarParametro("@Localidad", puntoReciclaje.Localidad);
-
+                datos.agregarParametro("@IdUsuario", puntoReciclaje.Usuario.idUsuario);
 
                 return datos.ejecutarAccionEscalar();
             }

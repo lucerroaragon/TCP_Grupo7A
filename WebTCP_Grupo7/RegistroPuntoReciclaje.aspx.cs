@@ -84,8 +84,15 @@ namespace WebTCP_Grupo7
             PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
             PuntosReciclaje pReciclaje = new PuntosReciclaje();
             ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
+            
+            
             try
             {
+                var usuarioLogueado = (Usuario)Session["Usuario"];
+                if (usuarioLogueado == null)
+                {
+                    throw new Exception("El usuario no está logueado.");
+                }
 
                 pReciclaje.Nombre = txtNombre.Text;
                 pReciclaje.Direccion = txtDireccion.Text;
@@ -98,6 +105,7 @@ namespace WebTCP_Grupo7
                 pReciclaje.Provincia = ddlProvincias.SelectedItem.Text;
                 pReciclaje.Municipio = ddlMunicipios.SelectedItem.Text;
                 pReciclaje.Localidad = ddlLocalidad.SelectedItem.Text;
+                pReciclaje.Usuario = new Usuario { idUsuario = usuarioLogueado.idUsuario };
 
                 // Guardar el punto de reciclaje
                 pReciclaje.IdPuntoReciclaje = pReciclajeNegocio.agregar(pReciclaje);
@@ -227,7 +235,6 @@ namespace WebTCP_Grupo7
                 MostrarMensaje($"Error al cargar localidades: {ex.Message}", false);
             }
         }
-
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {

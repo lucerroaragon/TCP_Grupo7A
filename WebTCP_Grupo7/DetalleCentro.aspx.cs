@@ -46,10 +46,7 @@ namespace WebTCP_Grupo7
                         console.log('ID del artículo: {idpuntoreciclaje}');
                         console.log('Nombre: {centro.Nombre}');
                         console.log('Dirección: {centro.Direccion}');
-                        console.log('Teléfono: {centro.Telefono}');
-console.log('Teléfono: {centro.Usuario.Apellido}');
-
-";
+                        console.log('Teléfono: {centro.Telefono}');";
 
                     ClientScript.RegisterStartupScript(this.GetType(), "logDatosCentro", script, true);
 
@@ -64,6 +61,7 @@ console.log('Teléfono: {centro.Usuario.Apellido}');
                     centerPhone.InnerHtml = centro.Telefono;
                     centerHours.InnerHtml = $" desde la  {centro.HoraApertura} hasta {centro.HoraCierre}";
                     centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion) ? centro.Descripcion : "La descripcion del centro no ha sido Proporcionada";
+                    centerInfo.InnerHtml = $"{centro.Usuario.Nombre} {centro.Usuario.Apellido}";
                     
                     string iframeMap = $"<iframe width='515' height='450' style='border: 1px solid #000000; border-radius: 10px; loading='lazy' allowfullscreen src='https://www.google.com/maps/embed/v1/place?key=AIzaSyAhzGZF4sH7Nad4Br-TUEP-C_49eFGnjT4&q={direccionCodificada}'></iframe>";
 
@@ -179,11 +177,7 @@ console.log('Teléfono: {centro.Usuario.Apellido}');
 
 
 
-        private void LoadCenterDetails()
-        {
-            // Lógica para cargar detalles del centro de reciclaje
-            // Puedes usar el ID del centro pasado en la query string para buscar en la base de datos
-        }
+       
 
         private void LoadComments()
         {
