@@ -137,6 +137,7 @@
     <Content Include="Bundle.config" />
     <Content Include="Site.Mobile.Master" />
     <Content Include="Mision.aspx" />
+    <Content Include="ConfirmacionRegistroPunto.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Home.aspx.cs">
@@ -242,6 +243,13 @@
     </Compile>
     <Compile Include="Mision.aspx.designer.cs">
       <DependentUpon>Mision.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConfirmacionRegistroPunto.aspx.cs">
+      <DependentUpon>ConfirmacionRegistroPunto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConfirmacionRegistroPunto.aspx.designer.cs">
+      <DependentUpon>ConfirmacionRegistroPunto.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -79,6 +79,8 @@ namespace WebTCP_Grupo7
             if (ValidarCampos())
             {
                 RegistrarPuntoReciclaje();
+                Response.Redirect("ConfirmacionRegistroPunto.aspx");
+
             }
         }
 
