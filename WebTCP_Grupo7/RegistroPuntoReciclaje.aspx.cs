@@ -13,6 +13,8 @@ using System.Web.UI.WebControls;
 namespace WebTCP_Grupo7
 {
     public partial class RegistroPuntoReciclaje : System.Web.UI.Page
+
+
     {
         protected async void Page_Load(object sender, EventArgs e)
         {
@@ -59,6 +61,8 @@ namespace WebTCP_Grupo7
             }
         }
 
+       
+
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -67,7 +71,7 @@ namespace WebTCP_Grupo7
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            // Botón sin funcionalidad asignada
+           
         }
 
         protected void btnRegistrar_Click(object sender, EventArgs e)
@@ -309,10 +313,28 @@ namespace WebTCP_Grupo7
 
         private void MostrarMensaje(string mensaje, bool exito)
         {
-            string script = $"alert('{mensaje}');";
+            string tipoClase = exito ? "alert-success" : "alert-danger"; // Success or error class
+            string icono = exito ? "✔️" : "❌"; // Icon based on success or error
+
+            string script = $@"
+        var mensajeDiv = document.createElement('div');
+        mensajeDiv.className = 'alert {tipoClase} alert-dismissible fade show';
+        mensajeDiv.role = 'alert';
+        mensajeDiv.innerHTML = '{icono} {mensaje}';
+        var closeButton = document.createElement('button');
+        closeButton.className = 'btn-close';
+        closeButton.setAttribute('data-bs-dismiss', 'alert');
+        closeButton.setAttribute('aria-label', 'Close');
+        mensajeDiv.appendChild(closeButton);
+        document.body.appendChild(mensajeDiv);
+    ";
+
             ClientScript.RegisterStartupScript(this.GetType(), exito ? "successMessage" : "errorMessage", script, true);
         }
 
+
     }
 }
+
+
 

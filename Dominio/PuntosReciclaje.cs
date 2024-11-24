@@ -29,6 +29,10 @@ namespace Dominio
         public string Estado { get; set; }
         public Imagenes NombreImagen { get; set; }
         public List<string> Imagenes { get; set; }
+        public string MaterialesReciclables { get; set; }
+
+
+
 
 
         public List<Comentarios> Comentarios { get; set; }
