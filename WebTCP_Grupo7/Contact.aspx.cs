@@ -8,101 +8,66 @@ namespace WebTCP_Grupo7
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Aquí puedes agregar el código para cargar la página
+            if (!IsPostBack) // Se ejecuta solo en la carga inicial
+            {
+                lblMessage.Text = "Rellena los campos a continuación y nos pondremos en contacto contigo.";
+                lblMessage.ForeColor = System.Drawing.Color.Black;
+                pnlContactForm.Visible = true; // Mostrar formulario en la carga inicial
+            }
         }
 
         protected void btnSend_Click(object sender, EventArgs e)
         {
-            // Validar campos
+            // Validar formulario
             if (!ValidateForm())
             {
-                return;
+                return; // Detenemos si hay errores
             }
 
-            // Obtener los datos del formulario
+            // Obtener nombre y mostrar mensaje de confirmación
             string name = txtName.Text;
-
-            // Mostrar mensaje de confirmación
             lblMessage.Text = $"Gracias por contactarnos, {name}. Tu mensaje ha sido recibido.";
             lblMessage.ForeColor = System.Drawing.Color.Green;
 
-            // Ocultar el formulario
+            // Ocultar formulario tras el envío
             pnlContactForm.Visible = false;
         }
 
         private bool ValidateForm()
         {
-            // Validar Nombre
-            if (string.IsNullOrWhiteSpace(txtName.Text))
+            // Validación de campos usando expresiones regulares
+            if (string.IsNullOrWhiteSpace(txtName.Text) || !Regex.IsMatch(txtName.Text, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$"))
             {
-                lblMessage.Text = "El campo 'Nombre' es obligatorio.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
+                SetErrorMessage("Por favor, ingresa un nombre válido.");
                 return false;
             }
-            if (!Regex.IsMatch(txtName.Text, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$"))
+            if (string.IsNullOrWhiteSpace(txtSurname.Text) || !Regex.IsMatch(txtSurname.Text, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$"))
             {
-                lblMessage.Text = "El 'Nombre' solo debe contener letras y tener entre 2 y 50 caracteres.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
+                SetErrorMessage("Por favor, ingresa un apellido válido.");
                 return false;
             }
-
-            // Validar Apellido
-            if (string.IsNullOrWhiteSpace(txtSurname.Text))
+            if (string.IsNullOrWhiteSpace(txtEmail.Text) || !Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-                lblMessage.Text = "El campo 'Apellido' es obligatorio.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
+                SetErrorMessage("Por favor, ingresa un correo electrónico válido.");
                 return false;
             }
-            if (!Regex.IsMatch(txtSurname.Text, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$"))
+            if (string.IsNullOrWhiteSpace(txtPhone.Text) || !Regex.IsMatch(txtPhone.Text, @"^\d{7,15}$"))
             {
-                lblMessage.Text = "El 'Apellido' solo debe contener letras y tener entre 2 y 50 caracteres.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
+                SetErrorMessage("Por favor, ingresa un teléfono válido (7 a 15 dígitos).");
                 return false;
             }
-
-            // Validar Email
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            if (string.IsNullOrWhiteSpace(txtMessage.Text) || txtMessage.Text.Length < 10 || txtMessage.Text.Length > 500)
             {
-                lblMessage.Text = "El campo 'Email' es obligatorio.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
+                SetErrorMessage("Por favor, ingresa un mensaje válido (10-500 caracteres).");
                 return false;
             }
-            if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-            {
-                lblMessage.Text = "Por favor, ingresa un correo electrónico válido.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
-                return false;
-            }
-
-            // Validar Teléfono
-            if (string.IsNullOrWhiteSpace(txtPhone.Text))
-            {
-                lblMessage.Text = "El campo 'Teléfono' es obligatorio.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
-                return false;
-            }
-            if (!Regex.IsMatch(txtPhone.Text, @"^\d{7,15}$"))
-            {
-                lblMessage.Text = "El 'Teléfono' debe contener solo números y tener entre 7 y 15 dígitos.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
-                return false;
-            }
-
-            // Validar Mensaje
-            if (string.IsNullOrWhiteSpace(txtMessage.Text))
-            {
-                lblMessage.Text = "El campo 'Mensaje' es obligatorio.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
-                return false;
-            }
-            if (txtMessage.Text.Length < 10 || txtMessage.Text.Length > 500)
-            {
-                lblMessage.Text = "El 'Mensaje' debe tener entre 10 y 500 caracteres.";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
-                return false;
-            }
-
             return true;
+        }
+
+        private void SetErrorMessage(string message)
+        {
+            lblMessage.Text = message;
+            lblMessage.ForeColor = System.Drawing.Color.Red;
         }
     }
 }

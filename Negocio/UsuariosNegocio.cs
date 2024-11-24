@@ -52,7 +52,7 @@ namespace Negocio
             {
                 if(estado != "")
                 {
-                    datos.setearConsulta("SELECT idUsuario, Nombre, Apellido, Email, Password, Administrador, FechaAlta FROM USUARIOS WHERE Estado = @estado");
+                    datos.setearConsulta("SELECT IdUsuario, Nombre, Apellido, Email, Password, Administrador, FechaAlta FROM USUARIOS WHERE Estado = @estado");
                     datos.setearParametro("@estado", estado);
                 }
                 else
@@ -66,7 +66,7 @@ namespace Negocio
                 {
                     Usuario aux = new Usuario
                     {
-                        idUsuario = (int)datos.Lector["idUsuario"],
+                        idUsuario = (int)datos.Lector["IdUsuario"],
                         Nombre = (string)datos.Lector["Nombre"],
                         Apellido = (string)datos.Lector["Apellido"],
                         Email = (string)datos.Lector["Email"],
@@ -145,7 +145,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("DELETE FROM USUARIOS WHERE idUsuario = @idUsuario");
+                datos.setearConsulta("DELETE FROM USUARIOS WHERE IdUsuario = @IdUsuario");
                 datos.setearParametro("@idUsuario", idUsuario);
                 datos.ejecutarAccion();
             }
@@ -165,8 +165,8 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE USUARIOS SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email WHERE idUsuario = @idUsuario");
-                datos.setearParametro("@idUsuario", usuario.idUsuario);
+                datos.setearConsulta("UPDATE USUARIOS SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email WHERE IdUsuario = @IdUsuario");
+                datos.setearParametro("@IdUsuario", usuario.idUsuario);
                 datos.setearParametro("@Nombre", usuario.Nombre);
                 datos.setearParametro("@Apellido", usuario.Apellido);
                 datos.setearParametro("@Email", usuario.Email);
@@ -233,7 +233,7 @@ namespace Negocio
                 {
                     Usuario aux = new Usuario
                     {
-                        idUsuario = (int)datos.Lector["idUsuario"],
+                        idUsuario = (int)datos.Lector["IdUsuario"],
                         Nombre = (string)datos.Lector["Nombre"],
                         Apellido = (string)datos.Lector["Apellido"],
                         Email = (string)datos.Lector["Email"],
@@ -262,7 +262,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Nombre, Apellido, Email, Password FROM USUARIOS WHERE idusuario = @id");
+                datos.setearConsulta("SELECT Nombre, Apellido, Email, Password FROM USUARIOS WHERE Idusuario = @id");
                 datos.setearParametro("@id", id);
                 datos.ejecutarLectura();
 
