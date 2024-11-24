@@ -57,6 +57,10 @@
             return isValid;
         }
 
+        function confirmarCancelacion() {
+            return confirm("¿Estás seguro de que deseas cancelar el registro?");
+        }
+
     </script>
 
     <div class="container flex-column min-vh-100 mt-5"> 
@@ -117,11 +121,16 @@
                     </div>
 
                     <!-- Botón Cancelar -->
-                    <div class="row justify-content-center"> 
-                        <div class="col-6 text-center"> 
-                            <asp:Button Text="Cancelar" CssClass="btn btn-secondary" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" /> 
-                        </div>
-                    </div>
+<div class="row justify-content-center"> 
+    <div class="col-6 text-center"> 
+        <asp:Button Text="Cancelar" CssClass="btn btn-secondary" 
+                    OnClientClick="return confirmarCancelacion();" 
+                    OnClick="btnCancelar_Click" ID="Button1" runat="server" /> 
+    </div>
+</div>
+
+
+                   
                 </asp:Panel>
             </div>
         </div>
