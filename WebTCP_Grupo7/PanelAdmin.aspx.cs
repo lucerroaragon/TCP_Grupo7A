@@ -1,4 +1,5 @@
-﻿using Negocio;
+﻿using Dominio;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,6 +137,11 @@ namespace WebTCP_Grupo7
 
         protected void btnAprobar_Click(object sender, EventArgs e)
         {
+            EmailService emailService = new EmailService();
+            UsuariosNegocio userNegocio = new UsuariosNegocio();
+            PuntosReciclajeNegocio puntoNegocio = new PuntosReciclajeNegocio();
+            PuntosReciclaje puntosReciclaje = new PuntosReciclaje();
+            Usuario usuario = new Usuario();
             int contar = 0;
             foreach (GridViewRow row in dgvPanelAdmin.Rows)
             {
@@ -149,13 +155,20 @@ namespace WebTCP_Grupo7
 
                     // Aquí puedes aprobar el elemento o realizar la acción deseada
                     AprobarPuntoReciclaje(idPuntoReciclaje);
+                    puntosReciclaje = puntoNegocio.ObtenerPorId(idPuntoReciclaje, 1);
+                    usuario = userNegocio.ObtenerUsuario_id(puntosReciclaje.Usuario.idUsuario);
+                    string cuerpo = "<h1>¡Bienvenido a Puntos de Reciclaje!</h1><br><p>Gracias por registrar un Punto de Reciclaje. Te informamos que tu Punto de Reciclaje fue aprobado, lo prodrás ver disponible en nuestra paguna web.</p><br><p>¡Gracias por ser parte de la comunidad de Recicladores!</p><br><p>Saludos cordiales,</p><br><p>Equipo de Puntos de Reciclaje</p>";
+                    emailService.armarCorreo(usuario.Email, "Punto de Reciclaje Aprobado", 0, cuerpo);
+
+                    emailService.enviarCorreo();
                     contar++;
                 }
             }
 
+
             // Recarga el GridView o muestra un mensaje de éxito
-            
-            if(contar == 0)
+
+            if (contar == 0)
             {
                 lblMensaje.Visible = true;
                 lblMensaje.Text = "No se seleccionó ningún punto de reciclaje.";
@@ -165,6 +178,7 @@ namespace WebTCP_Grupo7
             {
                 lblMensaje.Visible = true;
                 lblMensaje.Text = "Puntos de reciclaje aprobados con éxito.";
+
                 Response.Redirect("PanelAdmin.aspx", false);
             }
         }
