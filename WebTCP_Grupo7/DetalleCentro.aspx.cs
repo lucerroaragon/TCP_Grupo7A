@@ -62,6 +62,11 @@ namespace WebTCP_Grupo7
                     centerHours.InnerHtml = $" desde la  {centro.HoraApertura} hasta {centro.HoraCierre}";
                     centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion) ? centro.Descripcion : "La descripcion del centro no ha sido Proporcionada";
                     centerInfo.InnerHtml = $"{centro.Usuario.Nombre} {centro.Usuario.Apellido}";
+                    foreach (var tipoReciclaje in centro.TipoReciclaje)
+                    {
+                        TipoReciclaje.InnerHtml += $"{tipoReciclaje}, ";
+                    }
+                    
                     
                     string iframeMap = $"<iframe width='515' height='450' style='border: 1px solid #000000; border-radius: 10px; loading='lazy' allowfullscreen src='https://www.google.com/maps/embed/v1/place?key=AIzaSyAhzGZF4sH7Nad4Br-TUEP-C_49eFGnjT4&q={direccionCodificada}'></iframe>";
 

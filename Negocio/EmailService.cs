@@ -16,7 +16,7 @@ namespace Negocio
         public EmailService()
         {
             server = new SmtpClient();
-            server.Credentials = new NetworkCredential("7e230cc568c37d", "0a3e731f125825");
+            server.Credentials = new NetworkCredential("18cbac92376f3b", "37f710ee2e786c");
             server.EnableSsl = true;
             server.Host = "sandbox.smtp.mailtrap.io";
             server.Port = 2525;

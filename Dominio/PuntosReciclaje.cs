@@ -20,7 +20,8 @@ namespace Dominio
         public string Email { get; set; }
         public string Latitud { get; set; }
         public string Longitud { get; set; }
-        public string Tipo { get; set; }
+        public TipoReciclaje NombreTipo { get; set; }
+        public List<string> TipoReciclaje { get; set; }
         public string Descripcion { get; set; }
         public string Provincia { get; set; }
         public string Municipio { get; set; }

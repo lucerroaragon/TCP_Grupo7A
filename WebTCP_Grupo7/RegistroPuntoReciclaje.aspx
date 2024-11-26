@@ -1,6 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="RegistroPuntoReciclaje.aspx.cs" Inherits="WebTCP_Grupo7.RegistroPuntoReciclaje" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+
+
     <div class="container">
         <h2 class="text-center mt-5">Registro de Punto de Reciclaje</h2>
         <p class="text-center mb-5">Ingrese los datos del punto de reciclaje:</p>
@@ -42,6 +53,13 @@
                         <label for="txtHoraCierre" class="form-label">Hora de Cierre</label>
                         <asp:TextBox ID="txtHoraCierre" runat="server" CssClass="form-control" TextMode="Time" />
                         <asp:RequiredFieldValidator ControlToValidate="txtHoraCierre" ErrorMessage="El horario es obligatorio" runat="server" CssClass="text-danger d-block" />
+                    </div>
+                    <div class="col-md-6 fw-bold">
+                        <label for="ddlMateriales" class="form-label d-flex align-items-centerl">
+                            Materiales Reciclables
+                            <span class="ms-2 text-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Mantén presionada la tecla Ctrl (o Cmd en Mac) y haz clic para seleccionar múltiples opciones">❓</span>
+                        </label>
+                        <asp:ListBox ID="ddlMateriales" runat="server" CssClass="form-select" Rows="3" SelectionMode="Multiple"></asp:ListBox>
                     </div>
                 </div>
 
@@ -100,10 +118,13 @@
 
             <!-- Botones -->
             <div class="col-12 text-center mt-3">
-                <% if (Request.QueryString["IdPR"] == null) { %>
-                    <asp:Button Text="Registrar" CssClass="btn btn-primary" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
-                <% } else { %>
-                    <asp:Button Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" ID="btnModificar" runat="server" />
+                <% if (Request.QueryString["IdPR"] == null)
+                    { %>
+                <asp:Button Text="Registrar" CssClass="btn btn-primary" OnClick="btnRegistrar_Click" ID="btnRegistrar" runat="server" />
+                <% }
+                    else
+                    { %>
+                <asp:Button Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" ID="btnModificar" runat="server" />
                 <% } %>
                 <asp:Button Text="Cancelar" CssClass="btn btn-secondary ms-2" OnClientClick="return confirmarCancelacion();" OnClick="btnCancelar_Click" ID="btnCancelar" runat="server" />
             </div>

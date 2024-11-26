@@ -18,6 +18,7 @@
                         <p><strong>Teléfono:</strong> <span id="centerPhone" runat="server"></span></p>
                         <p><strong>Horario:</strong> <span id="centerHours" runat="server"></span></p>
                         <p><strong>Descripción:</strong> <span id="centerDescription" runat="server"></span></p>
+                        <p><strong>Materiales que recicla:</strong> <span id="TipoReciclaje" runat="server"></span></p>
                         <p><strong>Informacion Suministrada por:</strong> <span id="centerInfo" runat="server"></span></p>
                     </div>
                 </div>
