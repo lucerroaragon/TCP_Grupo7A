@@ -57,9 +57,10 @@
                     <div class="col-md-6 fw-bold">
                         <label for="ddlMateriales" class="form-label d-flex align-items-centerl">
                             Materiales Reciclables
-                            <span class="ms-2 text-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Mantén presionada la tecla Ctrl (o Cmd en Mac) y haz clic para seleccionar múltiples opciones">❓</span>
+                            <span class="fas fas-normal fa-question-circle fa-question-circle-base m-l" data-bs-toggle="tooltip" data-bs-placement="right" title="Mantén presionada la tecla Ctrl (o Cmd en Mac) y haz clic para seleccionar múltiples opciones">❓</span>
                         </label>
                         <asp:ListBox ID="ddlMateriales" runat="server" CssClass="form-select" Rows="3" SelectionMode="Multiple"></asp:ListBox>
+                        <asp:RequiredFieldValidator ErrorMessage="Materiales requeridos" ControlToValidate="ddlMateriales" runat="server" CssClass="text-danger d-block" />
                     </div>
                 </div>
 

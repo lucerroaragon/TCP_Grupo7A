@@ -102,8 +102,9 @@
                                     <asp:ButtonField CommandName="Editar" Text="​​​🛠️​​" HeaderText="Editar" />
                                 </Columns>
                             </asp:GridView>
-                            <asp:Button Text="Aprobar" CssClass="btn btn-primary" ID="btnAprobar" runat="server" OnClick="btnAprobar_Click" Visible="false" />
-                            <asp:Button Text="Rechazar" CssClass="btn btn-primary" ID="btnRechazar" runat="server" OnClick="btnRechazar_Click" Visible="false" />
+                            <asp:Button Text="Aprobar" CssClass="btn btn-primary" ID="btnAprobar" runat="server" OnClientClick="return confirmarAprobacion()" OnClick="btnAprobar_Click" Visible="false" />
+                            <%--<button type="button" class="btn btn-primary" ID="btnRechazar" runat="server" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" >Rechazar</button>--%>
+                            <asp:Button Text="Rechazar" CssClass="btn btn-primary" ID="btnRechazar" runat="server" Visible="false" OnClientClick="return false;" Posback="false" />
                             <asp:Label ID="lblMensaje" runat="server" CssClass="text-success mt-3 d-block" />
                         </div>
                     </div>
@@ -111,4 +112,32 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Ingresa el mensaje del porque fue rechazado</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Mensaje:</label>
+                        <%--<textarea class="form-control" id="message-text"></textarea>--%>
+                        <asp:TextBox ID="txtMensaje" runat="server" class="form-control" TextMode="MultiLine"></asp:TextBox>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <asp:Button Text="Enviar" class="btn btn-primary" runat="server" OnClick="btnRechazar_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function confirmarAprobacion() {
+            return confirm("¿Estás seguro de que deseas aprobar punto?");
+        }
+    </script>
 </asp:Content>

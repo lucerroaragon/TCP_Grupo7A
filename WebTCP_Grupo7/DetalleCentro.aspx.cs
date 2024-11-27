@@ -62,9 +62,15 @@ namespace WebTCP_Grupo7
                     centerHours.InnerHtml = $" desde la  {centro.HoraApertura} hasta {centro.HoraCierre}";
                     centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion) ? centro.Descripcion : "La descripcion del centro no ha sido Proporcionada";
                     centerInfo.InnerHtml = $"{centro.Usuario.Nombre} {centro.Usuario.Apellido}";
+                    int cont = 0;
                     foreach (var tipoReciclaje in centro.TipoReciclaje)
                     {
-                        TipoReciclaje.InnerHtml += $"{tipoReciclaje}, ";
+                        if(cont != 0)
+                        {
+                            TipoReciclaje.InnerHtml += $", ";
+                        }
+                        TipoReciclaje.InnerHtml += $"{tipoReciclaje}";
+                        cont++;
                     }
                     
                     

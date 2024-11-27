@@ -24,11 +24,10 @@ namespace WebTCP_Grupo7
 
                 ClientScript.RegisterStartupScript(this.GetType(), "autoFocusMunicipio",
                  "document.getElementById('" + txtNombre + "').focus();", true);
-                CargarMateriales();
-                CargarMateriales();
 
+                CargarMateriales();
             }
-           
+
 
             if (Request.QueryString["IdPR"] != null && !IsPostBack)
             {
@@ -60,6 +59,17 @@ namespace WebTCP_Grupo7
                 ddlProvincias.Items.Insert(0, pReciclaje.Provincia.ToString());
                 ddlMunicipios.Items.Insert(0, new ListItem(pReciclaje.Municipio.ToString(), "0"));
                 ddlLocalidad.Items.Insert(0, pReciclaje.Localidad.ToString());
+                foreach (var item in pReciclaje.TipoReciclaje)
+                {
+                    foreach (ListItem listItem in ddlMateriales.Items)
+                    {
+                        if (listItem.Text == item.ToString())
+                        {
+                            listItem.Selected = true;
+                        }
+                    }
+                }
+
             }
         }
 
@@ -81,7 +91,7 @@ namespace WebTCP_Grupo7
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         protected void btnRegistrar_Click(object sender, EventArgs e)
