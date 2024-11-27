@@ -163,7 +163,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearProcedimiento("storedEliminarPuntoReciclaje");
+                datos.setearProcedimiento("sp_EliminarPuntoReciclaje");
                 datos.agregarParametro("@IdPuntoReciclaje", idPuntoReciclaje);
                 datos.ejecutarAccion();
             }
@@ -258,6 +258,7 @@ namespace Negocio
                 accesoDatos.cerrarConexion();
             }
         }
+
     }
 }
 

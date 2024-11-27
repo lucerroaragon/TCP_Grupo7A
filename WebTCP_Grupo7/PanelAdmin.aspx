@@ -103,6 +103,7 @@
                                 </Columns>
                             </asp:GridView>
                             <asp:Button Text="Aprobar" CssClass="btn btn-primary" ID="btnAprobar" runat="server" OnClick="btnAprobar_Click" Visible="false" />
+                            <asp:Button Text="Rechasar" CssClass="btn btn-primary" ID="btnRechazar" runat="server" OnClick="btnRechazar_Click" Visible="false" />
                             <asp:Label ID="lblMensaje" runat="server" CssClass="text-success mt-3 d-block" />
                         </div>
                     </div>

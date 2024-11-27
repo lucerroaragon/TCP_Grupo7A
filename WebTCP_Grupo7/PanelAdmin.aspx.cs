@@ -13,7 +13,8 @@ namespace WebTCP_Grupo7
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Seguridad.esAdmin(Session["Usuario"])){
+            if (!Seguridad.esAdmin(Session["Usuario"]))
+            {
                 Response.Redirect("Default.aspx", false);
             }
             //if (!IsPostBack)
@@ -56,7 +57,7 @@ namespace WebTCP_Grupo7
                     dgvPanelAdmin.Visible = false;
                     dgvUsuarios.DataSource = usuariosNegocio.listar("0");
                     dgvUsuarios.DataBind();
-                    if(dgvUsuarios.DataSource.ToString() == null)
+                    if (dgvUsuarios.DataSource.ToString() == null)
                     {
                         lblMensaje1.Visible = true;
                         lblMensaje1.Text = "No hay usurios dados de baja! ";
@@ -85,6 +86,7 @@ namespace WebTCP_Grupo7
                 else if (filtroPuntos == "Sin Validar")
                 {
                     btnAprobar.Visible = true;
+                    btnRechazar.Visible = true;
                     dgvPanelAdmin.Visible = true;
                     dgvPanelAdmin.DataSource = puntoreciclajenegocio.listarTodos("0");
                     dgvPanelAdmin.DataBind();
@@ -143,6 +145,7 @@ namespace WebTCP_Grupo7
             PuntosReciclaje puntosReciclaje = new PuntosReciclaje();
             Usuario usuario = new Usuario();
             int contar = 0;
+
             foreach (GridViewRow row in dgvPanelAdmin.Rows)
             {
                 // Encuentra el CheckBox en cada fila
@@ -166,8 +169,6 @@ namespace WebTCP_Grupo7
             }
 
 
-            // Recarga el GridView o muestra un mensaje de éxito
-
             if (contar == 0)
             {
                 lblMensaje.Visible = true;
@@ -178,7 +179,6 @@ namespace WebTCP_Grupo7
             {
                 lblMensaje.Visible = true;
                 lblMensaje.Text = "Puntos de reciclaje aprobados con éxito.";
-
                 Response.Redirect("PanelAdmin.aspx", false);
             }
         }
@@ -232,6 +232,52 @@ namespace WebTCP_Grupo7
                     string idEditar = row.Cells[1].Text; // Obtén el ID
                     Response.Redirect("RegistrarUsuario.aspx?IdUser=" + idEditar);
                     break;
+            }
+
+        }
+
+        protected void btnRechazar_Click(object sender, EventArgs e)
+        {
+            EmailService emailService = new EmailService();
+            UsuariosNegocio userNegocio = new UsuariosNegocio();
+            PuntosReciclajeNegocio puntoNegocio = new PuntosReciclajeNegocio();
+            PuntosReciclaje puntosReciclaje = new PuntosReciclaje();
+            Usuario usuario = new Usuario();
+            int contar = 0;
+
+            foreach (GridViewRow row in dgvPanelAdmin.Rows)
+            {
+                // Encuentra el CheckBox en cada fila
+                CheckBox chkSelect = (CheckBox)row.FindControl("chkSelect");
+
+                if (chkSelect != null && chkSelect.Checked)
+                {
+                    // Obtén el ID de la fila seleccionada
+                    int idPuntoReciclaje = Convert.ToInt32(dgvPanelAdmin.DataKeys[row.RowIndex].Value);
+
+                    // Aquí puedes aprobar el elemento o realizar la acción deseada
+                    puntosReciclaje = puntoNegocio.ObtenerPorId(idPuntoReciclaje);
+                    usuario = userNegocio.ObtenerUsuario_id(puntosReciclaje.Usuario.idUsuario);
+                    string cuerpo = "<h1>¡Bienvenido a Puntos de Reciclaje!</h1><br><p>Gracias por registrar un Punto de Reciclaje. Te informamos que tu Punto de Reciclaje fue rechazado, por favor revisa la información y vuelve a intentarlo.</p><br><p>¡Gracias por ser parte de la comunidad de Recicladores!</p><br><p>Saludos cordiales,</p><br><p>Equipo de Puntos de Reciclaje</p>";
+                    emailService.armarCorreo(usuario.Email, "Punto de Reciclaje Rechazado", 0, cuerpo);
+
+                    emailService.enviarCorreo();
+                    puntoNegocio.eliminar(idPuntoReciclaje);
+                    contar++;
+                }
+            }
+
+            if (contar == 0)
+            {
+                lblMensaje.Visible = true;
+                lblMensaje.Text = "No se seleccionó ningún punto de reciclaje.";
+                return;
+            }
+            else
+            {
+                lblMensaje.Visible = true;
+                lblMensaje.Text = "Puntos de reciclaje rechazados con éxito.";
+                Response.Redirect("PanelAdmin.aspx", false);
             }
 
         }
