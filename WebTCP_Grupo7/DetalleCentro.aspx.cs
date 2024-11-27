@@ -28,7 +28,7 @@ namespace WebTCP_Grupo7
                         {
                             int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
                             aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), estadoInt);
-                            Session.Remove("estado");
+                            
                         }
                         else
                         {
@@ -92,7 +92,7 @@ namespace WebTCP_Grupo7
                                     ";
                         ClientScript.RegisterStartupScript(this.GetType(), "log", script2, true);
                     }
-
+                    Session.Remove("estado");
                 }
                 else
                 {
@@ -105,8 +105,24 @@ namespace WebTCP_Grupo7
         {
             // Instanciamos la clase de negocio
             PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
-            List<PuntosReciclaje> puntosReciclajes = puntosReciclajeNegocio.listarTodos();
+            List<PuntosReciclaje> puntosReciclajes = new List<PuntosReciclaje>();
             string idArticulo = Request.QueryString["IdPR"];
+            if(Session["estado"] != null)
+            {
+                var estado = Session["estado"].ToString();
+                if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
+                {
+
+                    int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
+                    puntosReciclajes.Add(puntosReciclajeNegocio.ObtenerPorId(int.Parse(idArticulo), estadoInt));
+                    Session.Remove("estado");
+                }
+            }
+            else
+            {
+                puntosReciclajes = puntosReciclajeNegocio.listarTodos();
+            }
+
 
             // Asegúrate de que idArticulo sea válido antes de continuar
             if (string.IsNullOrEmpty(idArticulo)) return;
