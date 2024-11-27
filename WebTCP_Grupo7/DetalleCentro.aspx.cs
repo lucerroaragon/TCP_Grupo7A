@@ -2,6 +2,7 @@
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -62,25 +63,14 @@ namespace WebTCP_Grupo7
                     centerHours.InnerHtml = $" desde la  {centro.HoraApertura} hasta {centro.HoraCierre}";
                     centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion) ? centro.Descripcion : "La descripcion del centro no ha sido Proporcionada";
                     centerInfo.InnerHtml = $"{centro.Usuario.Nombre} {centro.Usuario.Apellido}";
-                    
+
                     string iframeMap = $"<iframe width='515' height='450' style='border: 1px solid #000000; border-radius: 10px; loading='lazy' allowfullscreen src='https://www.google.com/maps/embed/v1/place?key=AIzaSyAhzGZF4sH7Nad4Br-TUEP-C_49eFGnjT4&q={direccionCodificada}'></iframe>";
 
                     centerMap.Text = iframeMap;
                     cargarCarruselDetalle();
+                    LoadComments();
 
-                    if (Session["Usuario"] != null)
-                    {
-                        var usuario = (Usuario)Session["Usuario"];
-                        int idUsuario = usuario.idUsuario;
-                        string nombreUsuario = usuario.Nombre;
 
-                        // Muestra los valores en la consola del navegador
-                        string script2 = $@"
-                                        console.log('ID Usuario: {idUsuario}');
-                                        console.log('Nombre Usuario: {nombreUsuario}');
-                                    ";
-                        ClientScript.RegisterStartupScript(this.GetType(), "log", script2, true);
-                    }
 
                 }
                 else
@@ -176,21 +166,123 @@ namespace WebTCP_Grupo7
         }
 
 
+        public string ToTitleCase(string input)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
+        }
 
-       
 
         private void LoadComments()
         {
-            // Lógica para cargar comentarios de la base de datos y enlazarlos al repeater
-            // rptComments.DataSource = listaDeComentarios;
-            // rptComments.DataBind();
+            try
+            {
+                ComentariosNegocio comentariosNegocio = new ComentariosNegocio();
+
+                // Validar el ID del punto de reciclaje
+                if (string.IsNullOrEmpty(Request.QueryString["IdPR"]) || !int.TryParse(Request.QueryString["IdPR"], out int idPuntoReciclaje))
+                {
+                    lblMessage.Text = "No se pudo identificar el punto de reciclaje.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
+                // Obtener los comentarios
+                List<Comentarios> comentarios = comentariosNegocio.ListarComentariosPorPunto(idPuntoReciclaje);
+
+                // Validar si hay comentarios
+                if (comentarios == null || comentarios.Count == 0)
+                {
+                    lblMessage.Text = "No se encontraron comentarios para este punto de reciclaje.";
+                    lblMessage.ForeColor = System.Drawing.Color.Orange;
+                    return;
+                }
+
+                // Enlazar los comentarios al Repeater
+                rptComments.DataSource = comentarios;
+                rptComments.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = $"Error al cargar los comentarios: {ex.Message}";
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
         }
+
+
+
 
         protected void btnSubmitComment_Click(object sender, EventArgs e)
         {
-            // Lógica para guardar el comentario en la base de datos
-            // Luego, vuelve a cargar la lista de comentarios
-            LoadComments();
+            ComentariosNegocio comentariosNegocio = new ComentariosNegocio();
+            Comentarios comentarios = new Comentarios();
+            var usuario = (Usuario)Session["Usuario"];
+
+            try
+            {
+
+
+                if (usuario == null || string.IsNullOrWhiteSpace(usuario.idUsuario.ToString()))
+                {
+                    lblMessage.Text = "Debe iniciar sesión o registrarse para poder comentar.";
+                    lblMessage.CssClass = "alert alert-warning";
+                    return;
+                }
+
+
+
+
+                // Validar si el parámetro "IdPR" está presente y es un entero válido
+                if (string.IsNullOrEmpty(Request.QueryString["IdPR"]) || !int.TryParse(Request.QueryString["IdPR"], out int idPuntoReciclaje))
+                {
+                    lblMessage.Text = "No se pudo identificar el punto de reciclaje. Por favor, intente nuevamente.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
+                // Validar si el comentario no está vacío
+                if (string.IsNullOrWhiteSpace(txtComment.Text))
+                {
+                    lblMessage.Text = "El comentario no puede estar vacío.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
+
+
+                // Asignar valores al objeto de comentarios
+                comentarios.IdPuntoReciclaje = idPuntoReciclaje;
+                comentarios.IdUsuario = usuario.idUsuario;
+                comentarios.Comentario = txtComment.Text.Trim();
+                comentarios.FechaCometario = DateTime.Now;
+
+                // Guardar el comentario en la base de datos
+                comentariosNegocio.Agregar(comentarios);
+
+                // Borrar el formulario
+                txtComment.Text = string.Empty;
+
+                // Mostrar mensaje de éxito
+                lblMessage.Text = "¡Comentario enviado exitosamente!";
+                lblMessage.ForeColor = System.Drawing.Color.Green;
+
+                // Inyectar JavaScript para ocultar el mensaje de éxito después de 3 segundos
+                ScriptManager.RegisterStartupScript(this, GetType(), "HideSuccessMessage", "hideSuccessMessage();", true);
+
+                // Recargar los comentarios
+                LoadComments();
+            }
+            catch (Exception ex)
+            {
+                // Manejar errores y mostrar mensaje al usuario
+                lblMessage.Text = $"Ocurrió un error al enviar el comentario: {ex.Message}";
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
         }
+
+
+
+
+
+
     }
 }
