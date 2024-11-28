@@ -68,7 +68,7 @@ namespace WebTCP_Grupo7
             PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
             List<PuntosReciclaje> puntosReciclajes = new List<PuntosReciclaje>();
             string idArticulo = Request.QueryString["IdPR"];
-            if(Session["estado"] != null)
+            if (Session["estado"] != null)
             {
                 var estado = Session["estado"].ToString();
                 if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
@@ -82,7 +82,7 @@ namespace WebTCP_Grupo7
             else
             {
                 puntosReciclajes = puntosReciclajeNegocio.listarTodos();
-             }
+            }
 
 
             // Asegúrate de que idArticulo sea válido antes de continuar
@@ -233,11 +233,11 @@ namespace WebTCP_Grupo7
             {
                 ComentariosNegocio comentariosNegocio = new ComentariosNegocio();
 
-               
+
                 var usuario = (Usuario)Session["Usuario"];
                 bool esAdministrador = usuario != null && usuario.Administrador == 1;
 
-                
+
                 if (string.IsNullOrEmpty(Request.QueryString["IdPR"]) || !int.TryParse(Request.QueryString["IdPR"], out int idPuntoReciclaje))
                 {
                     lblMessage.Text = "No se pudo identificar el punto de reciclaje.";
@@ -247,7 +247,7 @@ namespace WebTCP_Grupo7
 
                 List<Comentarios> comentarios = comentariosNegocio.ListarComentariosPorPunto(idPuntoReciclaje);
 
-                
+
                 if (comentarios == null || comentarios.Count == 0)
                 {
                     lblMessage.Text = "No se encontraron comentarios para este punto de reciclaje.";
@@ -258,7 +258,7 @@ namespace WebTCP_Grupo7
                 rptComments.DataSource = comentarios;
                 rptComments.DataBind();
 
-               
+
                 if (esAdministrador)
                 {
                     foreach (RepeaterItem item in rptComments.Items)
@@ -266,19 +266,19 @@ namespace WebTCP_Grupo7
                         Button btnDeleteComment = (Button)item.FindControl("btnDeleteComment");
                         if (btnDeleteComment != null)
                         {
-                            btnDeleteComment.Visible = true; 
+                            btnDeleteComment.Visible = true;
                         }
                     }
                 }
                 else
                 {
-                
+
                     foreach (RepeaterItem item in rptComments.Items)
                     {
                         Button btnDeleteComment = (Button)item.FindControl("btnDeleteComment");
                         if (btnDeleteComment != null)
                         {
-                            btnDeleteComment.Visible = false; 
+                            btnDeleteComment.Visible = false;
                         }
                     }
                 }

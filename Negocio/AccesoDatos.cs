@@ -24,7 +24,7 @@ namespace Negocio
             //conexion = new SqlConnection("server=.\\LABORATORIO3; database=PUNTORECICLAJE5_BD; integrated security=true");
 
             // Maxi
-            conexion = new SqlConnection("server=.\\SQLExpress; database=PUNTORECICLAJE_BD2; integrated security=true");
+           // conexion = new SqlConnection("server=.\\SQLExpress; database=PUNTORECICLAJE_BD2; integrated security=true");
 
 
 
