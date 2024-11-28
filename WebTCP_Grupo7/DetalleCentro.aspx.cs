@@ -15,94 +15,51 @@ namespace WebTCP_Grupo7
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            string idPuntoReciclaje = Request.QueryString["IdPR"];
             if (!IsPostBack)
             {
-                string idpuntoreciclaje = Request.QueryString["IdPR"];
-                if (!string.IsNullOrEmpty(idpuntoreciclaje))
+                if (!string.IsNullOrEmpty(idPuntoReciclaje) && int.TryParse(idPuntoReciclaje, out int id))
                 {
-                    PuntosReciclajeNegocio negocio = new PuntosReciclajeNegocio();
-                    PuntosReciclaje aux;
-                    if (Session["estado"] != null)
-                    {
-                        var estado = Session["estado"].ToString();
-                        if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
-                        {
-                            int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
-                            aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), estadoInt);
-                            
-                        }
-                        else
-                        {
-                            aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), 0);
-                        }
-                    }
-                    else
-                    {
-                        aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), 1);
-                    }
-
-                    PuntosReciclaje centro = aux;
-
-                    string script = $@"
-                        console.log('ID del artículo: {idpuntoreciclaje}');
-                        console.log('Nombre: {centro.Nombre}');
-                        console.log('Dirección: {centro.Direccion}');
-                        console.log('Teléfono: {centro.Telefono}');";
-
-                    ClientScript.RegisterStartupScript(this.GetType(), "logDatosCentro", script, true);
-
-                    string direccionCompleta = $"{centro.Direccion}, {centro.Municipio}, {centro.Provincia}";
-                    string direccionCodificada = HttpUtility.UrlEncode(direccionCompleta);
-
-                    centerName.InnerHtml = !string.IsNullOrEmpty(centro.Nombre)
-                    ? System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(centro.Nombre.ToLower())
-                    : "";
-
-                    centerAddress.InnerHtml = $"{centro.Direccion}, {centro.Municipio}, {centro.Provincia}";
-                    centerPhone.InnerHtml = centro.Telefono;
-                    centerHours.InnerHtml = $" desde la  {centro.HoraApertura} hasta {centro.HoraCierre}";
-                    centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion) ? centro.Descripcion : "La descripcion del centro no ha sido Proporcionada";
-                    centerInfo.InnerHtml = $"{centro.Usuario.Nombre} {centro.Usuario.Apellido}";
-
-                    int cont = 0;
-                    foreach (var tipoReciclaje in centro.TipoReciclaje)
-                    {
-                        if(cont != 0)
-                        {
-                            TipoReciclaje.InnerHtml += $", ";
-                        }
-                        TipoReciclaje.InnerHtml += $"{tipoReciclaje}";
-                        cont++;
-                    }
-
-                    string iframeMap = $"<iframe width='515' height='450' style='border: 1px solid #000000; border-radius: 10px; loading='lazy' allowfullscreen src='https://www.google.com/maps/embed/v1/place?key=AIzaSyAhzGZF4sH7Nad4Br-TUEP-C_49eFGnjT4&q={direccionCodificada}'></iframe>";
-
-                    centerMap.Text = iframeMap;
-                    cargarCarruselDetalle();
+                    CargarCentroReciclaje(id);
                     LoadComments();
-
-
-                    if (Session["Usuario"] != null)
-                    {
-                        var usuario = (Usuario)Session["Usuario"];
-                        int idUsuario = usuario.idUsuario;
-                        string nombreUsuario = usuario.Nombre;
-
-                        // Muestra los valores en la consola del navegador
-                        string script2 = $@"
-                                        console.log('ID Usuario: {idUsuario}');
-                                        console.log('Nombre Usuario: {nombreUsuario}');
-                                    ";
-                        ClientScript.RegisterStartupScript(this.GetType(), "log", script2, true);
-                    }
-                    Session.Remove("estado");
-
                 }
                 else
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "logError", "console.log('No se proporcionó un ID válido en la URL.');", true);
                 }
             }
+
+            // Cargar el carrusel siempre
+            cargarCarruselDetalle();
+        }
+
+        private void CargarCentroReciclaje(int idPuntoReciclaje)
+        {
+            PuntosReciclajeNegocio negocio = new PuntosReciclajeNegocio();
+            PuntosReciclaje centro;
+
+            // Obtener estado desde la sesión
+            if (Session["estado"] != null)
+            {
+                var estado = Session["estado"].ToString();
+                if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
+                {
+                    int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
+                    centro = negocio.ObtenerPorId(idPuntoReciclaje, estadoInt);
+                    Session.Remove("estado");
+                }
+                else
+                {
+                    centro = negocio.ObtenerPorId(idPuntoReciclaje, 0);
+                }
+            }
+            else
+            {
+                centro = negocio.ObtenerPorId(idPuntoReciclaje, 1);
+            }
+
+            // Configurar datos del centro en la interfaz
+            ConfigurarDatosCentro(centro);
         }
 
         private void cargarCarruselDetalle()
@@ -206,12 +163,69 @@ namespace WebTCP_Grupo7
             }
         }
 
+        private void ConfigurarDatosCentro(PuntosReciclaje centro)
+        {
+            if (centro == null)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "logError", "console.log('No se encontró información para el centro de reciclaje.');", true);
+                return;
+            }
+
+            // Configuración de datos básicos
+            centerName.InnerHtml = !string.IsNullOrEmpty(centro.Nombre)
+                ? System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(centro.Nombre.ToLower())
+                : "";
+
+            centerAddress.InnerHtml = $"{centro.Direccion}, {centro.Municipio}, {centro.Provincia}";
+            centerPhone.InnerHtml = centro.Telefono;
+            centerHours.InnerHtml = $"Desde las {centro.HoraApertura} hasta {centro.HoraCierre}";
+            centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion)
+                ? centro.Descripcion
+                : "La descripción del centro no ha sido proporcionada.";
+            centerInfo.InnerHtml = $"{centro.Usuario.Nombre} {centro.Usuario.Apellido}";
+
+            // Generar iframe del mapa
+            string iframeMap = GenerarIframeMapa(centro);
+            centerMap.Text = iframeMap;
+
+            // Log de datos
+            string script = $@"
+        console.log('ID del artículo: {centro.IdPuntoReciclaje}');
+        console.log('Nombre: {centro.Nombre}');
+        console.log('Dirección: {centro.Direccion}');
+        console.log('Teléfono: {centro.Telefono}');";
+            ClientScript.RegisterStartupScript(this.GetType(), "logDatosCentro", script, true);
+        }
 
         public string ToTitleCase(string input)
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
         }
 
+        private string GenerarIframeMapa(PuntosReciclaje centro)
+        {
+            // Construir dirección completa
+            string direccionCompleta = $"{centro.Direccion}, {centro.Municipio}, {centro.Provincia}";
+            string direccionCodificada = HttpUtility.UrlEncode(direccionCompleta);
+
+            // Obtener la clave de API desde una configuración o variable de entorno
+            string googleMapsApiKey = System.Configuration.ConfigurationManager.AppSettings["GoogleMapsApiKey"];
+            if (string.IsNullOrEmpty(googleMapsApiKey))
+            {
+                throw new Exception("La clave de API de Google Maps no está configurada.");
+            }
+
+            // Generar el iframe de Google Maps
+            return $@"
+        <iframe 
+            width='515' 
+            height='450' 
+            style='border: 1px solid #000000; border-radius: 10px;' 
+            loading='lazy' 
+            allowfullscreen 
+            src='https://www.google.com/maps/embed/v1/place?key={googleMapsApiKey}&q={direccionCodificada}'>
+        </iframe>";
+        }
 
         private void LoadComments()
         {
@@ -219,7 +233,11 @@ namespace WebTCP_Grupo7
             {
                 ComentariosNegocio comentariosNegocio = new ComentariosNegocio();
 
-                // Validar el ID del punto de reciclaje
+               
+                var usuario = (Usuario)Session["Usuario"];
+                bool esAdministrador = usuario != null && usuario.Administrador == 1;
+
+                
                 if (string.IsNullOrEmpty(Request.QueryString["IdPR"]) || !int.TryParse(Request.QueryString["IdPR"], out int idPuntoReciclaje))
                 {
                     lblMessage.Text = "No se pudo identificar el punto de reciclaje.";
@@ -227,10 +245,9 @@ namespace WebTCP_Grupo7
                     return;
                 }
 
-                // Obtener los comentarios
                 List<Comentarios> comentarios = comentariosNegocio.ListarComentariosPorPunto(idPuntoReciclaje);
 
-                // Validar si hay comentarios
+                
                 if (comentarios == null || comentarios.Count == 0)
                 {
                     lblMessage.Text = "No se encontraron comentarios para este punto de reciclaje.";
@@ -238,9 +255,33 @@ namespace WebTCP_Grupo7
                     return;
                 }
 
-                // Enlazar los comentarios al Repeater
                 rptComments.DataSource = comentarios;
                 rptComments.DataBind();
+
+               
+                if (esAdministrador)
+                {
+                    foreach (RepeaterItem item in rptComments.Items)
+                    {
+                        Button btnDeleteComment = (Button)item.FindControl("btnDeleteComment");
+                        if (btnDeleteComment != null)
+                        {
+                            btnDeleteComment.Visible = true; 
+                        }
+                    }
+                }
+                else
+                {
+                
+                    foreach (RepeaterItem item in rptComments.Items)
+                    {
+                        Button btnDeleteComment = (Button)item.FindControl("btnDeleteComment");
+                        if (btnDeleteComment != null)
+                        {
+                            btnDeleteComment.Visible = false; 
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -249,8 +290,15 @@ namespace WebTCP_Grupo7
             }
         }
 
+        private void MostrarMensaje(string mensaje, string tipoAlerta)
+        {
+            lblMessage.Text = mensaje;
+            lblMessage.CssClass = $"alert {tipoAlerta} shadow"; // Aplica las clases de Bootstrap
+            lblMessage.Visible = true;
 
-
+            // Inyectar script para ocultar el mensaje después de 3 segundos
+            ScriptManager.RegisterStartupScript(this, GetType(), "HideSuccessMessage", "hideSuccessMessage();", true);
+        }
 
         protected void btnSubmitComment_Click(object sender, EventArgs e)
         {
@@ -258,37 +306,32 @@ namespace WebTCP_Grupo7
             Comentarios comentarios = new Comentarios();
             var usuario = (Usuario)Session["Usuario"];
 
+
+
+
+
             try
             {
-
-
+                // Verificar si el usuario ha iniciado sesión
                 if (usuario == null || string.IsNullOrWhiteSpace(usuario.idUsuario.ToString()))
                 {
-                    lblMessage.Text = "Debe iniciar sesión o registrarse para poder comentar.";
-                    lblMessage.CssClass = "alert alert-warning";
+                    MostrarMensaje("Debe iniciar sesión o registrarse para poder comentar.", "alert-warning");
                     return;
                 }
 
-
-
-
-                // Validar si el parámetro "IdPR" está presente y es un entero válido
+                // Validar si el parámetro "IdPR" está presente y es válido
                 if (string.IsNullOrEmpty(Request.QueryString["IdPR"]) || !int.TryParse(Request.QueryString["IdPR"], out int idPuntoReciclaje))
                 {
-                    lblMessage.Text = "No se pudo identificar el punto de reciclaje. Por favor, intente nuevamente.";
-                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    MostrarMensaje("No se pudo identificar el punto de reciclaje. Por favor, intente nuevamente.", "alert-danger");
                     return;
                 }
 
-                // Validar si el comentario no está vacío
+                // Validar que el comentario no esté vacío
                 if (string.IsNullOrWhiteSpace(txtComment.Text))
                 {
-                    lblMessage.Text = "El comentario no puede estar vacío.";
-                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    MostrarMensaje("El comentario no puede estar vacío.", "alert-danger");
                     return;
                 }
-
-
 
                 // Asignar valores al objeto de comentarios
                 comentarios.IdPuntoReciclaje = idPuntoReciclaje;
@@ -296,18 +339,15 @@ namespace WebTCP_Grupo7
                 comentarios.Comentario = txtComment.Text.Trim();
                 comentarios.FechaCometario = DateTime.Now;
 
+
                 // Guardar el comentario en la base de datos
                 comentariosNegocio.Agregar(comentarios);
 
-                // Borrar el formulario
+                // Borrar el contenido del formulario
                 txtComment.Text = string.Empty;
 
                 // Mostrar mensaje de éxito
-                lblMessage.Text = "¡Comentario enviado exitosamente!";
-                lblMessage.ForeColor = System.Drawing.Color.Green;
-
-                // Inyectar JavaScript para ocultar el mensaje de éxito después de 3 segundos
-                ScriptManager.RegisterStartupScript(this, GetType(), "HideSuccessMessage", "hideSuccessMessage();", true);
+                MostrarMensaje("¡Comentario enviado exitosamente!", "alert-success");
 
                 // Recargar los comentarios
                 LoadComments();
@@ -315,10 +355,10 @@ namespace WebTCP_Grupo7
             catch (Exception ex)
             {
                 // Manejar errores y mostrar mensaje al usuario
-                lblMessage.Text = $"Ocurrió un error al enviar el comentario: {ex.Message}";
-                lblMessage.ForeColor = System.Drawing.Color.Red;
+                MostrarMensaje($"Ocurrió un error al enviar el comentario: {ex.Message}", "alert-danger");
             }
         }
+
 
 
 

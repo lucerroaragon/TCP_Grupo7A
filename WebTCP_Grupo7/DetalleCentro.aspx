@@ -4,9 +4,9 @@
 
 
     <div class="container my-5">
-        <div class="mb-4">
-            <asp:Label ID="lblMessage" runat="server" CssClass="d-block my-3 text-center d-flex align-items-center mb-5" />
-
+        <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 1050;">
+            <!-- Mensaje dinámico -->
+            <asp:Label ID="lblMessage" runat="server" CssClass="alert d-none" Visible="false" />
         </div>
 
         <h2 class="text-center mb-4">Detalles del Centro de Reciclaje</h2>
@@ -114,10 +114,21 @@
                         <small class="text-muted">
                             <%# Eval("FechaCometario", "{0:dd/MM/yyyy HH:mm}") %>
                         </small>
+
+                        <!-- Botón de eliminar (visibilidad controlada) -->
+                        <asp:Button
+                            ID="btnDeleteComment"
+                            runat="server"
+                            Text="Eliminar"
+                            CssClass="btn btn-danger btn-sm"
+                            CommandName="Delete"
+                            CommandArgument='<%# Eval("IdComentario") %>' />
                     </div>
                 </div>
             </ItemTemplate>
         </asp:Repeater>
+
+
 
 
 
@@ -147,11 +158,11 @@
             const messageLabel = document.getElementById('<%= lblMessage.ClientID %>');
             if (messageLabel) {
                 setTimeout(() => {
-                    messageLabel.innerText = '';
-                    messageLabel.className = "";
+                    messageLabel.classList.add('d-none'); // Oculta el mensaje
                 }, 3000);
             }
         }
+
 
         function focusOnCommentBox() {
             // Obtén el control de la caja de comentarios usando el ClientID generado por ASP.NET
