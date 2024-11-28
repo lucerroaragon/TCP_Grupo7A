@@ -17,7 +17,7 @@ namespace Negocio
         public AccesoDatos()
         {
             // Pedro
-           // conexion = new SqlConnection("Server=localhost,1433; Database=PUNTORECICLAJE_BD; User Id=sa; Password=17513169Marie..; TrustServerCertificate=True;");
+            conexion = new SqlConnection("Server=localhost,1433; Database=PUNTORECICLAJE_BD; User Id=sa; Password=17513169Marie..; TrustServerCertificate=True;");
 
             //Lu
 

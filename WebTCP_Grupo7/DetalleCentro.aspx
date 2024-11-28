@@ -2,7 +2,13 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+
     <div class="container my-5">
+        <div class="mb-4">
+            <asp:Label ID="lblMessage" runat="server" CssClass="d-block my-3 text-center d-flex align-items-center mb-5" />
+
+        </div>
+
         <h2 class="text-center mb-4">Detalles del Centro de Reciclaje</h2>
 
         <!-- Fila que divide en dos columnas -->
@@ -50,27 +56,114 @@
 
 
         <!-- Formulario para Comentarios -->
-        <h4 class="text-center mb-3">Deja un Comentario</h4>
-        <asp:Panel ID="pnlCommentForm" runat="server">
-            <asp:Label ID="lblComment" runat="server" Text="Comentario:" AssociatedControlID="txtComment" CssClass="mb-2" />
-            <asp:TextBox ID="txtComment" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="4" />
-            <asp:Button ID="btnSubmitComment" runat="server" Text="Enviar Comentario" CssClass="btn btn-primary mt-2" OnClick="btnSubmitComment_Click" />
-        </asp:Panel>
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">Deja un Comentario</h4>
+            </div>
+            <div class="card-body">
+                <asp:Panel ID="pnlCommentForm" runat="server" CssClass="form-group">
+                    <!-- Etiqueta e ícono para el comentario -->
+                    <label for="txtComment" class="form-label">
+                        <i class="bi bi-person-circle me-2"></i>Tu Comentario
+                    </label>
+                    <!-- Caja de texto -->
+                    <asp:TextBox
+                        ID="txtComment"
+                        runat="server"
+                        CssClass="form-control shadow-sm"
+                        TextMode="MultiLine"
+                        Rows="4"
+                        Placeholder="Escribe tu comentario aquí..." />
+                    <!-- Botón para enviar -->
+                    <asp:Button
+                        ID="btnSubmitComment"
+                        runat="server"
+                        Text="Enviar Comentario"
+                        CssClass="btn btn-primary mt-3 w-100 shadow-sm"
+                        OnClick="btnSubmitComment_Click"
+                        OnClientClick="focusOnCommentBox();" />
+
+                </asp:Panel>
+            </div>
+        </div>
+
+
+
+
+
 
         <!-- Lista de Comentarios -->
         <h4 class="text-center mt-5">Comentarios Anteriores</h4>
         <asp:Repeater ID="rptComments" runat="server">
             <ItemTemplate>
-                <div class="border rounded p-3 mb-2">
-                    <strong><%# Eval("UserName") %></strong>
-                    <p><%# Eval("CommentText") %></p>
-                    <small><%# Eval("CommentDate", "{0:dd/MM/yyyy HH:mm}") %></small>
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <!-- Ícono de usuario -->
+                            <i class="bi bi-person-circle me-2 text-primary" style="font-size: 1.5rem;"></i>
+                            <!-- Nombre y Apellido -->
+                            <h5 class="mb-0 user-name">
+                                <%# Eval("Usuario.Nombre") %> <%# Eval("Usuario.Apellido") %>
+                            </h5>
+                        </div>
+                        <!-- Contenido del comentario -->
+                        <p class="text-secondary mb-2">
+                            <%# Eval("Comentario") %>
+                        </p>
+                        <!-- Fecha del comentario -->
+                        <small class="text-muted">
+                            <%# Eval("FechaCometario", "{0:dd/MM/yyyy HH:mm}") %>
+                        </small>
+                    </div>
                 </div>
             </ItemTemplate>
         </asp:Repeater>
-    </div>
 
-   
+
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTitleCaseToComments();
+            hideSuccessMessage();
+        });
+
+        function toTitleCase(text) {
+            return text
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        function applyTitleCaseToComments() {
+            const elements = document.querySelectorAll('.user-name');
+            elements.forEach(el => {
+                el.textContent = toTitleCase(el.textContent.trim());
+            });
+        }
+
+        function hideSuccessMessage() {
+            const messageLabel = document.getElementById('<%= lblMessage.ClientID %>');
+            if (messageLabel) {
+                setTimeout(() => {
+                    messageLabel.innerText = '';
+                    messageLabel.className = "";
+                }, 3000);
+            }
+        }
+
+        function focusOnCommentBox() {
+            // Obtén el control de la caja de comentarios usando el ClientID generado por ASP.NET
+            const commentBox = document.getElementById('<%= txtComment.ClientID %>');
+
+            if (commentBox) {
+                commentBox.focus();  // Pone el foco en el TextBox
+            }
+        }
+    </script>
+
+
 
 
 </asp:Content>

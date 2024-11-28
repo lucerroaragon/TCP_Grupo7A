@@ -11,10 +11,10 @@ namespace Dominio
         public int IdComentario { get; set; }
         public int IdUsuario { get; set; }
         public int IdPuntoReciclaje { get; set; }
-        public string Contenido { get; set; }
+        public string Comentario { get; set; }
         public DateTime FechaCometario { get; set; }
 
         public PuntosReciclaje PuntosReciclaje { get; set; }
-        public Usuario Ususario { get; set; }
+        public Usuario Usuario { get; set; }
     }
 }
