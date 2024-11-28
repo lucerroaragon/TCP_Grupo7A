@@ -29,7 +29,7 @@ namespace WebTCP_Grupo7
                         {
                             int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
                             aux = negocio.ObtenerPorId(int.Parse(idpuntoreciclaje), estadoInt);
-                            Session.Remove("estado");
+                            
                         }
                         else
                         {
@@ -64,6 +64,17 @@ namespace WebTCP_Grupo7
                     centerDescription.InnerHtml = !string.IsNullOrEmpty(centro.Descripcion) ? centro.Descripcion : "La descripcion del centro no ha sido Proporcionada";
                     centerInfo.InnerHtml = $"{centro.Usuario.Nombre} {centro.Usuario.Apellido}";
 
+                    int cont = 0;
+                    foreach (var tipoReciclaje in centro.TipoReciclaje)
+                    {
+                        if(cont != 0)
+                        {
+                            TipoReciclaje.InnerHtml += $", ";
+                        }
+                        TipoReciclaje.InnerHtml += $"{tipoReciclaje}";
+                        cont++;
+                    }
+
                     string iframeMap = $"<iframe width='515' height='450' style='border: 1px solid #000000; border-radius: 10px; loading='lazy' allowfullscreen src='https://www.google.com/maps/embed/v1/place?key=AIzaSyAhzGZF4sH7Nad4Br-TUEP-C_49eFGnjT4&q={direccionCodificada}'></iframe>";
 
                     centerMap.Text = iframeMap;
@@ -71,6 +82,20 @@ namespace WebTCP_Grupo7
                     LoadComments();
 
 
+                    if (Session["Usuario"] != null)
+                    {
+                        var usuario = (Usuario)Session["Usuario"];
+                        int idUsuario = usuario.idUsuario;
+                        string nombreUsuario = usuario.Nombre;
+
+                        // Muestra los valores en la consola del navegador
+                        string script2 = $@"
+                                        console.log('ID Usuario: {idUsuario}');
+                                        console.log('Nombre Usuario: {nombreUsuario}');
+                                    ";
+                        ClientScript.RegisterStartupScript(this.GetType(), "log", script2, true);
+                    }
+                    Session.Remove("estado");
 
                 }
                 else
@@ -84,8 +109,24 @@ namespace WebTCP_Grupo7
         {
             // Instanciamos la clase de negocio
             PuntosReciclajeNegocio puntosReciclajeNegocio = new PuntosReciclajeNegocio();
-            List<PuntosReciclaje> puntosReciclajes = puntosReciclajeNegocio.listarTodos();
+            List<PuntosReciclaje> puntosReciclajes = new List<PuntosReciclaje>();
             string idArticulo = Request.QueryString["IdPR"];
+            if(Session["estado"] != null)
+            {
+                var estado = Session["estado"].ToString();
+                if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
+                {
+
+                    string estadoInt = estadoBool ? "1" : "0"; // true -> 1, false -> 0
+                    puntosReciclajes = puntosReciclajeNegocio.listarTodos(estadoInt);
+                    Session.Remove("estado");
+                }
+            }
+            else
+            {
+                puntosReciclajes = puntosReciclajeNegocio.listarTodos();
+             }
+
 
             // Asegúrate de que idArticulo sea válido antes de continuar
             if (string.IsNullOrEmpty(idArticulo)) return;

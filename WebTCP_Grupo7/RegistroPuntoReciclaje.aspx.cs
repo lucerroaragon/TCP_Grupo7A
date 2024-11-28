@@ -25,8 +25,9 @@ namespace WebTCP_Grupo7
                 ClientScript.RegisterStartupScript(this.GetType(), "autoFocusMunicipio",
                  "document.getElementById('" + txtNombre + "').focus();", true);
 
+                CargarMateriales();
             }
-           
+
 
             if (Request.QueryString["IdPR"] != null && !IsPostBack)
             {
@@ -58,11 +59,30 @@ namespace WebTCP_Grupo7
                 ddlProvincias.Items.Insert(0, pReciclaje.Provincia.ToString());
                 ddlMunicipios.Items.Insert(0, new ListItem(pReciclaje.Municipio.ToString(), "0"));
                 ddlLocalidad.Items.Insert(0, pReciclaje.Localidad.ToString());
+                foreach (var item in pReciclaje.TipoReciclaje)
+                {
+                    foreach (ListItem listItem in ddlMateriales.Items)
+                    {
+                        if (listItem.Text == item.ToString())
+                        {
+                            listItem.Selected = true;
+                        }
+                    }
+                }
+
             }
         }
 
-       
+        private void CargarMateriales()
+        {
+            TipoReciclajeNegocio tipoReciclajeNegocio = new TipoReciclajeNegocio();
+            List<TipoReciclaje> materiales = tipoReciclajeNegocio.Listar();
 
+            ddlMateriales.DataSource = materiales;
+            ddlMateriales.DataTextField = "NombreTipo";
+            ddlMateriales.DataValueField = "IdTipo";
+            ddlMateriales.DataBind();
+        }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -71,7 +91,7 @@ namespace WebTCP_Grupo7
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         protected void btnRegistrar_Click(object sender, EventArgs e)
@@ -90,8 +110,9 @@ namespace WebTCP_Grupo7
             PuntosReciclajeNegocio pReciclajeNegocio = new PuntosReciclajeNegocio();
             PuntosReciclaje pReciclaje = new PuntosReciclaje();
             ImagenesNegocio imagenesNegocio = new ImagenesNegocio();
-            
-            
+            TipoReciclajeNegocio tipoReciclajeNegocio = new TipoReciclajeNegocio();
+
+
             try
             {
                 var usuarioLogueado = (Usuario)Session["Usuario"];
@@ -112,22 +133,34 @@ namespace WebTCP_Grupo7
                 pReciclaje.Municipio = ddlMunicipios.SelectedItem.Text;
                 pReciclaje.Localidad = ddlLocalidad.SelectedItem.Text;
                 pReciclaje.Usuario = new Usuario { idUsuario = usuarioLogueado.idUsuario };
+                pReciclaje.Estado = "Activo";
 
                 // Guardar el punto de reciclaje
                 pReciclaje.IdPuntoReciclaje = pReciclajeNegocio.agregar(pReciclaje);
 
                 // Manejo de imágenes
-                int IdImg = imagenesNegocio.obtenerUltimoIdImg();
+                int Id = imagenesNegocio.obtenerUltimoIdImg();
                 if (fileUploadImagenes.HasFiles)
                 {
                     foreach (HttpPostedFile uploadedFile in fileUploadImagenes.PostedFiles)
                     {
-                        string nombreArchivo = $"pReciclaje-{IdImg}-PR-{pReciclaje.IdPuntoReciclaje}.jpg";
+                        string nombreArchivo = $"pReciclaje-{Id}-PR-{pReciclaje.IdPuntoReciclaje}.jpg";
                         string rutaArchivo = Server.MapPath("~/img/imgPuntosReciclaje/");
                         uploadedFile.SaveAs(Path.Combine(rutaArchivo, nombreArchivo));
-                        IdImg = imagenesNegocio.GuardarRutaImagenes(pReciclaje.IdPuntoReciclaje, rutaArchivo, nombreArchivo);
+                        Id = imagenesNegocio.GuardarRutaImagenes(pReciclaje.IdPuntoReciclaje, rutaArchivo, nombreArchivo);
                     }
                 }
+                //obtener tipo de reciclaje
+                foreach (ListItem item in ddlMateriales.Items)
+                {
+                    if (item.Selected)
+                    {
+                        tipoReciclajeNegocio.GuardarTipoReciclaje(pReciclaje.IdPuntoReciclaje, int.Parse(item.Value));
+                    }
+                }
+
+
+
 
 
 
@@ -333,8 +366,6 @@ namespace WebTCP_Grupo7
 
             ClientScript.RegisterStartupScript(this.GetType(), exito ? "successMessage" : "errorMessage", script, true);
         }
-
-
     }
 }
 

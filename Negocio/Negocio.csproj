@@ -49,6 +49,7 @@
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="ImagenesNegocio.cs" />
+    <Compile Include="TipoReciclajeNegocio.cs" />
     <Compile Include="UsuariosNegocio.cs" />
     <Compile Include="ReportesNegocio.cs" />
     <Compile Include="NotificacionesNegocio.cs" />

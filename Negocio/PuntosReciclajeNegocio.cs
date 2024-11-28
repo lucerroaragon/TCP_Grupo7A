@@ -15,6 +15,7 @@ namespace Negocio
         public List<PuntosReciclaje> listarTodos(string estado = "")
         {
             List<PuntosReciclaje> lista = new List<PuntosReciclaje>();
+            TipoReciclajeNegocio tipoReciclajeNegocio = new TipoReciclajeNegocio();
             AccesoDatos datos = new AccesoDatos();
 
             try
@@ -68,7 +69,8 @@ namespace Negocio
                             //Descripcion = (string)datos.Lector["Descripcion"],
                             //Comentarios = new List<Comentarios>(),
                             //Likes = new List<Likes>(),
-                            Imagenes = new List<string>()
+                            Imagenes = new List<string>(),
+                            TipoReciclaje = new List<string>()
                         };
 
                         lista.Add(aux);
@@ -79,6 +81,8 @@ namespace Negocio
                         string imagenes = (string)datos.Lector["NombreImagen"];
                         aux.Imagenes.Add(imagenes);
                     }
+                    aux.TipoReciclaje = tipoReciclajeNegocio.ListarPorId(idPuntoReciclaje);
+
                 }
 
                 return lista;
@@ -159,7 +163,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearProcedimiento("storedEliminarPuntoReciclaje");
+                datos.setearProcedimiento("sp_EliminarPuntoReciclaje");
                 datos.agregarParametro("@IdPuntoReciclaje", idPuntoReciclaje);
                 datos.ejecutarAccion();
             }
@@ -176,6 +180,7 @@ namespace Negocio
         public PuntosReciclaje ObtenerPorId(int idPuntoReciclaje, int estado = 0)
         {
             PuntosReciclaje punto = null;
+            TipoReciclajeNegocio tipoReciclajeNegocio = new TipoReciclajeNegocio();
             AccesoDatos datos = new AccesoDatos();
 
             try
@@ -211,7 +216,8 @@ namespace Negocio
                         Provincia = (string)datos.Lector["Provincia"],
                         Municipio = (string)datos.Lector["Municipio"],
                         Localidad = (string)datos.Lector["Localidad"],
-                        Imagenes = new List<string>()
+                        Imagenes = new List<string>(),
+                        TipoReciclaje = new List<string>()
                     };
 
                     if (!(datos.Lector["NombreImagen"] is DBNull))
@@ -219,6 +225,7 @@ namespace Negocio
                         string imagen = (string)datos.Lector["NombreImagen"];
                         punto.Imagenes.Add(imagen);
                     }
+                    punto.TipoReciclaje = tipoReciclajeNegocio.ListarPorId(idPuntoReciclaje);
                 }
 
                 return punto;
@@ -251,6 +258,7 @@ namespace Negocio
                 accesoDatos.cerrarConexion();
             }
         }
+
     }
 }
 
