@@ -9,6 +9,32 @@
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
+
+        function previewImages(input) {
+            const files = input.files; // Obtener los archivos seleccionados
+            const carouselItems = document.getElementById('carouselItems'); // Contenedor del carrusel
+            carouselItems.innerHTML = ''; // Limpiar contenido previo del carrusel
+
+            if (files.length === 0) {
+                // Si no hay archivos seleccionados, mostrar un mensaje o dejar vacío
+                carouselItems.innerHTML = `<div class="carousel-item active">
+                                                 <p class="text-center">No se han seleccionado imágenes</p>
+                                            </div>`;
+                return;
+            }
+
+            // Recorrer cada archivo y generar la vista previa
+            Array.from(files).forEach((file, index) => {
+                const reader = new FileReader(); // Crear un lector de archivos
+                reader.onload = function (e) {
+                    const div = document.createElement('div'); // Crear contenedor de la imagen
+                    div.className = `carousel-item ${index === 0 ? 'active' : ''}`; // Marcar la primera imagen como activa
+                    div.innerHTML = `<img src="${e.target.result}" class='d-block w-100 img-custom' style='height: 300px; object-fit: cover;' alt="Imagen ${index + 1}">`; // Establecer la imagen
+                    carouselItems.appendChild(div); // Agregar al contenedor del carrusel
+                };
+                reader.readAsDataURL(file); // Leer el archivo como una URL de datos
+            });
+        }
     </script>
 
 
@@ -112,9 +138,27 @@
 
             <!-- Imagenes -->
             <div class="col-md-4 fw-bold">
-                <label class="form-label">Imagenes</label>
-                <asp:FileUpload ID="fileUploadImagenes" runat="server" AllowMultiple="true" />
-                <asp:Image ID="txtImgenes" ImageUrl="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" runat="server" CssClass="img-fluid mb-4" />
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <label class="form-label">Imágenes</label>
+                        <asp:FileUpload ID="fileUploadImagenes" runat="server" AllowMultiple="true" CssClass="form-control" accept="image/*" onchange="previewImages(this)" />
+                        <%--<asp:Image ID="txtImgenes" ImageUrl="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" runat="server" CssClass="img-fluid mb-4" />--%>
+
+                        <div id="carouselExample" class="carousel slide mt-4">
+                            <div class="carousel-inner" id="carouselItems">
+                                <!-- Las imágenes seleccionadas aparecerán aquí -->
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
 
             <!-- Botones -->

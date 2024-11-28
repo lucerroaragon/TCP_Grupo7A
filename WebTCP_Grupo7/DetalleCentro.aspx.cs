@@ -113,15 +113,15 @@ namespace WebTCP_Grupo7
                 if (!string.IsNullOrEmpty(estado) && bool.TryParse(estado, out bool estadoBool))
                 {
 
-                    int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
-                    puntosReciclajes.Add(puntosReciclajeNegocio.ObtenerPorId(int.Parse(idArticulo), estadoInt));
+                    string estadoInt = estadoBool ? "1" : "0"; // true -> 1, false -> 0
+                    puntosReciclajes = puntosReciclajeNegocio.listarTodos(estadoInt);
                     Session.Remove("estado");
                 }
             }
             else
             {
                 puntosReciclajes = puntosReciclajeNegocio.listarTodos();
-            }
+             }
 
 
             // Asegúrate de que idArticulo sea válido antes de continuar

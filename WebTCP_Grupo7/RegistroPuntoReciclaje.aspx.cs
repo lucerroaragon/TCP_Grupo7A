@@ -366,8 +366,6 @@ namespace WebTCP_Grupo7
 
             ClientScript.RegisterStartupScript(this.GetType(), exito ? "successMessage" : "errorMessage", script, true);
         }
-
-
     }
 }
 
