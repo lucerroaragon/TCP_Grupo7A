@@ -250,8 +250,10 @@ namespace WebTCP_Grupo7
 
                 if (comentarios == null || comentarios.Count == 0)
                 {
+
                     lblMessage.Text = "No se encontraron comentarios para este punto de reciclaje.";
                     lblMessage.ForeColor = System.Drawing.Color.Orange;
+
                     return;
                 }
 
@@ -356,6 +358,85 @@ namespace WebTCP_Grupo7
             {
                 // Manejar errores y mostrar mensaje al usuario
                 MostrarMensaje($"Ocurrió un error al enviar el comentario: {ex.Message}", "alert-danger");
+            }
+        }
+
+
+        protected void rptComments_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Button btnDeleteComment = (Button)e.Item.FindControl("btnDeleteComment");
+
+                // Validar si hay un usuario en sesión
+                var usuario = Session["Usuario"] as Usuario;
+
+                // Ocultar el botón si no hay usuario o si no es administrador
+                if (usuario == null || usuario.Administrador != 1)
+                {
+                    if (btnDeleteComment != null)
+                    {
+                        btnDeleteComment.Visible = false;
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+        protected void rptComments_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "Delete")
+            {
+                try
+                {
+                    // Obtener el ID del comentario
+                    if (string.IsNullOrEmpty(e.CommandArgument?.ToString()) ||
+                        !int.TryParse(e.CommandArgument.ToString(), out int idComentario))
+                    {
+                        MostrarMensaje("ID de comentario no válido.", "alert-warning");
+                        return;
+                    }
+
+                    // Verificar si el usuario tiene permisos
+                    var usuario = Session["Usuario"] as Usuario;
+                    if (usuario == null || usuario.Administrador != 1)
+                    {
+                        MostrarMensaje("No tiene permisos para eliminar comentarios.", "alert-danger");
+                        return;
+                    }
+
+                    // Eliminar el comentario
+                    ComentariosNegocio comentariosNegocio = new ComentariosNegocio();
+                    comentariosNegocio.Eliminar(idComentario);
+
+                    // Volver a cargar los comentarios
+                    int idPuntoReciclaje = int.Parse(Request.QueryString["IdPR"]);
+                    var comentarios = comentariosNegocio.ListarComentariosPorPunto(idPuntoReciclaje);
+
+                    if (comentarios == null || comentarios.Count == 0)
+                    {
+                        // Si no quedan comentarios, limpiar el Repeater y mostrar un mensaje
+                        rptComments.DataSource = null;
+                        rptComments.DataBind();
+                        MostrarMensaje("No se encontraron comentarios para este punto de reciclaje.", "alert-warning");
+                    }
+                    else
+                    {
+                        // Si aún hay comentarios, actualizarlos en el Repeater
+                        rptComments.DataSource = comentarios;
+                        rptComments.DataBind();
+                    }
+
+                    MostrarMensaje("Comentario eliminado correctamente.", "alert-success");
+                }
+                catch (Exception ex)
+                {
+                    MostrarMensaje($"Error al eliminar el comentario: {ex.Message}", "alert-danger");
+                }
             }
         }
 

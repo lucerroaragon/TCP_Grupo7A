@@ -94,28 +94,23 @@
 
         <!-- Lista de Comentarios -->
         <h4 class="text-center mt-5">Comentarios Anteriores</h4>
-        <asp:Repeater ID="rptComments" runat="server">
+        <asp:Repeater ID="rptComments" runat="server" OnItemCommand="rptComments_ItemCommand">
             <ItemTemplate>
                 <div class="card shadow-sm mb-3">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2">
-                            <!-- Ícono de usuario -->
                             <i class="bi bi-person-circle me-2 text-primary" style="font-size: 1.5rem;"></i>
-                            <!-- Nombre y Apellido -->
                             <h5 class="mb-0 user-name">
                                 <%# Eval("Usuario.Nombre") %> <%# Eval("Usuario.Apellido") %>
                             </h5>
                         </div>
-                        <!-- Contenido del comentario -->
                         <p class="text-secondary mb-2">
                             <%# Eval("Comentario") %>
                         </p>
-                        <!-- Fecha del comentario -->
                         <small class="text-muted">
                             <%# Eval("FechaCometario", "{0:dd/MM/yyyy HH:mm}") %>
                         </small>
-
-                        <!-- Botón de eliminar (visibilidad controlada) -->
+                        <!-- Botón de eliminar -->
                         <asp:Button
                             ID="btnDeleteComment"
                             runat="server"
@@ -127,6 +122,8 @@
                 </div>
             </ItemTemplate>
         </asp:Repeater>
+
+
 
 
 
