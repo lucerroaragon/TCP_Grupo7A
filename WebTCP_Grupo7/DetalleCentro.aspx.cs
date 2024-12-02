@@ -46,7 +46,7 @@ namespace WebTCP_Grupo7
                 {
                     int estadoInt = estadoBool ? 1 : 0; // true -> 1, false -> 0
                     centro = negocio.ObtenerPorId(idPuntoReciclaje, estadoInt);
-                    Session.Remove("estado");
+
                 }
                 else
                 {
@@ -183,6 +183,16 @@ namespace WebTCP_Grupo7
                 ? centro.Descripcion
                 : "La descripción del centro no ha sido proporcionada.";
             centerInfo.InnerHtml = $"{centro.Usuario.Nombre} {centro.Usuario.Apellido}";
+            int cont = 0;
+            foreach (var tipoReciclaje in centro.TipoReciclaje)
+            {
+                if (cont != 0)
+                {
+                    TipoReciclaje.InnerHtml += $", ";
+                }
+                TipoReciclaje.InnerHtml += $"{tipoReciclaje}";
+                cont++;
+            }
 
             // Generar iframe del mapa
             string iframeMap = GenerarIframeMapa(centro);

@@ -23,12 +23,12 @@ namespace WebTCP_Grupo7
                 // Ocultar campos de contraseña en modo de modificación
                 txtPassword.Visible = false;
                 txtConfirmPassword.Visible = false;
-               // lblPassword.Visible = false;
-                //ldlConfirmPassword.Visible = false;
+                lblPassword.Visible = false;
+                ldlConfirmPassword.Visible = false;
 
                 // Deshabilitar validación de contraseña en modo de modificación
-                //rfvPassword.Enabled = false;
-                //rfvConfirmPassword.Enabled = false;
+                rfvPassword.Enabled = false;
+                rfvConfirmPassword.Enabled = false;
             }
         }
 
