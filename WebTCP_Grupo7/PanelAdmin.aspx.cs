@@ -83,6 +83,7 @@ namespace WebTCP_Grupo7
                 {
                     btnAprobar.Visible = false;
                     btnRechazar.Visible = false;
+                    btnEliminar.Visible = true;
                     dgvPanelAdmin.Visible = true;
                     dgvPanelAdmin.DataSource = puntoreciclajenegocio.listarTodos("1");
                     dgvPanelAdmin.DataBind();
@@ -290,6 +291,51 @@ namespace WebTCP_Grupo7
                 Response.Redirect("PanelAdmin.aspx", false);
             }
 
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            EmailService emailService = new EmailService();
+            UsuariosNegocio userNegocio = new UsuariosNegocio();
+            PuntosReciclajeNegocio puntoNegocio = new PuntosReciclajeNegocio();
+            PuntosReciclaje puntosReciclaje = new PuntosReciclaje();
+            Usuario usuario = new Usuario();
+            int contar = 0;
+
+            foreach (GridViewRow row in dgvPanelAdmin.Rows)
+            {
+                // Encuentra el CheckBox en cada fila
+                CheckBox chkSelect = (CheckBox)row.FindControl("chkSelect");
+
+                if (chkSelect != null && chkSelect.Checked)
+                {
+                    // Obtén el ID de la fila seleccionada
+                    int idPuntoReciclaje = Convert.ToInt32(dgvPanelAdmin.DataKeys[row.RowIndex].Value);
+
+                    // Aquí puedes aprobar el elemento o realizar la acción deseada
+                    puntosReciclaje = puntoNegocio.ObtenerPorId(idPuntoReciclaje, 1);
+                    usuario = userNegocio.ObtenerUsuario_id(puntosReciclaje.Usuario.idUsuario);
+                    string cuerpo = "<h1>¡Gracias por ser parte de Puntos de Reciclaje!</h1><br><p>Te informamos que tu Punto de Reciclaje fue Elminado por el admistrador.</p><br><p> Para conocer el motivo, escribinos un mensaje desde la pestaña Contactos.</p><br><p>¡Gracias por ser parte de la comunidad de Recicladores!</p><br><p>Saludos cordiales,</p><br><p>Equipo de Puntos de Reciclaje</p>";
+                    emailService.armarCorreo(usuario.Email, "Punto de Reciclaje Eliminado", 0, cuerpo);
+
+                    emailService.enviarCorreo();
+                    puntoNegocio.eliminar(idPuntoReciclaje);
+                    contar++;
+                }
+            }
+
+            if (contar == 0)
+            {
+                lblMensaje.Visible = true;
+                lblMensaje.Text = "No se seleccionó ningún punto de reciclaje.";
+                return;
+            }
+            else
+            {
+                lblMensaje.Visible = true;
+                lblMensaje.Text = "Puntos de reciclaje Eliminado con éxito.";
+                Response.Redirect("PanelAdmin.aspx", false);
+            }
         }
     }
 }
